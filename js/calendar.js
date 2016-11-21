@@ -1,13 +1,44 @@
-// export default function(params) {
-window.Calendar = function(params) {
+export default function(params) {
   if(!params) return false;
 
   /***********************************************
   * INIT
   ************************************************/
-  console.log(params);
-
   let increaseDay, decreaseDay;
+
+  let template = `
+  <div class="calendar-wrap">
+    <div class="year-slider">
+      <div class="year-slider-left-control">
+        <div class="fa fa-chevron-left"></div>
+      </div>
+      <div class="year-slider-tape-wrap">
+        <div class="year-slider-tape"></div>
+      </div>
+      <div class="year-slider-right-control">
+        <div class="fa fa-chevron-right"></div>
+      </div>
+    </div>
+    <div class="month-slider">
+      <div class="month-numbers"></div>
+      <div class="month-line">
+        <div class="slider-circle"></div>
+      </div>
+      <div class="month-title">November</div>
+    </div>
+    <div class="weekdays-wrap">
+      <div>SUN</div>
+      <div>MON</div>
+      <div>TUE</div>
+      <div>WED</div>
+      <div>THU</div>
+      <div>FRI</div>
+      <div>SAT</div>
+    </div>
+    <div class="calendar-cells-wrap"></div>
+  </div> `;
+
+  $(params.container).prepend(template);
 
   let curDate = new Date(),
   yearFirst = params.yearFirst || curDate.getFullYear() - 2,
@@ -15,10 +46,9 @@ window.Calendar = function(params) {
   yearPrimary = params.yearPrimary || curDate.getFullYear() - 2,
   onclick = params.onclick,
   currentCalendar, currentMonthNumber, currentYear,
-  currentDay = curDate.getDate();
+  currentDay = curDate.getDate(),
   yearSlider = initYearSlider(yearFirst, yearLast, yearPrimary),
   monthSlider = initMonthSlider(params.month);
-
 
   this.increaseDay = increaseDay;
   this.decreaseDay = decreaseDay;
@@ -83,10 +113,11 @@ window.Calendar = function(params) {
     * Need to scroll the years tape to proper position,
     * where the primary item will be centered
     ************************************/
-
-    yearsTape.css({
-      left: -(primaryYearEl.position().left - tapeWrap.width() / 2 +  primaryYearEl.outerWidth(true) / 2)
-    });
+    setTimeout(function() {
+      yearsTape.css({
+        left: -(primaryYearEl.position().left - tapeWrap.width() / 2 +  primaryYearEl.outerWidth(true) / 2)
+      });
+    }, parseFloat($(params.container).css('transition-duration')) * 1000);
 
     /************************************
     * Generate calendar according to the current year
@@ -354,5 +385,7 @@ window.Calendar = function(params) {
     };
 
   } //init events
+
+  return $('.calendar-wrap');
 
 };

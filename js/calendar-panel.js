@@ -1,0 +1,25 @@
+import Calendar from './calendar';
+
+export default function(selector) {
+  const panel = $('.side-panel');
+
+  let instance = {
+    show: function() {
+      let calendar = new Calendar({
+        container: '.side-panel',
+        yearFirst: 2012,
+        yearLast: 2028,
+        yearPrimary: 2016,
+        onclick: function() {}
+      });
+
+      panel.css('width', `${calendar.width() + 40}px`);
+    },
+    hide: function() {
+      panel.css('width', 0);
+      panel.empty();
+    }
+  };
+
+  return instance;
+}

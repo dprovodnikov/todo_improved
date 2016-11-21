@@ -1,3 +1,3 @@
-import sidepanel from './sidepanel';
+import nav from './nav';
 
-new sidepanel();
+nav();

@@ -1,0 +1,260 @@
+.calendar-wrap
+  width 400px
+  height 100%
+  background #fff
+  padding 0 12px 20px 12px
+  position relative
+
+/*******************************************
+* YEAR SLIDER
+*******************************************/
+
+.year-slider
+  flexbox(true, false)
+  margin-top 50px
+  position relative
+
+.year-slider-left-control,
+.year-slider-right-control
+  flexbox(true, true)
+  width 15%
+  font-size .9em
+  transition all .1s
+  cursor pointer
+  font-family 'Oxygen'
+
+.year-slider-left-control .fa,
+.year-slider-right-control .fa
+  color #ddd
+
+.year-slider-left-control:hover,
+.year-slider-right-control:hover
+  color #8d8d8d
+
+.year-slider-left-control
+  justify-content flex-start
+.year-slider-right-control
+  justify-content flex-end
+
+.year-slider-tape-wrap
+  width 60%
+  overflow hidden
+  font-family 'Oxygen'
+
+.year-slider-tape
+  position relative
+  white-space nowrap
+  font-family 'Oxygen'
+
+.year
+  display inline-block
+  color #aaa
+  transition all .2s
+  font-size 1em
+  text-align center
+  width 32%
+  font-family 'Oxygen'
+.yearfirst-of-type
+  margin-left 0
+.yearlast-of-type
+  margin-right 0
+
+.year-primary
+  color darken($red, 20%)
+  transform scale(1.4)
+  font-family 'Oxygen'
+
+.year-denied
+  color #ddd
+  text-decoration line-through
+  font-family 'Oxygen'
+
+/*******************************************
+* MONTH SLIDER
+*******************************************/
+.month-slider
+  margin 30px 0 25px 0
+  padding 0 8px
+  position relative
+  font-family 'Oxygen'
+
+.month-numbers
+  flexbox(false, false)
+
+.month-numbers div 
+  flex 1
+  color #aaa
+  text-align center
+  cursor pointer
+
+
+.month-current
+  color $red !important 
+
+.month-line 
+  height 2px
+  margin 12px 0 0 0
+  background linear-gradient(to right, transparent 3%, #eee 3%, #eee 98%,  transparent 98%)
+  flexbox(false, true)
+  font-family 'Oxygen'
+
+
+.slider-circle 
+  height 13px
+  width 13px
+  background $red
+  border-radius 50%
+  position relative
+  transition all .2s
+
+
+.month-title 
+  color $red
+  text-transform uppercase
+  text-align center
+  margin-top 25px
+  font 1em 'Cabin'
+
+
+/*******************************************
+* WEEKDAYS
+*******************************************/
+.weekdays-wrap
+  flexbox(false, false)
+
+.weekdays-wrap div 
+  width calc(100% / 7)
+  text-align center
+  margin-bottom 10px
+  color #7d7d7d
+  font 'Oxygen' bold
+
+
+.calendar-cells-wrap 
+  flexbox(false, false)
+  margin-top 14px
+  justify-content space-between
+
+.cell 
+  width calc(100% / 7)
+  text-align center
+  padding 3px 0
+  margin-bottom 10px
+  color #5d5d5d
+  border-radius 3px
+  cursor pointer
+  position relative
+
+.cell:hover
+  color darken($red, 20%) 
+.cell-out:hover
+  color #3d3d3d !important
+.cell-out
+  color #aaa !important
+.cell-today
+  background #ddd
+.cell-today:hover
+  color #3d3d3d
+.cell-active 
+  background $red !important
+  color #fff !important
+
+
+/*******************************************
+* TASK CONSTRUCTOR
+*******************************************/
+.constructor-wrap 
+  height 440px
+  width 310px
+  background #c73f69
+  border-radius 0 3px 3px 0
+  box-shadow 0 1px 4px 1px rgba(0, 0, 0, .3)
+  padding 25px 35px
+
+
+.constructor-topbar 
+  flexbox(false, false)
+
+
+.constructor-date-wrap 
+  flex 3
+  color #fff
+  flexbox(false, false)
+
+
+.date-words-wrap 
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center
+
+
+.constructor-date-month 
+  font-size 1.3em
+  width 100%
+
+.constructor-date-weekday 
+  width 100%
+  color #d2859d
+
+
+.constructor-date-day 
+  font-size 3em
+  margin-right 10px
+
+
+.constructor-controls 
+  display flex
+  justify-content space-around
+  flex 1
+  font-size 1.5em
+  font-weight bold
+  align-items center
+  color #d2859d
+
+
+.constructor-controls div 
+  transition all .1s
+  cursor pointer
+
+.constructor-controls div:hover
+  color #fff 
+
+.constructor-days-remain 
+  width 100%
+  color #d2859d
+  font-size .9em
+
+
+.contructor-body margin-top 20px 
+.descr-field-wrap 
+  background #fff
+  border-radius 3px
+  padding 10px
+
+.descr-field 
+  /*min-height 10px*/
+  max-height 260px
+  overflow hidden
+  outlinenone
+  color #3d3d3d
+  font-family 'PT Sans'
+
+.descr-field-bottom 
+  text-align right
+  color #d2859d
+  font-size .8em
+  padding 5px 0
+
+
+
+
+
+
+
+
+
+
+
+
+
