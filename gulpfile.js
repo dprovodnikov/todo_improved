@@ -22,12 +22,16 @@ gulp.task('es6', function() {
 
 gulp.task('stylus', function() {
   gulp.src(stylusPath + 'main.styl')
-    .pipe(stylus())
+    .pipe(stylus({
+      'compress': true,
+      'include css': true
+    }))
     .pipe(rename('build.css'))
     .pipe(gulp.dest(buildPath));
 });
 
 gulp.task('default', ['stylus', 'es6'], function() {
   gulp.watch(stylusPath + '**/*.styl', ['stylus']);
+  gulp.watch(stylusPath + '**/*.css', ['stylus']);
   gulp.watch(jsPath + '**/*.js', ['es6']);
 });
