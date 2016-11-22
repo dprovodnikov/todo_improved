@@ -18,7 +18,10 @@ exports.default = function (selector) {
         onclick: function onclick() {}
       });
 
-      panel.css('width', calendar.width() + 40 + 'px');
+      panel.css({
+        width: calendar.width() + 40 + 'px',
+        background: calendar.css('background-color')
+      });
     },
     hide: function hide() {
       panel.css('width', 0);
@@ -439,7 +442,7 @@ exports.default = function () {
       activeItemClass = 'sidebar-item-active';
 
   var panels = {
-    user: undefined,
+    user: _usercardPanel2.default,
     calendar: _calendarPanel2.default,
     search: undefined,
     filter: undefined,
@@ -482,8 +485,64 @@ var _calendarPanel = require('./calendar-panel');
 
 var _calendarPanel2 = _interopRequireDefault(_calendarPanel);
 
+var _usercardPanel = require('./usercard-panel');
+
+var _usercardPanel2 = _interopRequireDefault(_usercardPanel);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 ;
 
-},{"./calendar-panel":1}]},{},[3]);
+},{"./calendar-panel":1,"./usercard-panel":5}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var panelSelector = '.side-panel',
+      panel = $(panelSelector);
+
+  return {
+    show: function show() {
+      var usercardEl = (0, _usercard2.default)(panelSelector);
+      panel.css({
+        width: '250px',
+        background: usercardEl.css('background-color')
+      });
+    },
+    hide: function hide() {
+      panel.css({ width: 0 });
+      panel.empty();
+    }
+  };
+};
+
+var _usercard = require('./usercard');
+
+var _usercard2 = _interopRequireDefault(_usercard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"./usercard":6}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (selector) {
+
+  var template = '\n    <div class="usercard-wrap">\n\n      <div class="usercard-avatar">\n        <img src="img/avatar.jpg"class="avatar"/>\n        <div class="username">john doe</div>\n        <div class="usercard-email">\n          <p>email@gmail.com</p>\n        </div>\n      </div>\n\n      <div class="usercard-progress-view">\n        <div class="progress-view-title">Today\'s progress</div>\n        <div class="usercard-progressbar">\n          <div style="width: 80%" class="progressbar-fill"></div>\n        </div>\n        <div class="progress-view-title">Total progress</div>\n        <div class="usercard-progressbar">\n          <div style="width: 40%" class="progressbar-fill"></div>\n        </div>\n      </div>\n      \n      <div class="usercard-summary-view">\n        <div class="summary">\n          <span>Completed:</span>\n          <span>126</span>\n        </div>\n        <div class="summary">\n          <span>Overdue:</span>\n          <span>14</span>\n        </div>\n      </div>\n\n      <div class="social-wrap">\n        <i class="fa fa-facebook"></i>\n        <i class="fa fa-github"></i>\n        <i class="fa fa-linkedin"></i>\n        <i class="fa fa-google-plus"></i>\n      </div>\n      \n    </div>';
+
+  $(selector).html(template);
+
+  var el = $('.usercard-wrap');
+
+  return el;
+};
+
+;
+
+},{}]},{},[3]);

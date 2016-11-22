@@ -1,11 +1,12 @@
 import calendarPanel from './calendar-panel';
+import usercardPanel from './usercard-panel';
 
 export default function() {
   let items = $('.main-nav li'),
   activeItemClass = 'sidebar-item-active';
 
   let panels = {
-    user: undefined,
+    user: usercardPanel,
     calendar: calendarPanel,
     search: undefined,
     filter: undefined,

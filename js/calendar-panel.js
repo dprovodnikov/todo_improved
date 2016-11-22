@@ -13,7 +13,10 @@ export default function(selector) {
         onclick: function() {}
       });
 
-      panel.css('width', `${calendar.width() + 40}px`);
+      panel.css({
+        width: `${calendar.width() + 40}px`,
+        background: calendar.css('background-color')
+      });
     },
     hide: function() {
       panel.css('width', 0);

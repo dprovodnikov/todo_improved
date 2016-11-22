@@ -1,0 +1,81 @@
+.usercard-wrap
+  height 100%
+  width 250px !important
+  background darken($red, 20%)
+
+.usercard-avatar
+  flexbox(false, true)
+  padding 30px 0
+  flex-direction column
+  
+.avatar
+  height 150px
+  width @height
+  border-radius 50%
+  overflow hidden
+  object-fit cover
+  border 5px solid #fff
+
+.username
+  margin-top 20px
+  color #fff
+  font-family 'Cabin'
+  text-transform capitalize
+  font-size 1.4em
+  font-weight bold
+
+.usercard-email p
+  reset()
+  color #fff
+  font bold .9em 'PT Sans'
+
+.usercard-progress-view
+  flexbox(false, true)
+  flex-direction column
+
+.progress-view-title
+  font bold 1em 'PT Sans'
+  color #fff
+  
+.usercard-progressbar,
+.progress-view-title,
+.summary
+  width 80%
+
+.usercard-progressbar
+  margin 2px 0 10px 0
+  height 10px
+  background #fff
+
+.progressbar-fill
+  background $red
+  height 100%
+
+.social-wrap
+  flexbox(true, true)
+  width 100%
+  position absolute
+  bottom 30px
+  .fa
+    margin 0 10px
+    flexbox(true, true)
+    font-size 1.2em
+    color #fff
+    transition all .2s
+    cursor pointer
+    &:hover
+      color darken($red, 50%)
+
+.usercard-summary-view
+  flexbox(true, true)
+
+.summary
+  margin 5px 0
+  font bold 1em 'PT Sans'
+  color #fff
+  span:last-of-type
+    background $black
+    padding 1px 5px
+    border-radius 5px
+    margin 0 10px
+    font bold 1em 'PT Sans'
