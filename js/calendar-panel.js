@@ -1,7 +1,8 @@
 import Calendar from './calendar';
 
-export default function(selector) {
-  const panel = $('.side-panel');
+export default function() {
+  let panelSelector = '.side-panel';
+  const panel = $(panelSelector);
 
   let instance = {
     show: function() {

@@ -1,5 +1,6 @@
 import calendarPanel from './calendar-panel';
 import usercardPanel from './usercard-panel';
+import chartsPanel from './charts-panel';
 
 export default function() {
   let items = $('.main-nav li'),
@@ -10,7 +11,7 @@ export default function() {
     calendar: calendarPanel,
     search: undefined,
     filter: undefined,
-    charts: undefined,
+    charts: chartsPanel,
     settings: undefined,
   };
 
@@ -29,21 +30,15 @@ export default function() {
       let panel = panels[el.attr('id')]();
 
       if(el.hasClass(activeItemClass)) {
-
         items.removeClass(activeItemClass);
         panel.hide();
-
         return;
       } else {
-
         items.removeClass(activeItemClass);
         el.addClass(activeItemClass);
         panel.show();
-        
         return;
       }
-
-
     });
 
   };
