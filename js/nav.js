@@ -19,9 +19,9 @@ export default function() {
   /********************************
   * INIT
   ********************************/
-  initEvents();
+  bindEvents();
 
-  function initEvents() {
+  function bindEvents() {
 
     items.click(function(e) {
       let el = $(e.target);

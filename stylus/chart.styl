@@ -14,11 +14,20 @@
   justify-content flex-end
   padding 5px 10px
   .fa
-    font-size 1.3em
-    color: #aaa
+    font-size 1.2em
+    color: #ccc
 
 .chartzone
   height 85%
   flexbox(true, true)
 
-  
+.chartzone-half
+  flexbox(true, true)
+  height 100%
+  width 50%
+  box-sizing border-box
+  &:first-of-type
+    border-right 2px solid #eee
+.chartzone-double
+  height 100%
+  margin 0
