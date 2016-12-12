@@ -1,5 +1,5 @@
-import Chart from './chart/dist/chart';
-import fakeData from './chart/src/demo';
+import Chart from './dist/chart';
+import fakeData from './src/demo';
 
 export default function() {
   let panelSelector = '.side-panel';
@@ -43,9 +43,7 @@ export default function() {
   `;
 
   const show = function() {
-
-
-    const height = 150, width = 450;
+    const height = 130, width = 350;
 
     panel.html(template);
 
@@ -56,15 +54,16 @@ export default function() {
       width: width,
       axis: false,
       hover: function() {},
-      grid: { color: '#eee', rows: true, columns: true }
+      grid: { color: '#eee', rows: true, columns: false }
     }, [
       {
         data: fakeData[0],
         line: { color: '#cc5656' },
         point: {
-          outerColor: '#cc5656',
-          innerColor: '#fff',
-          strokeWidth: 2,
+          radius: 3,
+          innerColor: '#cc5656',
+          outerColor: '#fff',
+          strokeWidth: 1,
         },
       }
     ]);
@@ -72,7 +71,7 @@ export default function() {
     Chart.bar({
       selector: selectors[1],
       period: 20,
-      height: height,
+      height: height - 15,
       width: width,
       axis: false,
       hover: function() {},
@@ -86,8 +85,8 @@ export default function() {
 
     Chart.radial({
       selector: selectors[2],
-      persent: 70, 
-      r: 70,
+      persent: 83, 
+      r: 60,
       width: 7,
       duration: 700,
       strokeFilled: '#EE0032',
@@ -99,8 +98,8 @@ export default function() {
 
     Chart.pie({
       selector: selectors[3],
-      r: 70, r2: 40,
-      animationDuration: 1000,
+      r: 60, r2: 30,
+      animationDuration: 700,
       hover: function() { console.log('hover'); },
       sectors: [
         {angle: 90, fill: '#B70C41'},

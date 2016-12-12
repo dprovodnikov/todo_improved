@@ -3,32 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>todo</title>
-  <link rel="stylesheet" href="build/build.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="build/build.css">
 </head>
 <body>
   <div class="application-container">
     <nav class="app-sidebar">
-      <div class="sidebar-logo-wrap">
-        <div class="sidebar-logo"></div>
-      </div>
       <ul class="main-nav">
+        <li id="search"><div class="fa fa-search"></div></li>
         <li id="user"><div class="fa fa-user"></div></li>
         <li id="calendar"><div class="fa fa-calendar"></div></li>
-        <li id="search"><div class="fa fa-search"></div></li>
-        <li id="filter"><div class="fa fa-filter"></div></li>
         <li id="charts"><div class="fa fa-area-chart"></div></li>
-        <li id="settings"><div class="fa fa-sliders"></div></li>
+        <li id="weather"><div class="fa fa-cloud"></div></li>
+        <li id="events"><div class="fa fa-bell"></div></li>
+        <li id="labels"><div class="fa fa-folder"></div></li>
+        <li id="exit"><div class="fa fa-sign-out"></div></li>
       </ul>
       <div class="side-panel"></div>
     </nav>
+    <section class="app-content">
+      <div class="right-toolbar">
+        <div class="g-current-date-wrap">
+          <div class="g-current-day">31</div>
+          <div class="g-month-wrap">
+            <div class="g-current-month">December</div>
+            <div class="g-current-weekday">Sunday</div>
+          </div>
+        </div>
+        <div class="add-button-wrap">
+          <button class="add-button-global">
+            <i class="fa fa-pencil"></i>
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <div class="add-button-wrap">
-    <button class="add-button-global">
-      <i class="fa fa-plus"></i>
-    </button>
-  </div>
 
     
   <script src="vendor/Snap-svg/dist/snap.svg-min.js"></script>

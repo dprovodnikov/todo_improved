@@ -1,0 +1,221 @@
+::-webkit-scrollbar
+  transition: all .2s
+  width: 5px
+
+::-webkit-scrollbar-track
+
+::-webkit-scrollbar-thumb
+  background #d55d5d
+
+.changes-manager
+  display inline-block
+  position absolute
+  bottom 0
+  right 0
+  left 0
+  margin auto
+  width 500px
+  box-shadow 0 0 20px 1px rgba(0,0,0,.3)
+  bottom -100%
+
+.cm-header
+  reset()
+  height 50px
+  width 100%
+  background $red
+  color #fff
+  font bold 1.1em 'Cabin'
+  letter-spacing 1px
+  display flex
+  align-items center
+  padding 0 15px
+  position relative
+  cursor pointer
+
+
+.cm-header-toggle
+  position absolute
+  right 15px
+  padding 5px
+  transition background .1s
+
+
+.cm-header-toggle:hover
+  background #e15757
+
+
+.cm-header-toggle .fa
+  font-size .8em
+  font-weight light
+  transition transform .2s
+  transform translateY(-100%)
+
+
+.cm-opened .cm-header-toggle .fa
+  transform none
+
+
+.cm-body
+  width 100%
+  height 0
+  background #fff
+  transition .4s all
+  overflow hidden
+
+
+.cm-curtain
+  height 100%
+  width 100%
+  position absolute
+  top 0
+  left 0
+  transition all .5s
+  opacity 0
+  background #000
+  display none
+
+
+.cm-preview-container
+  height 60px
+  display flex
+  align-items center
+  padding 0 20px
+  overflow hidden
+
+
+.cm-task-preview
+  display flex
+  height 40px
+  background #e1e1e1
+  border-radius 20px
+  margin-left -100%
+  justify-content space-between
+  transition all .3s
+  position relative
+
+
+.cm-tab-content .cm-task-preview
+  margin 5px 0
+  background #eee
+  border-radius 0
+
+
+.cm-preview-title
+  height 100%
+  display flex
+  justify-content center
+  align-items center
+  font bold 1em 'Ubuntu Mono'
+  color #3d3d3d
+  padding-left 15px
+
+
+.cm-tab-content .cm-preview-title
+  font normal 1em 'PT Sans'
+
+
+.cm-undo-wrap
+  height 100%
+  display flex
+  justify-content center
+  align-items center
+  padding 0 10px
+
+
+.cm-undo-btn
+  height 25px
+  width 25px
+  border-radius 50%
+  border 2px solid #ea6868
+  display flex
+  align-items center
+  justify-content center
+
+
+.cm-undo-btn .fa
+  color #ea6868
+  transform translateY(7%)
+  font-size .9em
+
+
+.cm-body-top
+  padding 15px
+  font 400 1em 'Cabin'
+
+
+.cm-body-top p
+  display inline-block
+  color #3d3d3d
+  font inherit
+
+
+.cm-clear-all
+  outline none
+  border none
+  padding 10px
+  color $red
+  font 700 1em 'PT Sans'
+  background #fff
+  cursor pointer
+  transition all .3s
+  margin 0 7px
+  border-radius 3px
+
+
+.cm-clear-all:hover
+  background #e9e9e9
+
+
+.cm-tabs-wrap
+  display flex
+  align-items center
+
+
+.cm-tab
+  padding 10px 15px
+  font bold .9em 'PT Sans'
+  text-transform uppercase
+  color lighten($red, 70%)
+  cursor pointer
+  transition all .3s
+  user-select none
+
+
+.cm-tab.cm-tab-active
+  color $red
+
+
+.cm-tab.cm-tab-disabled
+  color #ccc
+  cursor default
+
+
+.cm-tabs-underscore-wrap
+  width 100%
+  height 1px
+  background #ececec
+  position relative
+
+
+.cm-tabs-underscore
+  height 2px
+  width 110px
+  position absolute
+  background $red
+  transition all .1s
+  left 0
+
+.cm-tab-contents-wrap
+  position relative
+  white-space nowrap
+  top 10px
+  transition all .3s
+  left 0
+
+
+.cm-tab-content
+  vertical-align top
+  display inline-block
+  width 100%
+  padding 15px 15px 30px 15px
+

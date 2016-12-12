@@ -5,6 +5,460 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _tabs = require('./tabs');
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ChangesManager = function () {
+  function ChangesManager(rootSelector) {
+    _classCallCheck(this, ChangesManager);
+
+    this._render(rootSelector);
+
+    this.el = $('.changes-manager');
+    this.header = this.el.find('.cm-header');
+    this.body = this.el.find('.cm-body');
+    this.capitalizeIcon = this.header.find('.fa');
+    this.title = this.header.find('.cm-header-title');
+    this.curtain = $('.cm-curtain');
+    this.tasks = [];
+
+    this.openedClass = 'cm-opened';
+
+    this._bindEvents();
+  }
+
+  /*********************
+  * PRIVATE
+  *********************/
+
+
+  _createClass(ChangesManager, [{
+    key: '_render',
+    value: function _render(rootSelector) {
+      var template = '\n    <div class="cm-curtain"></div>\n    <div class="changes-manager">\n      <div class="cm-header">\n        <div class="cm-header-title"></div>\n        <div class="cm-header-toggle">\n          <div class="fa fa-window-minimize"></div>\n        </div>\n      </div>\n      <div class="cm-body"></div>\n    </div>\n    ';
+
+      $(rootSelector).append(template);
+    }
+  }, {
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      var _this = this;
+
+      this.header.click(function (e) {
+        return _this._toggle();
+      });
+      this.curtain.click(function (e) {
+        return _this._toggle();
+      });
+    }
+  }, {
+    key: '_undoAll',
+    value: function _undoAll(curtainAnimationDuration) {
+      var _this2 = this;
+
+      this.tasks = [];
+      this.body.height(0);
+      this.curtain.fadeTo(50, 0);
+      setTimeout(function () {
+        _this2.curtain.hide();
+      }, curtainAnimationDuration);
+      this.el.animate({ 'bottom': '-100%' }, 300, function () {
+        _this2.el.hide();
+      });
+    }
+  }, {
+    key: '_undoOne',
+    value: function _undoOne(id) {
+      this.tasks = this.tasks.filter(function (task) {
+        return task.id != id;
+      });
+      this.title.html(this.tasks.length + ' tasks were affected');
+    }
+  }, {
+    key: '_slideUpDown',
+    value: function _slideUpDown(title) {
+      var _this3 = this;
+
+      var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 200;
+
+      var transitionString = 'all ' + duration / 1000 + 's';
+
+      var slideUp = function slideUp() {
+        _this3.body.css({
+          transition: transitionString,
+          height: 60 + 'px'
+        });
+      };
+
+      var slideDown = function slideDown() {
+        setTimeout(function () {
+          _this3.body.height(0);
+        }, duration * 5);
+
+        _this3.el.css({
+          transition: transitionString,
+          bottom: 0
+        });
+      };
+
+      var showPreview = function showPreview() {
+        var template = '\n      <div class="cm-preview-container">\n        <div class="cm-task-preview">\n          <div class="cm-preview-title">' + title + '</div>\n          <div class="cm-undo-wrap">\n            <div class="cm-undo-btn">\n              <div class="fa fa-minus"></div>\n            </div>\n          </div>\n        </div>\n      </div>\n      ';
+
+        _this3.body.html(template);
+
+        setTimeout(function () {
+          $('.cm-task-preview').animate({
+            marginLeft: 0
+          }, duration / 2);
+        }, duration / 2);
+      };
+
+      slideUp();
+      showPreview();
+      slideDown();
+    }
+  }, {
+    key: '_toggle',
+    value: function _toggle() {
+      var _this4 = this;
+
+      var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 400;
+
+      var curtainAnimationDuration = parseFloat(this.curtain.css('transition-duration')) * 1000;
+      this.el.toggleClass(this.openedClass);
+
+      var open = function open() {
+        _this4.opened = true;
+        _this4.curtain.show();
+        setTimeout(function () {
+          _this4.curtain.fadeTo(100, .5);
+        }, curtainAnimationDuration / 10);
+
+        var tabs = new _tabs2.default(_this4.body, {
+          onundo: function onundo(id) {
+            return _this4._undoOne(id);
+          },
+          onundoall: function onundoall() {
+            _this4._undoAll(curtainAnimationDuration);
+          }
+        });
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = _this4.tasks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var task = _step.value;
+
+            switch (task.status) {
+              case 'completed':
+                tabs.pushCompleted(task);break;
+              case 'updated':
+                tabs.pushUpdated(task);break;
+              case 'deleted':
+                tabs.pushDeleted(task);break;
+              default:
+                tabs.pushCompleted(task);
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        _this4.body.css({
+          height: 400 + 'px',
+          transitionDuration: duration / 1000 + 's'
+        });
+      };
+
+      var close = function close() {
+        _this4.opened = false;
+        _this4.body.height(0);
+        _this4.curtain.fadeTo(50, 0);
+        setTimeout(function () {
+          _this4.curtain.hide();
+        }, curtainAnimationDuration);
+      };
+
+      this.opened ? close() : open();
+    }
+
+    /*********************
+    * PUBLIC
+    *********************/
+
+  }, {
+    key: 'update',
+    value: function update(task) {
+      this.tasks.push(task);
+      this.title.html(this.tasks.length + ' tasks were affected');
+      this._slideUpDown(task.title);
+    }
+  }]);
+
+  return ChangesManager;
+}();
+
+exports.default = ChangesManager;
+
+},{"./tabs":2}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Tabs = function () {
+  function Tabs(targetEl, ops) {
+    _classCallCheck(this, Tabs);
+
+    this.targetEl = targetEl;
+    this.onundo = ops.onundo;
+    this.onundoall = ops.onundoall;
+
+    this._render();
+
+    this.class = {
+      active: 'cm-tab-active',
+      disabled: 'cm-tab-disabled'
+    };
+
+    this.tabs = [{
+      id: 'completed',
+      buttonEl: $('.tab-completed'),
+      contentEl: $('.tab-completed-content')
+    }, {
+      id: 'deleted',
+      buttonEl: $('.tab-deleted'),
+      contentEl: $('.tab-deleted-content')
+    }, {
+      id: 'updated',
+      buttonEl: $('.tab-updated'),
+      contentEl: $('.tab-updated-content')
+    }];
+
+    this.tabUnderscore = $('.cm-tabs-underscore');
+    this.contentsTape = $('.cm-tab-contents-wrap');
+    this.tabButtons = $('.cm-tab');
+    this.activeTab = {};
+    this.tabsAvailable = [];
+
+    this._bindEvents();
+  }
+
+  _createClass(Tabs, [{
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      var _this = this;
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var tab = _step.value;
+
+          tab.buttonEl.click(function (e) {
+            return _this._switchTab(tab);
+          });
+        };
+
+        for (var _iterator = this.tabs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }, {
+    key: '_render',
+    value: function _render() {
+      var _this2 = this;
+
+      var template = '\n      <div class="cm-body-top">\n        <p>Confirm or reject following changes</p>\n        <button class="cm-clear-all">Clear all</button>\n      </div>\n      <div class="cm-tabs-pane">\n        <div class="cm-tabs-wrap">\n          <div class="cm-tab cm-tab-disabled tab-completed">Completed</div>\n          <div class="cm-tab cm-tab-disabled tab-deleted">Deleted</div>\n          <div class="cm-tab cm-tab-disabled tab-updated">Updated</div>\n        </div>\n        <div class="cm-tabs-underscore-wrap">\n          <div class="cm-tabs-underscore"></div>\n        </div>\n        <div class="cm-tab-contents-wrap">\n          <div class="cm-tab-content tab-completed-content"></div>\n          <div class="cm-tab-content tab-deleted-content"></div>\n          <div class="cm-tab-content tab-updated-content"></div>\n        </div>\n      </div>\n    ';
+
+      this.targetEl.html(template);
+
+      $('.cm-clear-all').click(function (e) {
+        return _this2.onundoall();
+      });
+    }
+  }, {
+    key: '_pushTask',
+    value: function _pushTask(task, tab) {
+      var _this3 = this;
+
+      tab.buttonEl.removeClass(this.class.disabled);
+      this.tabsAvailable.push(tab);
+      this._switchTab(tab, true);
+
+      var template = '<div class="cm-task-preview cm-preview-' + task.id + '">\n      <div class="cm-preview-title">' + task.title + '</div>\n      <div class="cm-undo-wrap">\n        <div id="' + task.id + '" class="cm-undo-btn">\n          <div class="fa fa-minus"></div>\n        </div>\n      </div>\n    </div>';
+      tab.contentEl.append(template);
+
+      if (tab.contentEl.outerHeight(true) > 300) {
+        tab.contentEl.css({
+          height: '300px',
+          overflowY: 'scroll'
+        });
+      }
+
+      $('.cm-undo-btn#' + task.id).click(function (e) {
+        _this3._undoOne(task.id);
+      });
+    }
+  }, {
+    key: '_undoOne',
+    value: function _undoOne(id) {
+      var _this4 = this;
+
+      var taskPreview = $('.cm-preview-' + id);
+
+      var siblings = taskPreview.siblings();
+
+      if (siblings.length == 0) {
+        this.tabsAvailable = this.tabsAvailable.filter(function (tab) {
+          return tab.id != _this4.activeTab.id;
+        });
+
+        this.activeTab.buttonEl.addClass(this.class.disabled);
+
+        if (this.tabsAvailable.length) this._switchTab(this.tabsAvailable[0]);else this.onundoall();
+      }
+
+      taskPreview.css({
+        width: taskPreview.width() + 'px',
+        transform: 'translateX(-120%)',
+        opacity: 0
+      });
+
+      setTimeout(function () {
+        taskPreview.animate({ height: 0 }, 100);
+        setTimeout(function () {
+          taskPreview.remove();
+        }, 100);
+      }, 150);
+
+      this.onundo(id);
+    }
+  }, {
+    key: 'pushUpdated',
+    value: function pushUpdated(task) {
+      this._pushTask(task, this.tabs[2]);
+    }
+  }, {
+    key: 'pushCompleted',
+    value: function pushCompleted(task) {
+      this._pushTask(task, this.tabs[0]);
+    }
+  }, {
+    key: 'pushDeleted',
+    value: function pushDeleted(task) {
+      this._pushTask(task, this.tabs[1]);
+    }
+  }, {
+    key: '_switchTab',
+    value: function _switchTab(tab) {
+      var _this5 = this;
+
+      var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (tab.buttonEl.hasClass(this.class.disabled)) return false;
+
+      this.tabButtons.removeClass(this.class.active);
+      tab.buttonEl.addClass(this.class.active);
+
+      this.activeTab = tab;
+
+      /* Move underscore below the active tab */
+      var slideDuration = parseFloat(this.contentsTape.css('transition-duration')) * 1000;
+      setTimeout(function () {
+        var tabOffset = tab.buttonEl.position().left;
+        var tabWidth = tab.buttonEl.outerWidth(true);
+        _this5.tabUnderscore.css({
+          width: tabWidth + 'px',
+          left: tabOffset + 'px'
+        });
+      }, delay ? slideDuration : 0);
+
+      /* Slide tab content panes */
+
+      var contentOffset = tab.contentEl.position().left;
+      this.contentsTape.css('left', -contentOffset + 'px');
+    }
+  }]);
+
+  return Tabs;
+}();
+
+exports.default = Tabs;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+var _nav = require('./sidebar/nav');
+
+var _nav2 = _interopRequireDefault(_nav);
+
+var _main = require('./changes_manager/main');
+
+var _main2 = _interopRequireDefault(_main);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _nav2.default)();
+
+var tasks = [{ id: 'task-1', status: 'completed', title: 'Sometimes the same is different' }, { id: 'task-2', status: 'updated', title: 'Make someone to do something' }, { id: 'task-3', status: 'deleted', title: 'Another high-priority task' }, { id: 'task-4', status: 'completed', title: 'Some very important work to do' }, { id: 'task-5', status: 'completed', title: 'Some very important work to do' }, { id: 'task-6', status: 'completed', title: 'Some very important work to do' }];
+
+var cm = new _main2.default('.application-container');
+cm.update(tasks[0]);
+cm.update(tasks[1]);
+cm.update(tasks[2]);
+cm.update(tasks[3]);
+cm.update(tasks[4]);
+cm.update(tasks[5]);
+
+},{"./changes_manager/main":1,"./sidebar/nav":16}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 exports.default = function () {
   var panelSelector = '.side-panel';
   var panel = $(panelSelector);
@@ -39,7 +493,7 @@ var _calendar2 = _interopRequireDefault(_calendar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./calendar":2}],2:[function(require,module,exports){
+},{"./calendar":5}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -420,7 +874,109 @@ exports.default = function (params) {
 
 ;
 
-},{}],3:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var panelSelector = '.side-panel';
+  var panel = $(panelSelector),
+      selectors = ['#chart-completed', '#chart-overdue', '#radialchart', '#piechart'];
+
+  var template = '\n    <div class="chartzones">\n      <div class="chartzone-wrap">\n        <div class="chartzone-top">\n          <div class="fa fa-sliders"></div>\n        </div>\n        <div class="chartzone">\n          <svg id="' + selectors[0].slice(1) + '"></svg>\n        </div>\n      </div>\n      <div class="chartzone-wrap">\n        <div class="chartzone-top">\n          <div class="fa fa-sliders"></div>\n        </div>\n        <div class="chartzone">\n          <svg id="' + selectors[1].slice(1) + '"></svg>\n        </div>\n      </div>\n      <div class="chartzone-wrap">\n        <div class="chartzone chartzone-double">\n          <div class="chartzone-half">\n            <svg id="' + selectors[2].slice(1) + '"></svg>\n          </div>\n          <div class="chartzone-half">\n            <svg id="' + selectors[3].slice(1) + '"></svg>\n          </div>\n        </div>\n      </div>\n    </div>\n  ';
+
+  var show = function show() {
+    var height = 130,
+        width = 350;
+
+    panel.html(template);
+
+    _chart2.default.linear({
+      selector: selectors[0],
+      period: 30,
+      height: height,
+      width: width,
+      axis: false,
+      hover: function hover() {},
+      grid: { color: '#eee', rows: true, columns: false }
+    }, [{
+      data: _demo2.default[0],
+      line: { color: '#cc5656' },
+      point: {
+        radius: 3,
+        innerColor: '#cc5656',
+        outerColor: '#fff',
+        strokeWidth: 1
+      }
+    }]);
+
+    _chart2.default.bar({
+      selector: selectors[1],
+      period: 20,
+      height: height - 15,
+      width: width,
+      axis: false,
+      hover: function hover() {},
+      grid: { columns: true, rows: true, color: '#eee' }
+    }, [{
+      data: _demo2.default[0],
+      line: { color: '#fff', fill: '#db5e5e', hoverColor: '#b23636' }
+    }]);
+
+    _chart2.default.radial({
+      selector: selectors[2],
+      persent: 83,
+      r: 60,
+      width: 7,
+      duration: 700,
+      strokeFilled: '#EE0032',
+      strokeEmpty: 'transparent',
+      fontFamily: 'Muli',
+      fontWeight: '0',
+      fontColor: '#3d3d3d'
+    });
+
+    _chart2.default.pie({
+      selector: selectors[3],
+      r: 60, r2: 30,
+      animationDuration: 700,
+      hover: function hover() {
+        console.log('hover');
+      },
+      sectors: [{ angle: 90, fill: '#B70C41' }, { angle: 126, fill: '#EE0032' }, { angle: 144, fill: '#F9738C' }]
+    });
+
+    panel.css({
+      width: width + 100 + 'px',
+      background: '#fff'
+    });
+  };
+
+  var hide = function hide() {
+    panel.css('width', 0);
+    panel.empty();
+  };
+
+  return {
+    show: show,
+    hide: hide
+  };
+};
+
+var _chart = require('./dist/chart');
+
+var _chart2 = _interopRequireDefault(_chart);
+
+var _demo = require('./src/demo');
+
+var _demo2 = _interopRequireDefault(_demo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+},{"./dist/chart":7,"./src/demo":11}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -467,7 +1023,7 @@ exports.default = {
   }
 };
 
-},{"../src/area":4,"../src/bar":5,"../src/linear":8,"../src/pie":9,"../src/radial":10}],4:[function(require,module,exports){
+},{"../src/area":8,"../src/bar":9,"../src/linear":12,"../src/pie":13,"../src/radial":14}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -561,7 +1117,7 @@ var Area = function (_ChartModel) {
 
 exports.default = Area;
 
-},{"./chart_model":6}],5:[function(require,module,exports){
+},{"./chart_model":10}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -659,7 +1215,7 @@ var Bar = function (_ChartModel) {
 
 exports.default = Bar;
 
-},{"./chart_model":6}],6:[function(require,module,exports){
+},{"./chart_model":10}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -916,7 +1472,7 @@ var ChartModel = function () {
 
 exports.default = ChartModel;
 
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -931,7 +1487,7 @@ var data2 = [{ date: new Date(2016, 10, 25), task: 'some task1' }, { date: new D
 
 exports.default = [data, data2];
 
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1053,7 +1609,7 @@ var Linear = function (_ChartModel) {
 
 exports.default = Linear;
 
-},{"./chart_model":6}],9:[function(require,module,exports){
+},{"./chart_model":10}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1202,7 +1758,7 @@ var Pie = function () {
 
           sector.hover(function (e) {
             sector.animate({
-              d: _util2.default.describeSector(_this.c, _this.c, _this.r - 10, _this.r2, 0, sector.data('angle'))
+              d: _util2.default.describeSector(_this.c, _this.c, _this.r - _this.r / 15, _this.r2, 0, sector.data('angle'))
             }, 500, mina.elastic);
 
             _this.cb();
@@ -1293,7 +1849,7 @@ var Pie = function () {
 
 exports.default = Pie;
 
-},{"./util":11}],10:[function(require,module,exports){
+},{"./util":15}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1389,7 +1945,7 @@ var Radial = function () {
 
 exports.default = Radial;
 
-},{"./util":11}],11:[function(require,module,exports){
+},{"./util":15}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1437,120 +1993,7 @@ var Util = function () {
 
 exports.default = Util;
 
-},{}],12:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function () {
-  var panelSelector = '.side-panel';
-  var panel = $(panelSelector),
-      selectors = ['#chart-completed', '#chart-overdue', '#radialchart', '#piechart'];
-
-  var template = '\n    <div class="chartzones">\n      <div class="chartzone-wrap">\n        <div class="chartzone-top">\n          <div class="fa fa-sliders"></div>\n        </div>\n        <div class="chartzone">\n          <svg id="' + selectors[0].slice(1) + '"></svg>\n        </div>\n      </div>\n      <div class="chartzone-wrap">\n        <div class="chartzone-top">\n          <div class="fa fa-sliders"></div>\n        </div>\n        <div class="chartzone">\n          <svg id="' + selectors[1].slice(1) + '"></svg>\n        </div>\n      </div>\n      <div class="chartzone-wrap">\n        <div class="chartzone chartzone-double">\n          <div class="chartzone-half">\n            <svg id="' + selectors[2].slice(1) + '"></svg>\n          </div>\n          <div class="chartzone-half">\n            <svg id="' + selectors[3].slice(1) + '"></svg>\n          </div>\n        </div>\n      </div>\n    </div>\n  ';
-
-  var show = function show() {
-
-    var height = 150,
-        width = 450;
-
-    panel.html(template);
-
-    _chart2.default.linear({
-      selector: selectors[0],
-      period: 30,
-      height: height,
-      width: width,
-      axis: false,
-      hover: function hover() {},
-      grid: { color: '#eee', rows: true, columns: true }
-    }, [{
-      data: _demo2.default[0],
-      line: { color: '#cc5656' },
-      point: {
-        outerColor: '#cc5656',
-        innerColor: '#fff',
-        strokeWidth: 2
-      }
-    }]);
-
-    _chart2.default.bar({
-      selector: selectors[1],
-      period: 20,
-      height: height,
-      width: width,
-      axis: false,
-      hover: function hover() {},
-      grid: { columns: true, rows: true, color: '#eee' }
-    }, [{
-      data: _demo2.default[0],
-      line: { color: '#fff', fill: '#db5e5e', hoverColor: '#b23636' }
-    }]);
-
-    _chart2.default.radial({
-      selector: selectors[2],
-      persent: 70,
-      r: 70,
-      width: 7,
-      duration: 700,
-      strokeFilled: '#EE0032',
-      strokeEmpty: 'transparent',
-      fontFamily: 'Muli',
-      fontWeight: '0',
-      fontColor: '#3d3d3d'
-    });
-
-    _chart2.default.pie({
-      selector: selectors[3],
-      r: 70, r2: 40,
-      animationDuration: 1000,
-      hover: function hover() {
-        console.log('hover');
-      },
-      sectors: [{ angle: 90, fill: '#B70C41' }, { angle: 126, fill: '#EE0032' }, { angle: 144, fill: '#F9738C' }]
-    });
-
-    panel.css({
-      width: width + 100 + 'px',
-      background: '#fff'
-    });
-  };
-
-  var hide = function hide() {
-    panel.css('width', 0);
-    panel.empty();
-  };
-
-  return {
-    show: show,
-    hide: hide
-  };
-};
-
-var _chart = require('./chart/dist/chart');
-
-var _chart2 = _interopRequireDefault(_chart);
-
-var _demo = require('./chart/src/demo');
-
-var _demo2 = _interopRequireDefault(_demo);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-},{"./chart/dist/chart":3,"./chart/src/demo":7}],13:[function(require,module,exports){
-'use strict';
-
-var _nav = require('./nav');
-
-var _nav2 = _interopRequireDefault(_nav);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-(0, _nav2.default)();
-
-},{"./nav":14}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1570,9 +2013,6 @@ exports.default = function () {
     settings: undefined
   };
 
-  /********************************
-  * INIT
-  ********************************/
   bindEvents();
 
   function bindEvents() {
@@ -1597,15 +2037,15 @@ exports.default = function () {
   };
 };
 
-var _calendarPanel = require('./calendar-panel');
+var _calendarPanel = require('./calendar/calendar-panel');
 
 var _calendarPanel2 = _interopRequireDefault(_calendarPanel);
 
-var _usercardPanel = require('./usercard-panel');
+var _usercardPanel = require('./usercard/usercard-panel');
 
 var _usercardPanel2 = _interopRequireDefault(_usercardPanel);
 
-var _chartsPanel = require('./charts-panel');
+var _chartsPanel = require('./chart/charts-panel');
 
 var _chartsPanel2 = _interopRequireDefault(_chartsPanel);
 
@@ -1613,7 +2053,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 ;
 
-},{"./calendar-panel":1,"./charts-panel":12,"./usercard-panel":15}],15:[function(require,module,exports){
+},{"./calendar/calendar-panel":4,"./chart/charts-panel":6,"./usercard/usercard-panel":17}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1645,7 +2085,7 @@ var _usercard2 = _interopRequireDefault(_usercard);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./usercard":16}],16:[function(require,module,exports){
+},{"./usercard":18}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1665,4 +2105,4 @@ exports.default = function (selector) {
 
 ;
 
-},{}]},{},[13]);
+},{}]},{},[3]);

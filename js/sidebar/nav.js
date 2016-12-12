@@ -1,6 +1,6 @@
-import calendarPanel from './calendar-panel';
-import usercardPanel from './usercard-panel';
-import chartsPanel from './charts-panel';
+import calendarPanel from './calendar/calendar-panel';
+import usercardPanel from './usercard/usercard-panel';
+import chartsPanel from './chart/charts-panel';
 
 export default function() {
   let items = $('.main-nav li'),
@@ -15,10 +15,6 @@ export default function() {
     settings: undefined,
   };
 
-
-  /********************************
-  * INIT
-  ********************************/
   bindEvents();
 
   function bindEvents() {

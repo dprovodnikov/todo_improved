@@ -5,6 +5,7 @@
 @import 'calendar'
 @import 'usercard'
 @import 'chart'
+@import 'c-manager'
 
 
 /**********************************
@@ -12,55 +13,44 @@
 **********************************/
 html, body
   height 100%
-  background #eee
+  flexbox(true, true)
+  background url(../img/bg.png)
+  background-size 100%
+
+*
+  reset()
   
 .container
   position relative
   width 940px
   margin auto
 
-/**********************************
-* GLOBAL ADD BUTTON
-**********************************/
-
-.add-button-wrap
-  position fixed
-  bottom 50px
-  right 100px
-
-.add-button-global
-  height 70px
-  width 70px
-  border-radius 50%
-  outline none
-  border none
-  cursor pointer
-  background $red
-  transition all .3s
-  border 1px solid darken($red, 10%)
-  &:hover
-    background darken($red, 20%)
-    transform translateY(-7%)
-    box-shadow 0 3px 5px 1px rgba(0, 0, 0, .5)
-  .fa
-   color #fff
+.application-container
+  flexbox(false, false)
+  height 600px
+  width 1000px
+  background #eee
+  box-shadow 0 5px 25px 2px rgba(0, 0, 0, .3)
+  position relative
+  
   
 /**********************************
 * APP SIDEBAR
 **********************************/
 .app-sidebar
   height 100%
-  position fixed
   width 70px
   background $red
+  position relative
 
 .main-nav
   reset()
-  flexbox(true, true)
+  flexbox(false, true)
   flex-direction column
+  justify-content space-around
 
 .main-nav li
-  flexbox(true, true)
+  flexbox(false, true)
   list-style none
   width 100%
   height 70px
@@ -69,20 +59,17 @@ html, body
   &:hover
     background darken($red, 20%)
   .fa
+    flex 2
+    flexbox(true, true)
     color #fff 
-    font-size 1.7em
+    font-size 1.4em
+  .nav-hint
+    flexbox(false, true)
+    flex 3
+    color #ff
+    font normal .8em 'Cabin'
 .sidebar-item-active
   background darken($red, 20%)
-    
-.sidebar-logo-wrap
-  flexbox(true, true)
-  height 70px
-  width 100%
-.sidebar-logo
-  height 50px
-  width @height
-  background url(../img/logo.png) no-repeat
-  background-size 50px
 
 /**********************************
 * APP BODY
@@ -94,11 +81,67 @@ html, body
   flexbox(true, false)
   background #fff
   height 100%
-  position fixed
+  position absolute
   width 0
   top 0
   left 70px
   transition  all .2s
   overflow hidden
+  z-index 2
 
+/**********************************
+* APP CONTENT
+**********************************/
+.app-content
+  height 100%
+  width calc(100% - 70px)
+  position relative
+
+.right-toolbar
+  width 100px
+  height 100%
+  position absolute
+  right 0
+
+.add-button-wrap
+  flexbox(true, true)
+  width 100%
+  position absolute
+  bottom 20px
+
+.add-button-global
+  height 50px
+  width 50px
+  border-radius 50%
+  outline none
+  border none
+  cursor pointer
+  background $red
+  transition all .3s
+  border 1px solid darken($red, 10%)
+  &:hover
+    background darken($red, 10%)
+    transform translateY(-7%)
+    box-shadow 0 3px 15px 1px rgba(0, 0, 0, .3)
+  .fa
+   color #fff
+
+/****************
+* global date
+*****************/
+.g-current-date-wrap
+  flexbox(true, true)
+  opacity .5
+  
+.g-current-day
+  font normal 4em 'Muli'
+  color $red
+
+.g-month-wrap
+  flexbox(true, true)
+  margin-top -5px
+.g-current-month,
+.g-current-weekday
+  font normal 1em 'Cabin'
+  color #3d3d3d
 
