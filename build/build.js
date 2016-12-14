@@ -42,9 +42,13 @@ var ChangesManager = function () {
   _createClass(ChangesManager, [{
     key: '_render',
     value: function _render(rootSelector) {
-      var template = '\n    <div class="cm-curtain"></div>\n    <div class="changes-manager">\n      <div class="cm-header">\n        <div class="cm-header-title"></div>\n        <div class="cm-header-toggle">\n          <div class="fa fa-window-minimize"></div>\n        </div>\n      </div>\n      <div class="cm-body"></div>\n    </div>\n    ';
+      var rootEl = $(rootSelector);
 
-      $(rootSelector).append(template);
+      rootEl.append('<div class="cm-curtain"></div>');
+
+      var template = '\n    <div class="changes-manager">\n      <div class="cm-header">\n        <div class="cm-header-title"></div>\n        <div class="cm-header-toggle">\n          <div class="fa fa-window-minimize"></div>\n        </div>\n      </div>\n      <div class="cm-body"></div>\n    </div>\n    ';
+
+      rootEl.find('.app-content').append(template);
     }
   }, {
     key: '_bindEvents',

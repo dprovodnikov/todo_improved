@@ -1,19 +1,24 @@
-.container 
-  background #eee
-  height 600px
-  width 1000px
-  box-shadow 2px 2px 15px 2px rgba(0, 0, 0, .3)
-  position relative
-
 .tasklist-global 
   width 400px
-  max-height 500px
+  max-height 450px
   position absolute
   left 0
   right 0
-  top 0
-  bottom 0
+  top 7%
   margin auto
+  overflow-y: scroll
+  padding 0 50px
+  box-sizing content-box
+  &::-webkit-scrollbar
+    transition: all .2s
+    width 5px
+  &::-webkit-scrollbar-track
+    background #eee
+  &::-webkit-scrollbar-thumb
+    background #e7e7e7
+    border-radius 50px
+    &:hover
+      background #ccc
 
 .tl-task 
   max-height 100px

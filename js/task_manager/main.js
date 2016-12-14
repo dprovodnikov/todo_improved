@@ -58,6 +58,7 @@ class TaskManager {
       timeout += 100;
     }
   }
+  
 }
 
 export default TaskManager;

@@ -21,8 +21,11 @@ class ChangesManager {
   * PRIVATE
   *********************/
   _render(rootSelector) {
+    let rootEl = $(rootSelector);
+
+    rootEl.append('<div class="cm-curtain"></div>');
+
     let template = `
-    <div class="cm-curtain"></div>
     <div class="changes-manager">
       <div class="cm-header">
         <div class="cm-header-title"></div>
@@ -34,7 +37,7 @@ class ChangesManager {
     </div>
     `;
 
-    $(rootSelector).append(template);
+    rootEl.find('.app-content').append(template);
   }
 
   _bindEvents() {
