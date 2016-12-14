@@ -438,9 +438,19 @@ var _main = require('./changes_manager/main');
 
 var _main2 = _interopRequireDefault(_main);
 
+var _main3 = require('./task_manager/main');
+
+var _main4 = _interopRequireDefault(_main3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 (0, _nav2.default)();
+
+/***************************************
+* CHANGES MANAGER TEST CALL
+****************************************/
 
 var tasks = [{ id: 'task-1', status: 'completed', title: 'Sometimes the same is different' }, { id: 'task-2', status: 'updated', title: 'Make someone to do something' }, { id: 'task-3', status: 'deleted', title: 'Another high-priority task' }, { id: 'task-4', status: 'completed', title: 'Some very important work to do' }, { id: 'task-5', status: 'completed', title: 'Some very important work to do' }, { id: 'task-6', status: 'completed', title: 'Some very important work to do' }];
 
@@ -452,7 +462,46 @@ cm.update(tasks[3]);
 cm.update(tasks[4]);
 cm.update(tasks[5]);
 
-},{"./changes_manager/main":1,"./sidebar/nav":16}],4:[function(require,module,exports){
+/***************************************
+* TASK MANAGER TEST CALL
+****************************************/
+
+var taskList = [_defineProperty({
+  text: 'Sometimes the same is different',
+  priority: 0,
+  folder: 'folder',
+  id: 'task-1',
+  date: new Date()
+}, 'folder', { color: '#5ED2D3' }), _defineProperty({
+  text: 'We have actually a lot of work to do',
+  priority: 1,
+  folder: 'folder',
+  id: 'task-2',
+  date: new Date()
+}, 'folder', { color: '#D75555' }), _defineProperty({
+  text: 'Make coffee, make a bed, go to work, beet people and so on',
+  priority: 2,
+  folder: 'folder',
+  id: 'task-3',
+  date: new Date()
+}, 'folder', { color: '#597DA3' }), _defineProperty({
+  text: 'Manage to accomplish all the tasks until the deadline is coming',
+  priority: 1,
+  folder: 'folder',
+  id: 'task-4',
+  date: new Date()
+}, 'folder', { color: '#5EB571' }), _defineProperty({
+  text: 'Some other motherfucking task to do, fuck',
+  priority: 0,
+  folder: 'folder',
+  id: 'task-5',
+  date: new Date()
+}, 'folder', { color: '#CC5FC3' })];
+
+var tm = new _main4.default('.app-content', taskList);
+tm.list();
+
+},{"./changes_manager/main":1,"./sidebar/nav":16,"./task_manager/main":19}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2104,5 +2153,129 @@ exports.default = function (selector) {
 };
 
 ;
+
+},{}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TaskManager = function () {
+  function TaskManager(targetSelector, tasks) {
+    _classCallCheck(this, TaskManager);
+
+    this.targetEl = $(targetSelector);
+    this.tasks = tasks;
+
+    this.class = {
+      priority: {
+        low: 'tl-task-low',
+        normal: 'tl-task-normal',
+        high: 'tl-task-high'
+      }
+    };
+
+    this._render();
+
+    this.taskEls = $('.tl-task');
+  }
+
+  _createClass(TaskManager, [{
+    key: '_render',
+    value: function _render() {
+      var template = '';
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.tasks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var task = _step.value;
+
+          var priorityClass = '';
+          switch (task.priority) {
+            case 0:
+              priorityClass = this.class.priority.low;break;
+            case 1:
+              priorityClass = this.class.priority.normal;break;
+            case 2:
+              priorityClass = this.class.priority.high;break;
+          }
+
+          template += '\n        <div class="tl-task ' + priorityClass + ' tl-task-shifted">\n          <div class="tl-task-text">' + task.text + '</div>\n          <div class="tl-task-folder">\n            <div class="fa fa-folder" style="color: ' + task.folder.color + '"></div>\n          </div>\n        </div>\n      ';
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      this.targetEl.append('<div class="tasklist-global">' + template + '</div>');
+    }
+  }, {
+    key: 'list',
+    value: function list() {
+      var timeout = 100;
+
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var task = _step2.value;
+
+          task = $(task);
+          setTimeout(function () {
+
+            task.show();
+            setTimeout(function () {
+              task.css('opacity', '1');
+              task.removeClass('tl-task-shifted');
+            }, 50);
+          }, timeout);
+
+          timeout += 100;
+        };
+
+        for (var _iterator2 = this.taskEls[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+    }
+  }]);
+
+  return TaskManager;
+}();
+
+exports.default = TaskManager;
 
 },{}]},{},[3]);
