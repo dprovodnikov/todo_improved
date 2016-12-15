@@ -442,9 +442,9 @@ var _main = require('./changes_manager/main');
 
 var _main2 = _interopRequireDefault(_main);
 
-var _main3 = require('./task_manager/main');
+var _manager = require('./task_manager/manager');
 
-var _main4 = _interopRequireDefault(_main3);
+var _manager2 = _interopRequireDefault(_manager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -502,10 +502,10 @@ var taskList = [_defineProperty({
   date: new Date()
 }, 'folder', { color: '#CC5FC3' })];
 
-var tm = new _main4.default('.app-content', taskList);
+var tm = new _manager2.default('.app-content', taskList);
 tm.list();
 
-},{"./changes_manager/main":1,"./sidebar/nav":16,"./task_manager/main":19}],4:[function(require,module,exports){
+},{"./changes_manager/main":1,"./sidebar/nav":16,"./task_manager/manager":19}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2167,6 +2167,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _toolbar = require('./toolbar');
+
+var _toolbar2 = _interopRequireDefault(_toolbar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TaskManager = function () {
@@ -2177,6 +2183,7 @@ var TaskManager = function () {
     this.tasks = tasks;
 
     this.class = {
+      active: 'tl-task-active',
       priority: {
         low: 'tl-task-low',
         normal: 'tl-task-normal',
@@ -2186,10 +2193,24 @@ var TaskManager = function () {
 
     this._render();
 
+    this.toolbar = new _toolbar2.default(targetSelector);
     this.taskEls = $('.tl-task');
+
+    this._bindEvents();
   }
 
   _createClass(TaskManager, [{
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      var _this = this;
+
+      this.taskEls.click(function (e) {
+        _this.taskEls.removeClass(_this.class.active);
+        _this.toolbar.show();
+        $(e.target).addClass(_this.class.active);
+      });
+    }
+  }, {
     key: '_render',
     value: function _render() {
       var template = '';
@@ -2281,5 +2302,84 @@ var TaskManager = function () {
 }();
 
 exports.default = TaskManager;
+
+},{"./toolbar":20}],20:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Toolbar = function () {
+  function Toolbar(selector) {
+    _classCallCheck(this, Toolbar);
+
+    this.rootEl = $(selector);
+
+    this._render();
+
+    this.toolEls = $('.tb-tool');
+  }
+
+  _createClass(Toolbar, [{
+    key: '_render',
+    value: function _render() {
+      var template = '\n    <div class="toolbar">\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-check"></div>\n      </div>\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-pencil"></div>\n      </div>\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-trash"></div>\n      </div>\n    </div>\n    ';
+
+      this.rootEl.append(template);
+    }
+  }, {
+    key: 'show',
+    value: function show() {
+      var timeout = 0;
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var toolEl = _step.value;
+
+          toolEl = $(toolEl);
+
+          setTimeout(function () {
+            toolEl.removeClass('tb-tool-hidden');
+          }, timeout);
+
+          timeout += 100;
+        };
+
+        for (var _iterator = this.toolEls[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'hide',
+    value: function hide() {}
+  }]);
+
+  return Toolbar;
+}();
+
+exports.default = Toolbar;
 
 },{}]},{},[3]);

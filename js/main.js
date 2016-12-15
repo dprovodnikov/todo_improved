@@ -1,6 +1,6 @@
 import nav from './sidebar/nav';
 import ChangesManager from './changes_manager/main';
-import TaskManager from './task_manager/main';
+import TaskManager from './task_manager/manager';
 
 nav();
 

@@ -6,7 +6,7 @@
   right 0
   top 7%
   margin auto
-  overflow-y: scroll
+  overflow-y scroll
   padding 0 50px
   box-sizing content-box
   &::-webkit-scrollbar
@@ -28,7 +28,7 @@
   box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
   position relative
   cursor pointer
-  transition all .5s
+  transition all .3s
   display none
   opacity 0
   display flex
@@ -38,6 +38,13 @@
 
 .tl-task-shifted
   transform translate(10%, 10%)
+
+.tl-task-active
+  background $red
+  .tl-task-text
+    color #fff !important
+  &:hover
+    background $red !important
 
 .tl-task:hover
   background #eee
@@ -63,6 +70,7 @@
   align-items flex-end
   padding 5px 20px
   max-width 80%
+  pointer-events none
 
 .tl-task-folder 
   width 15%
@@ -73,8 +81,56 @@
   display flex
   justify-content center
   align-items center
+  pointer-events none
 
 .tl-task-folder .fa 
   font-size 1.5em
   color #acacac
 
+.toolbar 
+  height 30%
+  position absolute
+  right 3%
+  top 0
+  bottom 0
+  margin auto
+  display flex
+  flex-direction column
+  justify-content space-between
+  cursor pointer
+  overflow hidden
+  padding 20px 10px 20px 50px
+  box-sizing content-box
+
+.tb-tool 
+  height 50px
+  width 50px
+  background #EB6361 
+  border-radius 50%
+  display flex
+  justify-content center
+  align-items center
+  transition all .3s
+  animation-name appear
+  animation-duration 800ms
+  animation-timing-function ease-in-out
+  fill-mode forwards
+
+@keyframes appear 
+  0% 
+    transform translate(200%, 0)
+  40% 
+    transform translate(-30%, 0)
+  100% 
+    transform translate(0, 0)
+
+.tb-tool-hidden 
+  display none 
+
+.tb-tool:hover 
+  background #DD3331
+  box-shadow 2px 2px 10px 1px rgba(0, 0, 0, .4)
+
+.tb-tool .fa 
+  color #fff
+  font-size 1.2em
