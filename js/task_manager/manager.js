@@ -1,9 +1,12 @@
 import Toolbar from './toolbar';
+import ChangesManager from '../changes_manager/main';
 
 class TaskManager {
   constructor(targetSelector, tasks) {
     this.targetEl = $(targetSelector);
-    this.tasks = tasks
+    this.tasks = tasks;
+    this.changesManager = new ChangesManager('.application-container');
+
 
     this.class = {
       active: 'tl-task-active',
@@ -21,12 +24,36 @@ class TaskManager {
 
     this._bindEvents();
   }
+
+  _getTask(id) {
+    return this.tasks.filter(e => e.id == id)[0];
+  }
+
   _bindEvents() {
     this.taskEls.click(e => {
       this.taskEls.removeClass(this.class.active)
-      this.toolbar.show();
-      $(e.target).addClass(this.class.active);
 
+      const id = $(e.target).attr('id');
+
+      this.toolbar.show({
+        oncomplete: () => { 
+          let task = this._getTask(id);
+          task.status = 'completed';
+          this.changesManager.update(task);
+        },
+        onupdate: () => { 
+          let task = this._getTask(id);
+          task.status = 'updated';
+          this.changesManager.update(task);
+        },
+        ondelete: () => { 
+          let task = this._getTask(id);
+          task.status = 'deleted';
+          this.changesManager.update(task);
+        },
+      });
+
+      $(e.target).addClass(this.class.active);
     });
   }
 
@@ -42,7 +69,7 @@ class TaskManager {
       }
 
       template += `
-        <div class="tl-task ${priorityClass} tl-task-shifted">
+        <div id="${task.id}" class="tl-task ${priorityClass} tl-task-shifted">
           <div class="tl-task-text">${task.text}</div>
           <div class="tl-task-folder">
             <div class="fa fa-folder" style="color: ${task.folder.color}"></div>

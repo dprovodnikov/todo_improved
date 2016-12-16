@@ -68,14 +68,15 @@ var ChangesManager = function () {
       var _this2 = this;
 
       this.tasks = [];
+      this.opened = false;
       this.body.height(0);
       this.curtain.fadeTo(50, 0);
+
       setTimeout(function () {
         _this2.curtain.hide();
       }, curtainAnimationDuration);
-      this.el.animate({ 'bottom': '-100%' }, 300, function () {
-        _this2.el.hide();
-      });
+
+      this.el.animate({ 'bottom': '-100%' }, 300);
     }
   }, {
     key: '_undoOne',
@@ -215,7 +216,7 @@ var ChangesManager = function () {
     value: function update(task) {
       this.tasks.push(task);
       this.title.html(this.tasks.length + ' tasks were affected');
-      this._slideUpDown(task.title);
+      this._slideUpDown(task.text);
     }
   }]);
 
@@ -331,7 +332,9 @@ var Tabs = function () {
       this.tabsAvailable.push(tab);
       this._switchTab(tab, true);
 
-      var template = '<div class="cm-task-preview cm-preview-' + task.id + '">\n      <div class="cm-preview-title">' + task.title + '</div>\n      <div class="cm-undo-wrap">\n        <div id="' + task.id + '" class="cm-undo-btn">\n          <div class="fa fa-minus"></div>\n        </div>\n      </div>\n    </div>';
+      console.log(task);
+
+      var template = '<div class="cm-task-preview cm-preview-' + task.id + '">\n      <div class="cm-preview-title">' + task.text + '</div>\n      <div class="cm-undo-wrap">\n        <div id="' + task.id + '" class="cm-undo-btn">\n          <div class="fa fa-minus"></div>\n        </div>\n      </div>\n    </div>';
       tab.contentEl.append(template);
 
       if (tab.contentEl.outerHeight(true) > 300) {
@@ -456,15 +459,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 * CHANGES MANAGER TEST CALL
 ****************************************/
 
-var tasks = [{ id: 'task-1', status: 'completed', title: 'Sometimes the same is different' }, { id: 'task-2', status: 'updated', title: 'Make someone to do something' }, { id: 'task-3', status: 'deleted', title: 'Another high-priority task' }, { id: 'task-4', status: 'completed', title: 'Some very important work to do' }, { id: 'task-5', status: 'completed', title: 'Some very important work to do' }, { id: 'task-6', status: 'completed', title: 'Some very important work to do' }];
+// let tasks = [
+//   { id: 'task-1', status: 'completed', title: 'Sometimes the same is different'},
+//   { id: 'task-2', status: 'updated', title: 'Make someone to do something'},
+//   { id: 'task-3', status: 'deleted', title: 'Another high-priority task'},
+//   { id: 'task-4', status: 'completed', title: 'Some very important work to do'},
+//   { id: 'task-5', status: 'completed', title: 'Some very important work to do'},
+//   { id: 'task-6', status: 'completed', title: 'Some very important work to do'},
+// ];
 
-var cm = new _main2.default('.application-container');
-cm.update(tasks[0]);
-cm.update(tasks[1]);
-cm.update(tasks[2]);
-cm.update(tasks[3]);
-cm.update(tasks[4]);
-cm.update(tasks[5]);
+// let cm = new ChangesManager('.application-container');
+// cm.update(tasks[0]);
+// cm.update(tasks[1]);
+// cm.update(tasks[2]);
+// cm.update(tasks[3]);
+// cm.update(tasks[4]);
+// cm.update(tasks[5]);
 
 /***************************************
 * TASK MANAGER TEST CALL
@@ -2171,6 +2181,10 @@ var _toolbar = require('./toolbar');
 
 var _toolbar2 = _interopRequireDefault(_toolbar);
 
+var _main = require('../changes_manager/main');
+
+var _main2 = _interopRequireDefault(_main);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2181,6 +2195,7 @@ var TaskManager = function () {
 
     this.targetEl = $(targetSelector);
     this.tasks = tasks;
+    this.changesManager = new _main2.default('.application-container');
 
     this.class = {
       active: 'tl-task-active',
@@ -2200,13 +2215,40 @@ var TaskManager = function () {
   }
 
   _createClass(TaskManager, [{
+    key: '_getTask',
+    value: function _getTask(id) {
+      return this.tasks.filter(function (e) {
+        return e.id == id;
+      })[0];
+    }
+  }, {
     key: '_bindEvents',
     value: function _bindEvents() {
       var _this = this;
 
       this.taskEls.click(function (e) {
         _this.taskEls.removeClass(_this.class.active);
-        _this.toolbar.show();
+
+        var id = $(e.target).attr('id');
+
+        _this.toolbar.show({
+          oncomplete: function oncomplete() {
+            var task = _this._getTask(id);
+            task.status = 'completed';
+            _this.changesManager.update(task);
+          },
+          onupdate: function onupdate() {
+            var task = _this._getTask(id);
+            task.status = 'updated';
+            _this.changesManager.update(task);
+          },
+          ondelete: function ondelete() {
+            var task = _this._getTask(id);
+            task.status = 'deleted';
+            _this.changesManager.update(task);
+          }
+        });
+
         $(e.target).addClass(_this.class.active);
       });
     }
@@ -2233,7 +2275,7 @@ var TaskManager = function () {
               priorityClass = this.class.priority.high;break;
           }
 
-          template += '\n        <div class="tl-task ' + priorityClass + ' tl-task-shifted">\n          <div class="tl-task-text">' + task.text + '</div>\n          <div class="tl-task-folder">\n            <div class="fa fa-folder" style="color: ' + task.folder.color + '"></div>\n          </div>\n        </div>\n      ';
+          template += '\n        <div id="' + task.id + '" class="tl-task ' + priorityClass + ' tl-task-shifted">\n          <div class="tl-task-text">' + task.text + '</div>\n          <div class="tl-task-folder">\n            <div class="fa fa-folder" style="color: ' + task.folder.color + '"></div>\n          </div>\n        </div>\n      ';
         }
       } catch (err) {
         _didIteratorError = true;
@@ -2303,7 +2345,7 @@ var TaskManager = function () {
 
 exports.default = TaskManager;
 
-},{"./toolbar":20}],20:[function(require,module,exports){
+},{"../changes_manager/main":1,"./toolbar":20}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2323,18 +2365,35 @@ var Toolbar = function () {
     this._render();
 
     this.toolEls = $('.tb-tool');
+
+    this._bindEvents();
   }
 
   _createClass(Toolbar, [{
     key: '_render',
     value: function _render() {
-      var template = '\n    <div class="toolbar">\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-check"></div>\n      </div>\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-pencil"></div>\n      </div>\n      <div class="tb-tool tb-tool-hidden">\n        <div class="fa fa-trash"></div>\n      </div>\n    </div>\n    ';
+      var template = '\n    <div class="toolbar">\n      <div class="tb-tool tb-tool-complete tb-tool-hidden">\n        <div class="fa fa-check"></div>\n      </div>\n      <div class="tb-tool tb-tool-update tb-tool-hidden">\n        <div class="fa fa-pencil"></div>\n      </div>\n      <div class="tb-tool tb-tool-delete tb-tool-hidden">\n        <div class="fa fa-trash"></div>\n      </div>\n    </div>\n    ';
 
       this.rootEl.append(template);
     }
   }, {
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      var _this = this;
+
+      this.toolEls.filter('.tb-tool-complete').click(function (e) {
+        _this.oncomplete();
+      });
+      this.toolEls.filter('.tb-tool-update').click(function (e) {
+        _this.onupdate();
+      });
+      this.toolEls.filter('.tb-tool-delete').click(function (e) {
+        _this.ondelete();
+      });
+    }
+  }, {
     key: 'show',
-    value: function show() {
+    value: function show(args) {
       var timeout = 0;
 
       var _iteratorNormalCompletion = true;
@@ -2346,11 +2405,9 @@ var Toolbar = function () {
           var toolEl = _step.value;
 
           toolEl = $(toolEl);
-
           setTimeout(function () {
             toolEl.removeClass('tb-tool-hidden');
           }, timeout);
-
           timeout += 100;
         };
 
@@ -2371,6 +2428,10 @@ var Toolbar = function () {
           }
         }
       }
+
+      this.oncomplete = args.oncomplete;
+      this.ondelete = args.ondelete;
+      this.onupdate = args.onupdate;
     }
   }, {
     key: 'hide',

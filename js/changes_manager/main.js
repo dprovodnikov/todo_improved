@@ -47,14 +47,15 @@ class ChangesManager {
 
   _undoAll(curtainAnimationDuration) {
     this.tasks = [];
+    this.opened = false;
     this.body.height(0);
     this.curtain.fadeTo(50, 0);
+
     setTimeout(() => {
       this.curtain.hide();
     }, curtainAnimationDuration)
-    this.el.animate({'bottom': '-100%'}, 300, () => {
-      this.el.hide();
-    });
+
+    this.el.animate({'bottom': '-100%'}, 300);
   }
 
   _undoOne(id) {
@@ -168,7 +169,7 @@ class ChangesManager {
     this.title.html(
       `${this.tasks.length} tasks were affected`
     );
-    this._slideUpDown(task.title);
+    this._slideUpDown(task.text);
   };
 }
 

@@ -76,9 +76,11 @@ class Tabs {
     this.tabsAvailable.push(tab);
     this._switchTab(tab, true);
 
+    console.log(task);
+    
     let template = 
     `<div class="cm-task-preview cm-preview-${task.id}">
-      <div class="cm-preview-title">${task.title}</div>
+      <div class="cm-preview-title">${task.text}</div>
       <div class="cm-undo-wrap">
         <div id="${task.id}" class="cm-undo-btn">
           <div class="fa fa-minus"></div>
