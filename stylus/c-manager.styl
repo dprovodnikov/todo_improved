@@ -76,8 +76,8 @@
 .cm-task-preview
   display flex
   height 40px
-  background #e1e1e1
-  border-radius 20px
+  max-width 95%
+  background #eee
   margin-left -100%
   justify-content space-between
   transition all .3s
@@ -93,15 +93,26 @@
 .cm-preview-title
   height 100%
   display flex
-  justify-content center
   align-items center
   font 500 1em 'Hind'
   color #3d3d3d
   padding-left 15px
+  white-space nowrap
+  overflow hidden
+  &:after
+    content ''
+    height 100%
+    width 30px
+    background linear-gradient(to right, transparent 10%, #eee 80%)
+    position absolute
+    left 'calc(90% - %s)' % @width
+    top 0
 
 
 .cm-tab-content .cm-preview-title
   font 300 1em 'Hind'
+  max-width 90%
+  overflow hidden
 
 
 .cm-undo-wrap
@@ -154,7 +165,7 @@
 
 
 .cm-clear-all:hover
-  background #e9e9e9
+  background #eee
 
 
 .cm-tabs-wrap
