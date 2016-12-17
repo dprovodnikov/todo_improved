@@ -7,6 +7,7 @@ class Toolbar {
     this.toolEls = $('.tb-tool');
 
     this._bindEvents();
+
   }
 
   _render() {
@@ -37,6 +38,7 @@ class Toolbar {
     this.toolEls.filter('.tb-tool-delete').click(e => {
       this.ondelete();
     });
+
   }
 
   show(args) {
@@ -46,6 +48,7 @@ class Toolbar {
       toolEl = $(toolEl);
       setTimeout(function() {
         toolEl.removeClass('tb-tool-hidden');
+        toolEl.removeClass('tb-tool-disappear');
       }, timeout)
       timeout += 100;
     }
@@ -55,7 +58,16 @@ class Toolbar {
     this.onupdate = args.onupdate;
   };
   
-  hide() {};
+  hide() {
+    let timeout = 0;
+    for(let toolEl of this.toolEls) {
+      toolEl = $(toolEl);
+      setTimeout(function() {
+        toolEl.addClass('tb-tool-disappear');
+      }, timeout);
+      timeout += 50;
+    }
+  };
 }
 
 export default Toolbar;

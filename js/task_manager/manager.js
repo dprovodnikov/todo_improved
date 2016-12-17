@@ -7,8 +7,8 @@ class TaskManager {
     this.tasks = tasks;
     this.changesManager = new ChangesManager('.application-container');
 
-
     this.class = {
+      main: 'tl-task',
       active: 'tl-task-active',
       priority: {
         low: 'tl-task-low',
@@ -20,7 +20,7 @@ class TaskManager {
     this._render();
 
     this.toolbar = new Toolbar(targetSelector);
-    this.taskEls = $('.tl-task');
+    this.taskEls = $(`.${this.class.main}`);
 
     this._bindEvents();
   }
@@ -54,6 +54,13 @@ class TaskManager {
       });
 
       $(e.target).addClass(this.class.active);
+    });
+
+    $(document).click(e => {
+      if(!$(e.target).hasClass(this.class.main)) {
+        this.toolbar.hide();
+        this.taskEls.removeClass(this.class.active);
+      }
     });
   }
 

@@ -2198,6 +2198,7 @@ var TaskManager = function () {
     this.changesManager = new _main2.default('.application-container');
 
     this.class = {
+      main: 'tl-task',
       active: 'tl-task-active',
       priority: {
         low: 'tl-task-low',
@@ -2209,7 +2210,7 @@ var TaskManager = function () {
     this._render();
 
     this.toolbar = new _toolbar2.default(targetSelector);
-    this.taskEls = $('.tl-task');
+    this.taskEls = $('.' + this.class.main);
 
     this._bindEvents();
   }
@@ -2250,6 +2251,13 @@ var TaskManager = function () {
         });
 
         $(e.target).addClass(_this.class.active);
+      });
+
+      $(document).click(function (e) {
+        if (!$(e.target).hasClass(_this.class.main)) {
+          _this.toolbar.hide();
+          _this.taskEls.removeClass(_this.class.active);
+        }
       });
     }
   }, {
@@ -2407,6 +2415,7 @@ var Toolbar = function () {
           toolEl = $(toolEl);
           setTimeout(function () {
             toolEl.removeClass('tb-tool-hidden');
+            toolEl.removeClass('tb-tool-disappear');
           }, timeout);
           timeout += 100;
         };
@@ -2435,7 +2444,41 @@ var Toolbar = function () {
     }
   }, {
     key: 'hide',
-    value: function hide() {}
+    value: function hide() {
+      var timeout = 0;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        var _loop2 = function _loop2() {
+          var toolEl = _step2.value;
+
+          toolEl = $(toolEl);
+          setTimeout(function () {
+            toolEl.addClass('tb-tool-disappear');
+          }, timeout);
+          timeout += 50;
+        };
+
+        for (var _iterator2 = this.toolEls[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          _loop2();
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+    }
   }]);
 
   return Toolbar;
