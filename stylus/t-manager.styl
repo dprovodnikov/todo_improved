@@ -9,6 +9,7 @@
   overflow-y scroll
   padding 0 50px
   box-sizing content-box
+  perspective 800px
   &::-webkit-scrollbar
     transition: all .2s
     width 5px
@@ -25,12 +26,11 @@
   width 100%
   background #fff
   margin 10px 0
-  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
   position relative
   cursor pointer
-  transition all .3s
+  transition all .3s ease-out
   display none
-  opacity 0
+  opacity 1
   display flex
   align-items center
   padding 5px 0
@@ -38,17 +38,24 @@
 
 .tl-task-shifted
   transform translate(10%, 10%)
+  opacity 0
 
 .tl-task-active
   background $red
+  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
   .tl-task-text
     color #fff !important
   &:hover
     background $red !important
 
-.tl-task:hover
-  background #eee
+.tl-task-removed
+  // transition all .5s cubic-bezier(.36,-0.64,.34,1.76)
+  padding 0 
+  margin 0 
+  opacity 0
 
+.tl-task:hover
+  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
 
 .tl-task-low:after,
 .tl-task-high:after,
@@ -61,6 +68,14 @@
   left 0
   top 0
 
+.tl-task-low:after
+  background #DAE163
+  
+.tl-task-high:after
+  background #639DE1
+  
+.tl-task-normal:after
+  background #FF4A25
 
 .tl-task-text 
   font normal 1em 'Hind'
@@ -126,7 +141,7 @@
 .tb-tool-disappear
   animation-name disappear
   animation-duration .3s
-  animation-timin-function ease-in-out
+  animation-timing-function ease-in-out
   animation-fill-mode forwards
 
 .tb-tool .fa 

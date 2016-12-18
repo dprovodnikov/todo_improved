@@ -10,6 +10,7 @@ class TaskManager {
     this.class = {
       main: 'tl-task',
       active: 'tl-task-active',
+      removed: 'tl-task-removed',
       priority: {
         low: 'tl-task-low',
         normal: 'tl-task-normal',
@@ -29,27 +30,40 @@ class TaskManager {
     return this.tasks.filter(e => e.id == id)[0];
   }
 
+  _removeFromList(el) {
+    el.addClass(this.class.removed);
+    el.css('margin-top', -el.height() - parseInt(el.css('margin-bottom')) );
+
+    setTimeout(() => {
+      el.hide();
+    }, parseFloat(el.css('transition-duration')) * 1000 );
+  }
+
   _bindEvents() {
     this.taskEls.click(e => {
       this.taskEls.removeClass(this.class.active)
 
-      const id = $(e.target).attr('id');
+      const el = $(e.target);
+      const id = el.attr('id');
 
       this.toolbar.show({
         oncomplete: () => { 
           let task = this._getTask(id);
           task.status = 'completed';
           this.changesManager.update(task);
+          this._removeFromList(el);
         },
         onupdate: () => { 
           let task = this._getTask(id);
           task.status = 'updated';
           this.changesManager.update(task);
+          this._removeFromList(el);
         },
         ondelete: () => { 
           let task = this._getTask(id);
           task.status = 'deleted';
           this.changesManager.update(task);
+          this._removeFromList(el);
         },
       });
 
@@ -97,7 +111,6 @@ class TaskManager {
 
         task.show();
         setTimeout(function() {
-          task.css('opacity', '1');
           task.removeClass('tl-task-shifted');
         }, 50);
 

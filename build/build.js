@@ -2200,6 +2200,7 @@ var TaskManager = function () {
     this.class = {
       main: 'tl-task',
       active: 'tl-task-active',
+      removed: 'tl-task-removed',
       priority: {
         low: 'tl-task-low',
         normal: 'tl-task-normal',
@@ -2223,6 +2224,16 @@ var TaskManager = function () {
       })[0];
     }
   }, {
+    key: '_removeFromList',
+    value: function _removeFromList(el) {
+      el.addClass(this.class.removed);
+      el.css('margin-top', -el.height() - parseInt(el.css('margin-bottom')));
+
+      setTimeout(function () {
+        el.hide();
+      }, parseFloat(el.css('transition-duration')) * 1000);
+    }
+  }, {
     key: '_bindEvents',
     value: function _bindEvents() {
       var _this = this;
@@ -2230,23 +2241,27 @@ var TaskManager = function () {
       this.taskEls.click(function (e) {
         _this.taskEls.removeClass(_this.class.active);
 
-        var id = $(e.target).attr('id');
+        var el = $(e.target);
+        var id = el.attr('id');
 
         _this.toolbar.show({
           oncomplete: function oncomplete() {
             var task = _this._getTask(id);
             task.status = 'completed';
             _this.changesManager.update(task);
+            _this._removeFromList(el);
           },
           onupdate: function onupdate() {
             var task = _this._getTask(id);
             task.status = 'updated';
             _this.changesManager.update(task);
+            _this._removeFromList(el);
           },
           ondelete: function ondelete() {
             var task = _this._getTask(id);
             task.status = 'deleted';
             _this.changesManager.update(task);
+            _this._removeFromList(el);
           }
         });
 
@@ -2320,7 +2335,6 @@ var TaskManager = function () {
 
             task.show();
             setTimeout(function () {
-              task.css('opacity', '1');
               task.removeClass('tl-task-shifted');
             }, 50);
           }, timeout);
