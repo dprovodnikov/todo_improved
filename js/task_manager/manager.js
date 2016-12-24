@@ -34,9 +34,11 @@ class TaskManager {
     el.addClass(this.class.removed);
     el.css('margin-top', -el.height() - parseInt(el.css('margin-bottom')) );
 
+    let transitionDuration = parseFloat(el.css('transition-duration')) * 1000;
+
     setTimeout(() => {
       el.hide();
-    }, parseFloat(el.css('transition-duration')) * 1000 );
+    }, transitionDuration);
   }
 
   _bindEvents() {
