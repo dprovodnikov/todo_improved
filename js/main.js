@@ -8,13 +8,17 @@ import styles from '../stylus/main.styl';
 
 // Vues
 import taskManager from './task_manager/taskmanager.vue';
+import toolbar from './task_manager/toolbar.vue'
 
 nav();
 
 const app = new Vue({
   el: '.application-container',
-  data: {},
+  data: {
+    eventBus: new Vue(),
+  },
   components: {
-    'task-manager': taskManager
+    'task-manager': taskManager,
+    'toolbar': toolbar
   },
 });
