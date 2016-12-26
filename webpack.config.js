@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
 
-  entry: './js/main.js',
+  entry: path.join(__dirname, '/js/main.js'),
 
   output: {
     path: path.join(__dirname, 'build'),
@@ -19,6 +19,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel?presets[]=es2015',
+        exclude: /\/node_modules\//,
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue',
         exclude: /\/node_modules\//,
       },
       {
