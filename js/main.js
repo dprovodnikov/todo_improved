@@ -1,6 +1,3 @@
-// Scripts
-import nav from './sidebar/nav';
-
 // Styles
 import styles from '../stylus/main.styl';
 
@@ -8,8 +5,7 @@ import styles from '../stylus/main.styl';
 import taskManager from './task_manager/taskmanager.vue';
 import toolbar from './task_manager/toolbar.vue';
 import changesManager from './changes_manager/changes_manager.vue';
-
-nav();
+import sidebar from './sidebar/sidebar.vue';
 
 // root vue component
 const app = new Vue({
@@ -21,5 +17,6 @@ const app = new Vue({
     'task-manager': taskManager,
     'toolbar': toolbar,
     'changes-manager': changesManager,
+    'sidebar': sidebar,
   },
 });

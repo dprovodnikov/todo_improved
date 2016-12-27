@@ -12,7 +12,7 @@ module.exports = {
 
   watch: true,
 
-  devtools: 'source-map',
+  devtool: 'source-map',
 
   module: {
     loaders: [
