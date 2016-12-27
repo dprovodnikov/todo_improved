@@ -22,7 +22,7 @@ class ChangesManager {
   *********************/
   _render(rootSelector) {
     let rootEl = $(rootSelector);
-
+    
     rootEl.append('<div class="cm-curtain"></div>');
 
     let template = `

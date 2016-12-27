@@ -27,13 +27,16 @@
     methods: {
 
       complete: function() {
-        this.eventBus.$emit('complete-action', task);
+        this.task.status = 'completed';
+        this.eventBus.$emit('toolbar-action', this.task);
       },
       update: function() {
-        this.eventBus.$emit('update-action', task);
+        this.task.status = 'updated';
+        this.eventBus.$emit('toolbar-action', this.task);
       },
       delete: function() {
-        this.eventBus.$emit('delete-action', task);
+        this.task.status = 'deleted';
+        this.eventBus.$emit('toolbar-action', this.task);
       },
 
     },

@@ -22,7 +22,9 @@
       <div class="side-panel"></div>
     </nav>
     <section class="app-content">
-      
+
+      <changes-manager :event-bus="eventBus"></changes-manager>
+
       <task-manager :event-bus="eventBus"></task-manager>
 
       <div class="right-toolbar">
