@@ -1,46 +1,34 @@
 <template>
 
-  <div class="tasklist-global">
-    <div v-for="task in tasks" @click="check(task)" class="tl-task {{task.priorityClass}}">
-      <div class="tl-task-text">{{task.text}}</div>
-      <div class="tl-task-folder">
-        <div class="fa fa-folder" style="color: {{task.folder.color}}"></div>
-      </div>
-    </div>
+  <div class="tasklist-global" v-click-outside="task-unfocus">
+    <task v-for="task in tasks" :task="task" :event-bus="eventBus"></task>
   </div> 
-
 
 </template>
 
 <script>
   import taskList from './fake-tasks.js';
+  import taskComponent from './task.vue';
+  import clickOutsideDirective from '../directives/click-outside.js';
 
   export default {
     props: ['eventBus'],
+    components: {
+      task: taskComponent
+    },
+    directives: {
+      'click-outside': clickOutsideDirective
+    },
     data: function() {
       return {
         tasks: [],
-        priority: {
-          low: 'tl-task-low',
-          normal: 'tl-task-normal',
-          high: 'tl-task-high',
-        },
       };
     },
     methods: {
-      check: function(task) {
-        this.eventBus.$emit('task-selected', task);
-      },
       prioritize: function(taskList) {
 
-        let getPriority = (priority) => {
-          let priorityClass = '';
-          switch(priority) {
-            case 0: priorityClass = this.priority.low; break;
-            case 1: priorityClass = this.priority.normal; break;
-            case 2: priorityClass = this.priority.high; break;
-          }
-          return priorityClass;
+        function getPriority(priority) {
+          return priority == 0 ? 'tl-task-low' : (priority == 1 ? 'tl-task-normal' : 'tl-task-high');
         }
 
         return taskList.map(e => {

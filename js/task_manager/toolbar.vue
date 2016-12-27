@@ -45,6 +45,10 @@
         this.show = true;
         this.task = task;
       });
+
+      this.eventBus.$on('task-unfocus', () => {
+        this.show = false;
+      });
     }
   };
 
