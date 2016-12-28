@@ -19,6 +19,10 @@
       <calendar :event-bus="eventBus"></calendar>
     </div>
 
+    <div class="side-panel" v-if="buttons[3].panel.show">
+      <charts :event-bus="eventBus"></charts>
+    </div>
+
 
   </nav>
 
@@ -29,11 +33,13 @@
   import clickOutsideDirective from '../directives/click-outside.js';
   import usercard from './usercard/usercard.vue';
   import calendar from './calendar/calendar.vue';
+  import charts from './chart/charts.vue';
 
   export default {
     components: {
       'usercard': usercard,
       'calendar': calendar,
+      'charts': charts,
     },
     directives: {
       'click-outside': clickOutsideDirective,

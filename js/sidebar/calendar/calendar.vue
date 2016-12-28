@@ -46,9 +46,7 @@
       };
     },
     methods: {
-      pickDay: function(date) {
-        console.log(date);
-      }
+      pickDay: function(date) {}
     },
     created: function() {
       setTimeout(() => {
