@@ -1,10 +1,17 @@
 export default {
+  
   bind: function() {
+
     this.emitEvent = (e) => {
       this.vm.eventBus.$emit(this.expression);
+    };
+
+    this.stopPropagation = (e) => { 
+      e.stopPropagation();
     }
 
     this.el.addEventListener('click', this.stopPropagation);
+
     document.body.addEventListener('click', this.emitEvent);
   },
 
@@ -13,5 +20,4 @@ export default {
     document.body.removeEventListener('click',this.emitEvent);
   },
 
-  stopPropagation: function(e) { e.stopPropagation(); }
 };

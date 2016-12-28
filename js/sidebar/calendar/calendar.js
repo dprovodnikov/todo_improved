@@ -6,40 +6,6 @@ export default function(params) {
   ************************************************/
   let increaseDay, decreaseDay;
 
-  let template = `
-  <div class="calendar-wrap">
-    <div class="year-slider">
-      <div class="year-slider-left-control">
-        <div class="fa fa-chevron-left"></div>
-      </div>
-      <div class="year-slider-tape-wrap">
-        <div class="year-slider-tape"></div>
-      </div>
-      <div class="year-slider-right-control">
-        <div class="fa fa-chevron-right"></div>
-      </div>
-    </div>
-    <div class="month-slider">
-      <div class="month-numbers"></div>
-      <div class="month-line">
-        <div class="slider-circle"></div>
-      </div>
-      <div class="month-title">November</div>
-    </div>
-    <div class="weekdays-wrap">
-      <div>SUN</div>
-      <div>MON</div>
-      <div>TUE</div>
-      <div>WED</div>
-      <div>THU</div>
-      <div>FRI</div>
-      <div>SAT</div>
-    </div>
-    <div class="calendar-cells-wrap"></div>
-  </div> `;
-
-  $(params.container).prepend(template);
-
   let curDate = new Date(),
   yearFirst = params.yearFirst || curDate.getFullYear() - 2,
   yearLast = params.yearLast || curDate.getFullYear(),

@@ -1,6 +1,6 @@
 <template>
   
-  <nav class="app-sidebar">
+  <nav class="app-sidebar" v-click-outside="sidebar-focus-lost">
     <ul class="main-nav">
       <li v-for="button in buttons"
           v-bind:class="{'sidebar-item-active': button.active}"
@@ -10,24 +10,38 @@
         <i :class="button.icon"></i>
       </li>
     </ul>
-    <div class="side-panel">
-      <usercard v-if="buttons[1].panel.show"></usercard>
+
+    <div class="side-panel" v-if="buttons[1].panel.show">
+      <usercard :event-bus="eventBus"></usercard>
     </div>
+
+    <div class="side-panel" v-if="buttons[2].panel.show">
+      <calendar :event-bus="eventBus"></calendar>
+    </div>
+
+
   </nav>
 
 </template>
 
 <script>
 
+  import clickOutsideDirective from '../directives/click-outside.js';
   import usercard from './usercard/usercard.vue';
+  import calendar from './calendar/calendar.vue';
 
   export default {
     components: {
       'usercard': usercard,
+      'calendar': calendar,
+    },
+    directives: {
+      'click-outside': clickOutsideDirective,
     },
     props: ['eventBus'],
     data: function() {
       return {
+        activeButton: null,
         buttons: [
           {
             id: 'search',  
@@ -97,17 +111,30 @@
     },
     methods: {
       openPanel: function(id) {
-        this.buttons.map(e => {
+        this.buttons.forEach(e => {
           if(id == e.id) {
             e.active = !e.active;
             e.panel.show = !e.panel.show;
+            this.activeButton = e;
           } else {
             e.active = false;
             e.panel.show = false;
           }
         });
-      }
+      },
+
+      closePanel: function() {
+        if(this.activeButton) {
+          this.activeButton.active = false;
+          this.activeButton.panel.show = false;
+        }
+      },
     },
+    created: function() {
+      this.eventBus.$on('sidebar-focus-lost', () => {
+        this.closePanel();
+      });
+    }
   }
 </script>
 
