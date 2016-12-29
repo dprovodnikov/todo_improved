@@ -5,6 +5,9 @@
       <li v-for="folder in folders" class="fl-folder" style="color: {{folder.color}}">
         <div class="fl-folder-hint">{{ folder.hint }}</div>
       </li>
+      <li class="fl-add-folder">
+        <div class="fl-folder-hint">New one</div>
+      </li>
     </ul>
   </div>
 

@@ -31,9 +31,10 @@ class Pie {
     this.groups.push(this.paper.g(sector, text));
   }
 
-  _getPersentage(angle) {
-    return Math.round(angle * 100 / 360);
+  _getAngle(persent) {
+    return persent * 360 / 100;
   }
+
 
   _getMissingSector(totalAngle) {
     let angle = 360 - Math.round(totalAngle);
@@ -109,6 +110,9 @@ class Pie {
   _draw() {
     let totalAngle = 0;
     for(let sector of this.sectorsData) {
+
+      sector.angle = this._getAngle(sector.persent);
+
       let s = this._sector(sector.angle).attr({
         fill: sector.fill,
         strokeDasharray: 2 * Math.PI * sector.angle,
@@ -120,7 +124,7 @@ class Pie {
 
       s.data('angle', sector.angle);
 
-      let t = this.paper.text(this.c, this.c, this._getPersentage(sector.angle) + '%')
+      let t = this.paper.text(this.c, this.c, sector.persent + '%')
       .attr({
         textAnchor: 'middle',
         opacity: 0,

@@ -119,9 +119,9 @@
           animationDuration: 700,
           hover: function() {},
           sectors: [
-            {angle: 90, fill: '#B70C41'},
-            {angle: 126, fill: '#EE0032'},
-            {angle: 144, fill: '#F9738C'},
+            {persent: 25, fill: '#B70C41'},
+            {persent: 35, fill: '#EE0032'},
+            {persent: 40, fill: '#F9738C'},
           ],
         });
 

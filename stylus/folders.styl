@@ -40,6 +40,17 @@
   opacity 0
   background #fff
   color: inherit
-  font bold 1em 'Hind'
+  font bold .8em 'Hind'
+  text-transform uppercase
   padding 5px 10px 3px 10px
   pointer-events none
+
+.fl-add-folder
+  list-style none
+  @extend .fl-folder
+  &:after
+    content: '+'
+    font normal 3em 'fontawesome'
+    color $red !important
+  .fl-folder-hint
+    color $red
