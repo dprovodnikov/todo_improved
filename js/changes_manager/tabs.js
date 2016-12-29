@@ -75,8 +75,6 @@ class Tabs {
     tab.buttonEl.removeClass(this.class.disabled);
     this.tabsAvailable.push(tab);
     this._switchTab(tab, true);
-
-    console.log(task);
     
     let template = 
     `<div class="cm-task-preview cm-preview-${task.id}">
@@ -97,12 +95,12 @@ class Tabs {
     }
 
     $(`.cm-undo-btn#${task.id}`).click(e => {
-      this._undoOne(task.id);
+      this._undoOne(task);
     });
   }
 
-  _undoOne(id) {
-    let taskPreview = $(`.cm-preview-${id}`);
+  _undoOne(task) {
+    let taskPreview = $(`.cm-preview-${task.id}`);
 
     let siblings = taskPreview.siblings();
 
@@ -132,7 +130,7 @@ class Tabs {
       }, 100);
     }, 150);
 
-    this.onundo(id); 
+    this.onundo(task); 
   }
 
   pushUpdated(task) { this._pushTask(task, this.tabs[2]); }

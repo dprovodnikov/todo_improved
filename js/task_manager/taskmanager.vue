@@ -40,6 +40,7 @@
     },
     created: function() {
       this.tasks = this.prioritize(taskList);
+      
     }
   }
 

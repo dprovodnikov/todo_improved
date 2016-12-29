@@ -7,10 +7,11 @@ class ChangesManager {
     this.el = $('.changes-manager');
     this.header = this.el.find('.cm-header');
     this.body = this.el.find('.cm-body');
-    this.capitalizeIcon = this.header.find('.fa');
     this.title = this.header.find('.cm-header-title');
     this.curtain = $('.cm-curtain');
     this.tasks = [];
+
+    this.events = {};
 
     this.openedClass = 'cm-opened';
 
@@ -45,6 +46,10 @@ class ChangesManager {
     this.curtain.click(e => this._toggle());
   }
 
+  addEventListener(event, callback) {
+    this.events[event] = callback;
+  }
+
   _undoAll(curtainAnimationDuration) {
     this.tasks = [];
     this.opened = false;
@@ -56,11 +61,17 @@ class ChangesManager {
     }, curtainAnimationDuration)
 
     this.el.animate({'bottom': '-100%'}, 300);
+
+    let cb = this.events['undoall'];
+    if(cb) cb();
   }
 
-  _undoOne(id) {
-    this.tasks = this.tasks.filter(task => task.id != id);
+  _undoOne(task) {
+    this.tasks = this.tasks.filter(task => task.id != task.id);
     this.title.html(`${this.tasks.length} tasks were affected`);
+
+    let cb = this.events['undo'];
+    if(cb) cb(task);
   }
 
   _slideUpDown(title, duration=200) {
