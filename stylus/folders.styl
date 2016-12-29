@@ -1,0 +1,45 @@
+.folders-list-wrap
+  height 100%
+  min-width 70px
+  background #fff
+
+.fl-folder
+  display flex
+  align-items center
+  justify-content flex-start
+  height 70px
+  width 70px
+  padding 0 20px
+  cursor pointer
+  position relative
+  &:hover
+    .fl-folder-hint
+      opacity 1
+      transform translate(0, 0)
+    &:after
+      transform scale(1.1)
+  &:after
+    content '\f07b'
+    font-family 'fontawesome'
+    font-size 1.7em
+    color inherit !important
+    transition all .1s
+    width 100%
+    text-align center
+    pointer-events none
+
+.fl-folder-hint
+  font normal 1em 'Hind'
+  transform translateY(.22em)
+  position absolute
+  border-radius 5px
+  left 120%
+  white-space nowrap
+  transition transform .2s, opacity .1s
+  transform translateX(30%)
+  opacity 0
+  background #fff
+  color: inherit
+  font bold 1em 'Hind'
+  padding 5px 10px 3px 10px
+  pointer-events none

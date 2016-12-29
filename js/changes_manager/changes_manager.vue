@@ -1,10 +1,3 @@
-<template>
-  
-
-
-</template>
-
-
 <script>
 
   import ChangesManager from './main.js';

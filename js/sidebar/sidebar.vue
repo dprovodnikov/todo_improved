@@ -23,6 +23,9 @@
       <charts :event-bus="eventBus"></charts>
     </div>
 
+    <div class="side-panel transparent" v-if="buttons[6].panel.show">
+      <folders :event-bus="eventBus"></folders>
+    </div>
 
   </nav>
 
@@ -34,12 +37,14 @@
   import usercard from './usercard/usercard.vue';
   import calendar from './calendar/calendar.vue';
   import charts from './chart/charts.vue';
+  import folders from './folders/folders.vue';
 
   export default {
     components: {
       'usercard': usercard,
       'calendar': calendar,
       'charts': charts,
+      'folders': folders,
     },
     directives: {
       'click-outside': clickOutsideDirective,
@@ -98,11 +103,11 @@
             },
           },
           {
-            id: 'labels', 
+            id: 'folders', 
             active: false,
             icon: 'fa fa-folder' , 
             panel: {
-              show: false
+              show: true
             },
           },
           {

@@ -7,6 +7,7 @@
 @import 'chart'
 @import 'c-manager'
 @import 't-manager'
+@import 'folders'
 
 /**********************************
 * COMMON 
@@ -19,7 +20,12 @@ html, body
 
 *
   reset()
-  
+
+.transparent
+  background transparent !important
+  // box-shadow none !important
+  overflow visible !important
+
 .container
   position relative
   width 940px
@@ -55,7 +61,7 @@ html, body
   list-style none
   width 100%
   height 70px
-  transition all .2s
+  transition all .1s 
   cursor pointer
   &:hover
     background darken($red, 20%)
@@ -63,14 +69,10 @@ html, body
     flex 2
     flexbox(true, true)
     color #fff 
-    font-size 1.4em
-  .nav-hint
-    flexbox(false, true)
-    flex 3
-    color #ff
-    font normal .8em 'Cabin'
+    font-size 1.3em
 .sidebar-item-active
   background darken($red, 20%)
+  border-right 5px solid  #fff !important
 
 /**********************************
 * APP BODY
@@ -83,7 +85,6 @@ html, body
   background #fff
   height 100%
   position absolute
-  // width 0
   top 0
   left 70px
   transition  all .2s
