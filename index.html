@@ -18,15 +18,9 @@
       <task-manager :event-bus="eventBus"></task-manager>
 
       <div class="right-toolbar">
-
-        <div class="g-current-date-wrap">
-          <div class="g-current-day">31</div>
-          <div class="g-month-wrap">
-            <div class="g-current-month">December</div>
-            <div class="g-current-weekday">Sunday</div>
-          </div>
-        </div>
         
+        <current-date></current-date>
+
         <toolbar :event-bus="eventBus"></toolbar>
 
         <div class="add-button-wrap">

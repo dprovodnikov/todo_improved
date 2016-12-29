@@ -117,14 +117,14 @@
     },
     methods: {
       openPanel: function(id) {
-        this.buttons.forEach(e => {
-          if(id == e.id) {
-            e.active = !e.active;
-            e.panel.show = !e.panel.show;
-            this.activeButton = e;
+        this.buttons.forEach(button => {
+          if(id == button.id) {
+            button.active = !button.active;
+            button.panel.show = !button.panel.show;
+            this.activeButton = button;
           } else {
-            e.active = false;
-            e.panel.show = false;
+            button.active = false;
+            button.panel.show = false;
           }
         });
       },
