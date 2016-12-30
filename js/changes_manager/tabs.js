@@ -3,6 +3,7 @@ class Tabs {
     this.targetEl = targetEl;
     this.onundo = ops.onundo;
     this.onundoall = ops.onundoall;
+    this.confirm = ops.confirm;
 
     this._render();
 
@@ -46,8 +47,11 @@ class Tabs {
   _render() {
     let template = `
       <div class="cm-body-top">
-        <p>Confirm or reject following changes</p>
-        <button class="cm-clear-all">Clear all</button>
+        <p>Manage the changes below</p>
+        <div class="cm-top-btns">
+          <button id="cm-confirm-all" class="cm-top-button">Confirm</button>
+          <button id="cm-undo-all" class="cm-top-button">Undo all</button>
+        </div>
       </div>
       <div class="cm-tabs-pane">
         <div class="cm-tabs-wrap">
@@ -68,7 +72,8 @@ class Tabs {
 
     this.targetEl.html(template);
 
-    $('.cm-clear-all').click(e => this.onundoall());
+    $('#cm-undo-all').click(e => this.onundoall());
+    $('#cm-confirm-all').click(e => this.confirm());
   }
 
   _pushTask(task, tab) {

@@ -13,6 +13,7 @@
 
     data: function() {
       return {
+        affected: false,
         checked: false,
         show: true,
       };
@@ -35,8 +36,10 @@
       });
 
       this.eventBus.$on('toolbar-action', (task) => {
-        if(task == this.task && task.status != 'updated')
+        if(task == this.task && task.status != 'updated') {
+          this.affected = true;
           this.show = false;
+        }
       });
 
       this.eventBus.$on('changes-undo', task => {
@@ -46,6 +49,11 @@
 
       this.eventBus.$on('changes-undo-all', () => {
         if(!this.show) this.show = true;
+      });
+
+      this.eventBus.$on('changes-confirm', () => {
+        if(this.affected)
+          this.$emit('task-remove', this);
       });
     }
   }

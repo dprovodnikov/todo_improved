@@ -50,7 +50,7 @@ class ChangesManager {
     this.events[event] = callback;
   }
 
-  _undoAll(curtainAnimationDuration) {
+  _event(eventString, curtainAnimationDuration) {
     this.tasks = [];
     this.opened = false;
     this.body.height(0);
@@ -58,11 +58,11 @@ class ChangesManager {
 
     setTimeout(() => {
       this.curtain.hide();
-    }, curtainAnimationDuration)
+    }, curtainAnimationDuration);
 
     this.el.animate({'bottom': '-100%'}, 300);
 
-    let cb = this.events['undoall'];
+    let cb = this.events[eventString];
     if(cb) cb();
   }
 
@@ -141,8 +141,11 @@ class ChangesManager {
       let tabs = new Tabs(this.body, {
         onundo: id => this._undoOne(id),
         onundoall: () => {
-          this._undoAll(curtainAnimationDuration)
+          this._event('undoall', curtainAnimationDuration);
         },
+        confirm: () => {
+          this._event('confirm', curtainAnimationDuration);
+        }
       });
 
       for(let task of this.tasks) {

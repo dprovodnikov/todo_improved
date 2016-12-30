@@ -1,7 +1,7 @@
 <template>
 
   <div class="tasklist-global" v-click-outside="task-unfocus">
-    <task v-for="task in tasks" :task="task" :event-bus="eventBus"></task>
+    <task @task-remove="removeTask(task)" v-for="task in tasks" :task="task" :event-bus="eventBus"></task>
   </div> 
 
 </template>
@@ -37,10 +37,13 @@
         });
 
       },
+
+      removeTask: function(task) {
+        this.tasks.$remove(task);
+      }
     },
     created: function() {
       this.tasks = this.prioritize(taskList);
-      
     }
   }
 

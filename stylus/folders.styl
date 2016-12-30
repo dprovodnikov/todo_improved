@@ -15,7 +15,7 @@
   &:hover
     .fl-folder-hint
       opacity 1
-      transform translate(0, 0)
+      transform translate(0, -50%)
     &:after
       transform scale(1.1)
   &:after
@@ -30,13 +30,13 @@
 
 .fl-folder-hint
   font normal 1em 'Hind'
-  transform translateY(.22em)
   position absolute
   border-radius 5px
   left 120%
+  top 50%
   white-space nowrap
   transition transform .2s, opacity .1s
-  transform translateX(30%)
+  transform translate(30%, -50%)
   opacity 0
   background #fff
   color: inherit

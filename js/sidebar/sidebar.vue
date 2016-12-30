@@ -107,7 +107,7 @@
             active: false,
             icon: 'fa fa-folder' , 
             panel: {
-              show: true
+              show: false
             },
           },
           {

@@ -29,22 +29,16 @@
   right 15px
   padding 5px
   transition background .1s
-
-
-.cm-header-toggle:hover
-  background #e15757
-
-
-.cm-header-toggle .fa
-  font-size .8em
-  font-weight light
-  transition transform .2s
-  transform translateY(-100%)
-
+  &:hover
+    background #e15757
+  .fa
+    font-size .8em
+    font-weight light
+    transition transform .2s
+    transform translateY(-100%)
 
 .cm-opened .cm-header-toggle .fa
   transform none
-
 
 .cm-body
   width 100%
@@ -52,7 +46,6 @@
   background #fff
   transition .4s all
   overflow hidden
-
 
 .cm-curtain
   height 100%
@@ -82,18 +75,11 @@
   transition all .3s
   position relative
 
-
-.cm-tab-content .cm-task-preview
-  margin 5px 0
-  background #eee
-  border-radius 0
-
-
 .cm-preview-title
   height 100%
   display flex
   align-items center
-  font 500 1em 'Hind'
+  font 500 .9em 'Hind' 
   color #3d3d3d
   padding-left 15px
   white-space nowrap
@@ -107,20 +93,12 @@
     left 'calc(90% - %s)' % @width
     top 0
 
-
-.cm-tab-content .cm-preview-title
-  font 300 1em 'Hind'
-  max-width 90%
-  overflow hidden
-
-
 .cm-undo-wrap
   height 100%
   display flex
   justify-content center
   align-items center
   padding 0 10px
-
 
 .cm-undo-btn
   height 25px
@@ -131,46 +109,51 @@
   align-items center
   justify-content center
   cursor pointer
-
-
-.cm-undo-btn .fa
-  color #ea6868
-  transform translateY(7%)
-  font-size .9em
-
+  transition all .1s
+  &:hover
+    border-width 12px
+    .fa
+      color #fff
+  .fa
+    color #ea6868
+    transform translate(3%, 4%)
+    font-size .9em
 
 .cm-body-top
   padding 15px
   font 300 1em 'Hind'
-
+  flexbox(false, true)
+  justify-content space-between
 
 .cm-body-top p
   display inline-block
   color #3d3d3d
   font inherit
 
-
-.cm-clear-all
+.cm-top-button
   outline none
   border none
-  padding 10px
+  padding 5px
   color $red
-  font 500 1em 'Hind'
+  font 500 .9em 'Hind'
   background #fff
   cursor pointer
-  transition all .3s
+  transition all .1s
   margin 0 7px
   border-radius 3px
+  text-transform uppercase
+  &:first-of-type
+    color lightgreen
+    &:hover
+      background lightgreen
+      color #fff
 
-
-.cm-clear-all:hover
+.cm-top-button:hover
   background #eee
-
 
 .cm-tabs-wrap
   display flex
   align-items center
-
 
 .cm-tab
   padding 10px 15px
@@ -181,22 +164,18 @@
   transition all .3s
   user-select none
 
-
 .cm-tab.cm-tab-active
   color $red
-
 
 .cm-tab.cm-tab-disabled
   color #ccc
   cursor default
-
 
 .cm-tabs-underscore-wrap
   width 100%
   height 1px
   background #ececec
   position relative
-
 
 .cm-tabs-underscore
   height 2px
@@ -218,6 +197,14 @@
   display inline-block
   width 100%
   padding 15px 15px 30px 15px
+  .cm-task-preview
+    margin 5px 0
+    background #eee
+    border-radius 2px
+  .cm-preview-title
+    font 300 16px 'Hind'
+    max-width 90%
+    overflow hidden
   &::-webkit-scrollbar
     transition: all .2s
     width: 5px
@@ -225,4 +212,3 @@
     background #eee
   &::-webkit-scrollbar-thumb
     background #d55d5d
-
