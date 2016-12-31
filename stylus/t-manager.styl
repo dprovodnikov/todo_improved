@@ -35,6 +35,7 @@
   align-items center
   padding 5px 0
   overflow hidden
+  position relative
 
 .tl-task-active
   background $red
@@ -68,10 +69,10 @@
   background #DAE163
   
 .tl-task-high:after
-  background #639DE1
+  background #FF4A25
   
 .tl-task-normal:after
-  background #FF4A25
+  background #639DE1
 
 .tl-task-text 
   font normal 1em 'Hind'
@@ -159,3 +160,71 @@
     transfrom translate(-30%, 0)
   100%
     transform translate(200%, 0)
+
+.tl-task-editor
+  flexbox(false, true)
+  height 100%
+  width 100%
+  position absolute
+  background #fff
+
+.tl-te-priority
+  flexbox(true, true)
+  flex-direction column
+  background #aaa
+  flex-wrap nowrap
+  left 0; top 0
+  width 20%
+  height 100%
+  transition all .1s
+  position relative
+  z-index 1
+  &:hover
+    background #fff
+    .priority-available
+      &:first-of-type
+        opacity 1
+        transform translate(-120%, 50%)
+      &:last-of-type
+        opacity 1
+        transform translate(120%, -50%)
+  .fa
+    transition inherit
+    font-size 20px
+    &:hover
+      color $gray
+  .priority-current
+    color inherit
+    position absolute
+    opacity 1
+  .priority-available
+    opacity 0
+    &:first-of-type
+      transform translateY(50%)
+    &:last-of-type
+      transform translateY(-50%)
+
+.task-priority-0
+  background #DAE163
+  color darken(@background, 30%)
+.task-priority-1
+  background #639DE1
+  color darken(@background, 30%)
+.task-priority-2
+  background #FF4A25
+  color darken(@background, 30%)
+
+[class*=task-priority].priority-available
+  background transparent
+
+.tl-te-text
+  @extend .tl-task-text
+  pointer-events auto
+  height auto
+  outline none
+  border none
+  max-width 60%
+  width 60%
+  margin 0 10px
+  padding 10px 0
+

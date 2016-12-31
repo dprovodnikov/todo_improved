@@ -1,7 +1,11 @@
 <template>
 
   <div class="tasklist-global" v-click-outside="task-unfocus">
-    <task @task-remove="removeTask(task)" v-for="task in tasks" :task="task" :event-bus="eventBus"></task>
+    <task v-for="task in tasks"
+          v-on:task-remove="removeTask(task)"
+          v-bind:task="task"
+          v-bind:event-bus="eventBus">
+    </task>
   </div> 
 
 </template>
