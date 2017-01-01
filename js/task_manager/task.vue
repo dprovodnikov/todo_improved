@@ -1,9 +1,8 @@
 <template>
   <div class="tl-task {{task.priorityClass}}"
-    :class="{'tl-task-updating': updating}"
     v-if="show"
     v-on:click="check()"
-    v-bind:class="{'tl-task-active': checked}">
+    v-bind:class="{'tl-task-active': checked, 'tl-task-updating': updating}">
 
     <div class="tl-task-content" v-if="!updating">
       <div class="tl-task-text">{{task.text}}</div>
@@ -14,7 +13,9 @@
 
     <div class="tl-task-editor" v-if="updating">
     <i class="fa fa-close tl-te-cancel" @click="updating = false"></i>
-      <textarea class="tl-te-text" v-model="task.text"></textarea>
+
+      <textarea class="tl-te-text" v-model="newText" autofocus>{{task.text}}</textarea>
+
       <div class="tl-te-toolbar">
 
         <div class="tl-te-tools-wrap" v-if="toolsets.main">
@@ -46,7 +47,7 @@
           </i>
         </div>
 
-        <button class="tl-te-btn">Save</button>
+        <button class="tl-te-btn" @click="saveChanges()">Save</button>
       </div>
     </div>
 
@@ -63,6 +64,9 @@
         checked: false,
         show: true,
         updating: false,
+        updated: false,
+
+        newText: '',
 
         toolsets: {
           main: true,
@@ -88,14 +92,37 @@
         this.checked = true;
       },
 
-      switchToolset(toolset) {
+      switchToolset: function(toolset) {
         for(let [k, v] of Object.entries(this.toolsets)) {
           if(k == toolset)
             this.toolsets[k] = true;
           else
             this.toolsets[k] = false;
         };
-      }
+      },
+
+      saveChanges: function() {
+        let task = this.task;
+
+        task.old = {
+          text: task.text,
+          priority: task.priority,
+          folder: {
+            color: task.folder.color
+          }
+        };
+
+        task.text = this.newText;
+        this.eventBus.$emit('task-updated', task);
+        this.updating = false;
+        this.updated = true;
+      },
+
+      undoChanges: function() {
+        for(let [k, v] of Object.entries(this.task.old)) {
+          this.task[k] = v;
+        }
+      },
     },
 
     computed: {
@@ -126,15 +153,24 @@
       this.eventBus.$on('changes-undo', task => {
         if(task == this.task && task.status != 'updated')
           this.show = true;
+        else
+          this.undoChanges();
       });
 
       this.eventBus.$on('changes-undo-all', () => {
-        if(!this.show) this.show = true;
+        if(!this.show)
+          this.show = true;
+        if(this.updated)
+          this.undoChanges();
       });
 
       this.eventBus.$on('changes-confirm', () => {
         if(this.affected)
           this.$emit('task-remove', this);
+
+        if(this.updated)
+          this.task.old = {};
+
       });
     }
   }

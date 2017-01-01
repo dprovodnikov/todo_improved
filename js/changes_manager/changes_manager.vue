@@ -36,6 +36,11 @@
       }, 1000);
 
       this.eventBus.$on('toolbar-action', task => {
+        if(task.status != 'updated')
+          this.cm.update(task);
+      });
+
+      this.eventBus.$on('task-updated', task => {
         this.cm.update(task);
       });
     }
