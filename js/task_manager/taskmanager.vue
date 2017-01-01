@@ -25,30 +25,14 @@
     },
     data: function() {
       return {
-        tasks: [],
+        tasks: taskList
       };
     },
     methods: {
-      prioritize: function(taskList) {
-
-        function getPriority(priority) {
-          return priority == 0 ? 'tl-task-low' : (priority == 1 ? 'tl-task-normal' : 'tl-task-high');
-        }
-
-        return taskList.map(e => {
-          e.priorityClass = getPriority(e.priority);
-          return e;
-        });
-
-      },
-
       removeTask: function(task) {
         this.tasks.$remove(task);
       }
     },
-    created: function() {
-      this.tasks = this.prioritize(taskList);
-    }
   }
 
 </script>

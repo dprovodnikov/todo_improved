@@ -75,11 +75,11 @@
 .tl-task-low:after
   background #DAE163
   
-.tl-task-high:after
-  background #FF4A25
-  
 .tl-task-normal:after
   background #639DE1
+
+.tl-task-high:after
+  background #FF4A25
 
 .tl-task-text 
   font normal 1em 'Hind'
@@ -221,7 +221,7 @@
   &:first-of-type
     color darken($gray, 20%)
   &:hover
-    color #3d3d3d !important
+    opacity .8
     .tl-te-tool-hint
       opacity 1
       transform translateY(0)
@@ -254,12 +254,12 @@
   &:hover
     background darken($red, 10%)
 
-.tl-priority-1
+.tl-priority-0
   color #DAE163 !important
-.tl-priority-2 
-  color #FF4A25 !important
-.tl-priority-3
+.tl-priority-1 
   color #639DE1 !important
+.tl-priority-2
+  color #FF4A25 !important
 
 .tl-te-back
   color #aaa

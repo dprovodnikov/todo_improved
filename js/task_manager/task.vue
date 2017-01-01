@@ -1,5 +1,5 @@
 <template>
-  <div class="tl-task {{task.priorityClass}}"
+  <div class="tl-task {{getPriority(task.priority)}}"
     v-if="show"
     v-on:click="check()"
     v-bind:class="{'tl-task-active': checked, 'tl-task-updating': updating}">
@@ -22,7 +22,7 @@
           <i class="fa fa-calendar tl-te-tool">
             <span class="tl-te-tool-hint">Deadline</span>
           </i>
-          <i class="fa fa-flag tl-te-tool tl-priority-{{task.priority}}" @click="switchToolset('priorities')">
+          <i class="fa fa-flag tl-te-tool tl-priority-{{newPriority}}" @click="switchToolset('priorities')">
             <span class="tl-te-tool-hint">Priority</span>
           </i>
           <i class="fa fa-folder tl-te-tool" @click="switchToolset('folders')" style="color: {{task.folder.color}}">
@@ -33,9 +33,9 @@
         <div v-if="toolsets.priorities">
           <i class="fa fa-long-arrow-left tl-te-back" @click="switchToolset('main')"></i>
 
-          <i class="fa fa-flag tl-te-tool tl-priority-1"></i>
-          <i class="fa fa-flag tl-te-tool tl-priority-2"></i>
-          <i class="fa fa-flag tl-te-tool tl-priority-3"></i>
+          <i class="fa fa-flag tl-te-tool tl-priority-0" @click="setPriority(0)"></i>
+          <i class="fa fa-flag tl-te-tool tl-priority-1" @click="setPriority(1)"></i>
+          <i class="fa fa-flag tl-te-tool tl-priority-2" @click="setPriority(2)"></i>
         </div>
 
         <div v-if="toolsets.folders">
@@ -67,6 +67,7 @@
         updated: false,
 
         newText: '',
+        newPriority: this.task.priority,
 
         toolsets: {
           main: true,
@@ -113,6 +114,7 @@
         };
 
         task.text = this.newText;
+        task.priority = this.newPriority;
         this.eventBus.$emit('task-updated', task);
         this.updating = false;
         this.updated = true;
@@ -122,19 +124,33 @@
         for(let [k, v] of Object.entries(this.task.old)) {
           this.task[k] = v;
         }
+
+        this.task.status = '';
       },
+
+      setPriority: function(priority) {
+        this.newPriority = priority;
+
+        this.switchToolset('main');
+      },
+
+      getPriority: function(priority) {
+        return priority == 0 ? 'tl-task-low' : (priority == 1 ? 'tl-task-normal' : 'tl-task-high');
+      },
+
     },
 
     computed: {
       priority: function() {
         let p = this.task.priority;
         return p === 0 ? [1, 2] : (p === 1 ? [0, 2] : [0, 1]);
-      }
+      },
     },
 
     created: function() {
       this.eventBus.$on('task-selected', () => {
         this.checked = false;
+        this.updating = false;
       });
 
       this.eventBus.$on('task-unfocus', () => {
@@ -153,7 +169,7 @@
       this.eventBus.$on('changes-undo', task => {
         if(task == this.task && task.status != 'updated')
           this.show = true;
-        else
+        else if(task == this.task)
           this.undoChanges();
       });
 
@@ -168,8 +184,13 @@
         if(this.affected)
           this.$emit('task-remove', this);
 
-        if(this.updated)
+        if(this.updated) {
           this.task.old = {};
+          this.newPriority = this.task.priority;
+
+          this.updated = false;
+          this.task.status = '';
+        }
 
       });
     }
