@@ -22,20 +22,27 @@
       background #ccc
 
 .tl-task 
-  max-height 100px
   width 100%
   background #fff
   margin 10px 0
   position relative
   cursor pointer
   transition all .3s ease-out
-  display none
-  opacity 1
-  display flex
+  flexbox(true , false)
+  flex-direction column
   align-items center
   padding 5px 0
-  overflow hidden
   position relative
+  &.tl-task-updating
+    border 1px dashed $gray
+    &:after
+      display none
+
+.tl-task-content
+  position relative
+  flexbox(false, true)
+  width 100%
+  height 100%
 
 .tl-task-active
   background $red
@@ -161,70 +168,103 @@
   100%
     transform translate(200%, 0)
 
+
+/*********************************************
+* TASK EDITOR
+*********************************************/
+
 .tl-task-editor
   flexbox(false, true)
-  height 100%
   width 100%
-  position absolute
   background #fff
-
-.tl-te-priority
-  flexbox(true, true)
-  flex-direction column
-  background #aaa
-  flex-wrap nowrap
-  left 0; top 0
-  width 20%
-  height 100%
-  transition all .1s
   position relative
-  z-index 1
+
+.tl-te-cancel
+  color $red
+  opacity .5
+  position absolute
+  top 0
+  right 5px
+  font-size .8em
+  transition all .1s
+  cursor pointer
   &:hover
-    background #fff
-    .priority-available
-      &:first-of-type
-        opacity 1
-        transform translate(-120%, 50%)
-      &:last-of-type
-        opacity 1
-        transform translate(120%, -50%)
-  .fa
-    transition inherit
-    font-size 20px
-    &:hover
-      color $gray
-  .priority-current
-    color inherit
-    position absolute
     opacity 1
-  .priority-available
-    opacity 0
-    &:first-of-type
-      transform translateY(50%)
-    &:last-of-type
-      transform translateY(-50%)
-
-.task-priority-0
-  background #DAE163
-  color darken(@background, 30%)
-.task-priority-1
-  background #639DE1
-  color darken(@background, 30%)
-.task-priority-2
-  background #FF4A25
-  color darken(@background, 30%)
-
-[class*=task-priority].priority-available
-  background transparent
 
 .tl-te-text
-  @extend .tl-task-text
-  pointer-events auto
-  height auto
+  resize none
   outline none
   border none
-  max-width 60%
-  width 60%
+  border-bottom 2px solid lighten($gray, 50%)
+  padding 10px
+  width 100%
   margin 0 10px
-  padding 10px 0
+  font normal 1em 'Hind'
+  color #3d3d3d
 
+.tl-te-toolbar
+  flexbox(false, true)
+  width 100%
+  position relative
+  padding 0 10px
+  margin 9px 0
+  justify-content space-between
+
+.tl-te-tools-wrap
+  flexbox(true, true)
+
+.tl-te-tool
+  color $gray
+  margin 0 5px
+  transition all .1s
+  position relative
+  &:first-of-type
+    color darken($gray, 20%)
+  &:hover
+    color #3d3d3d !important
+    .tl-te-tool-hint
+      opacity 1
+      transform translateY(0)
+
+.tl-te-tool-hint
+  color #fff
+  background #3d3d3d
+  position absolute
+  top -200%
+  left 0
+  padding 0 7px
+  border-radius 3px
+  font 500 .9em 'Hind'
+  transform translateY(-5%)
+  transition all .1s ease-in
+  pointer-events none
+  opacity 0
+
+.tl-te-btn
+  outline none
+  border none
+  padding 5px 13px
+  border-radius 5px
+  font 500 .9em 'Hind'
+  text-transform uppercase
+  color #fff
+  background $red
+  margin-left 10px
+  transition all .1s
+  &:hover
+    background darken($red, 10%)
+
+.tl-priority-1
+  color #DAE163 !important
+.tl-priority-2 
+  color #FF4A25 !important
+.tl-priority-3
+  color #639DE1 !important
+
+.tl-te-back
+  color #aaa
+  transition all .1s
+  cursor pointer
+  margin-right 15px
+  &:hover
+    color #3d3d3d
