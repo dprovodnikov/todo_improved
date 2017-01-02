@@ -27,7 +27,7 @@
   margin 10px 0
   position relative
   cursor pointer
-  transition all .3s ease-out
+  transition all 50ms
   flexbox(true , false)
   flex-direction column
   align-items center
@@ -226,6 +226,12 @@
       opacity 1
       transform translateY(0)
 
+.tl-te-date
+  color darken($gray, 20%)
+  font 500 .7em 'Cabin'
+  transform translateY(15%)
+  margin-right 10px
+
 .tl-te-tool-hint
   color #fff
   background #3d3d3d
@@ -268,3 +274,4 @@
   margin-right 15px
   &:hover
     color #3d3d3d
+

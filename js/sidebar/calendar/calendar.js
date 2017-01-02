@@ -311,7 +311,8 @@ export default function(params) {
         month: currentMonthNumber + 1,
         year: currentYear,
         monthName: currentCalendar[currentMonthNumber].name,
-        weekday: weekday(currentDay)
+        weekday: weekday(currentDay),
+        instance: new Date(currentYear, currentMonthNumber + 1, currentDay)
       });
 
       function weekday(day) {

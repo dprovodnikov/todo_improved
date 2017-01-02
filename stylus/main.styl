@@ -61,18 +61,19 @@ html, body
   list-style none
   width 100%
   height 70px
-  transition all .1s 
+  transition all .1s
   cursor pointer
+  border-right 0px solid #fff
   &:hover
     background darken($red, 20%)
+  &.sidebar-item-active
+    background darken($red, 20%)
+    border-right-width 3px
   .fa
     flex 2
     flexbox(true, true)
     color #fff 
     font-size 1.3em
-.sidebar-item-active
-  background darken($red, 20%)
-  border-right 5px solid  #fff !important
 
 /**********************************
 * APP BODY

@@ -10,11 +10,9 @@
 
 </template>
 
-
 <script>
   
   export default {
-
     filters: {
       'zero': function (value) {
         return value.length > 1 ? value : `0${value}`;
@@ -31,6 +29,7 @@
                      Friday Saturday`.split(/\s+/)
       };
     },
+    
     computed: {
       currentDate: function() {
         return this.date.getDate();

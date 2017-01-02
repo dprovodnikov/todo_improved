@@ -19,8 +19,9 @@
       <div class="tl-te-toolbar">
 
         <div class="tl-te-tools-wrap" v-if="toolsets.main">
-          <i class="fa fa-calendar tl-te-tool">
+          <i class="fa fa-calendar tl-te-tool" @click="setDeadline()">
             <span class="tl-te-tool-hint">Deadline</span>
+            <span class="tl-te-date">{{newDate | date 'dd-mm-yy'}}</span>
           </i>
           <i class="fa fa-flag tl-te-tool tl-priority-{{newPriority}}" @click="switchToolset('priorities')">
             <span class="tl-te-tool-hint">Priority</span>
@@ -56,7 +57,16 @@
 </template>
 
 <script>
+  import format from '../utils/date-converter.js';
+
   export default {
+
+    filters: {
+      date: function(value, pattern) {
+        return format(pattern, new Date(value.toString()));
+      }
+    },
+
     props: ['eventBus', 'task'],
 
     data: function() {
@@ -70,6 +80,7 @@
         newText: '',
         newPriority: this.task.priority,
         newFolder: this.task.folder,
+        newDate: this.task.date,
 
         toolsets: {
           main: true,
@@ -82,7 +93,7 @@
          { hint: 'Friends', color: 'lightblue' },
          { hint: 'Family', color: 'orange' },
          { hint: 'Job', color: 'grey' },
-         { hint: 'Hobbies of harry', color: '#3d3d3d' },
+         { hint: 'Hobbies', color: '#3d3d3d' },
         ],
 
       };
@@ -96,9 +107,8 @@
       },
 
       switchToolset: function(toolset) {
-        for(let [k, v] of Object.entries(this.toolsets)) {
+        for(let [k, v] of Object.entries(this.toolsets))
           this.toolsets[k] = (k == toolset)
-        }
       },
 
       saveChanges: function() {
@@ -107,26 +117,27 @@
         task.old = {
           text: task.text,
           priority: task.priority,
-          folder: task.folder
+          folder: task.folder,
+          date: task.date,
         };
 
         task.text = this.newText;
         task.priority = this.newPriority;
         task.folder = this.newFolder;
+        task.date = this.newDate;
         this.eventBus.$emit('task-updated', task);
         this.updating = false;
         this.updated = true;
       },
 
       undoChanges: function() {
-        for(let [k, v] of Object.entries(this.task.old)) {
+        for(let [k, v] of Object.entries(this.task.old))
           this.task[k] = v;
-        }
 
         this.task.old = {};
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
-        
+        this.newDate = this.task.date;
         this.task.status = '';
       },
 
@@ -134,21 +145,26 @@
         this.task.old = {};
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
-
+        this.newDate = this.task.date;
         this.updated = false;
         this.task.status = '';
       },
 
       setPriority: function(priority) {
         this.newPriority = priority;
-
         this.switchToolset('main');
       },
 
       setFolder: function(folder) {
         this.newFolder = folder;
-
         this.switchToolset('main');
+      },
+
+      setDeadline: function() {
+        this.eventBus.$emit('open-calendar', {
+          date: this.task.date, 
+          onpick: (date) => this.newDate = date.instance
+        });
       },
 
       getPriority: function(priority) {
@@ -179,9 +195,8 @@
         if(task == this.task && task.status != 'updated') {
           this.affected = true;
           this.show = false;
-        } else if (task == this.task) {
+        } else if (task == this.task)
           this.updating = true;
-        }
       });
 
       this.eventBus.$on('changes-undo', task => {

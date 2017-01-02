@@ -16,7 +16,7 @@
     </div>
 
     <div class="side-panel" v-if="buttons[2].panel.show">
-      <calendar :event-bus="eventBus"></calendar>
+      <calendar @close="closePanel()" :init-args="initArgs" :event-bus="eventBus"></calendar>
     </div>
 
     <div class="side-panel" v-if="buttons[3].panel.show">
@@ -46,13 +46,17 @@
       'charts': charts,
       'folders': folders,
     },
+
     directives: {
       'click-outside': clickOutsideDirective,
     },
+
     props: ['eventBus'],
+
     data: function() {
       return {
         activeButton: null,
+        initArgs: {},
         buttons: [
           {
             id: 'search',  
@@ -138,12 +142,20 @@
         if(this.activeButton) {
           this.activeButton.active = false;
           this.activeButton.panel.show = false;
+
+          this.initArgs = {};
         }
       },
     },
     created: function() {
       this.eventBus.$on('sidebar-focus-lost', () => {
         this.closePanel();
+      });
+
+      this.eventBus.$on('open-calendar', args => {
+        this.openPanel('calendar');
+
+        this.initArgs = args;
       });
     }
   }

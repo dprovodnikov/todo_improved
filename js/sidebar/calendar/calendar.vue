@@ -41,15 +41,19 @@
 
 
   export default {
-    props: ['eventBus'],
+    props: ['eventBus', 'initArgs'],
     data: function() {
       return {
         calendar: null
       };
     },
+
     methods: {
-      pickDay: function(date) {}
+      pick: function(date) {
+        console.log('default pick function');
+      }
     },
+
     created: function() {
       setTimeout(() => {
 
@@ -60,10 +64,19 @@
           yearFirst: currentYear - 3,
           yearLast: currentYear + 3,
           yearPrimary: currentYear,
-          onclick: this.pickDay
+          onclick: date => {
+
+            if(this.initArgs.onpick)
+              this.initArgs.onpick(date);
+            else
+              this.pick(date);
+
+            this.$emit('close');
+          }
         });
 
-      }, 0);
+
+      }, 1);
     },
   }
   
