@@ -25,7 +25,7 @@
           <i class="fa fa-flag tl-te-tool tl-priority-{{newPriority}}" @click="switchToolset('priorities')">
             <span class="tl-te-tool-hint">Priority</span>
           </i>
-          <i class="fa fa-folder tl-te-tool" @click="switchToolset('folders')" style="color: {{task.folder.color}}">
+          <i class="fa fa-folder tl-te-tool" @click="switchToolset('folders')" style="color: {{newFolder.color}}">
             <span class="tl-te-tool-hint">Folder</span>
           </i>
         </div>
@@ -43,7 +43,8 @@
 
           <i v-for="folder in folders"
              class="fa fa-folder tl-te-tool" 
-             style="color: {{folder.color}}">
+             style="color: {{folder.color}}"
+             @click="setFolder(folder)">
           </i>
         </div>
 
@@ -68,6 +69,7 @@
 
         newText: '',
         newPriority: this.task.priority,
+        newFolder: this.task.folder,
 
         toolsets: {
           main: true,
@@ -95,11 +97,8 @@
 
       switchToolset: function(toolset) {
         for(let [k, v] of Object.entries(this.toolsets)) {
-          if(k == toolset)
-            this.toolsets[k] = true;
-          else
-            this.toolsets[k] = false;
-        };
+          this.toolsets[k] = (k == toolset)
+        }
       },
 
       saveChanges: function() {
@@ -108,13 +107,12 @@
         task.old = {
           text: task.text,
           priority: task.priority,
-          folder: {
-            color: task.folder.color
-          }
+          folder: task.folder
         };
 
         task.text = this.newText;
         task.priority = this.newPriority;
+        task.folder = this.newFolder;
         this.eventBus.$emit('task-updated', task);
         this.updating = false;
         this.updated = true;
@@ -125,11 +123,30 @@
           this.task[k] = v;
         }
 
+        this.task.old = {};
+        this.newPriority = this.task.priority;
+        this.newFolder = this.task.folder;
+        
+        this.task.status = '';
+      },
+
+      confirmChanges: function() {
+        this.task.old = {};
+        this.newPriority = this.task.priority;
+        this.newFolder = this.task.folder;
+
+        this.updated = false;
         this.task.status = '';
       },
 
       setPriority: function(priority) {
         this.newPriority = priority;
+
+        this.switchToolset('main');
+      },
+
+      setFolder: function(folder) {
+        this.newFolder = folder;
 
         this.switchToolset('main');
       },
@@ -151,6 +168,7 @@
       this.eventBus.$on('task-selected', () => {
         this.checked = false;
         this.updating = false;
+        this.switchToolset('main');
       });
 
       this.eventBus.$on('task-unfocus', () => {
@@ -184,14 +202,8 @@
         if(this.affected)
           this.$emit('task-remove', this);
 
-        if(this.updated) {
-          this.task.old = {};
-          this.newPriority = this.task.priority;
-
-          this.updated = false;
-          this.task.status = '';
-        }
-
+        if(this.updated)
+          this.confirmChanges();
       });
     }
   }
