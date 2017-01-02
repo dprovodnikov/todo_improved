@@ -1,7 +1,7 @@
 <template>
   
   <div class="g-current-date-wrap">
-    <div class="g-current-day">{{currentDate}}</div>
+    <div class="g-current-day">{{currentDate | zero}}</div>
     <div class="g-month-wrap">
       <div class="g-current-month">{{currentMonth}}</div>
       <div class="g-current-weekday">{{currentDay}}</div>
@@ -14,6 +14,13 @@
 <script>
   
   export default {
+
+    filters: {
+      'zero': function (value) {
+        return value.length > 1 ? value : `0${value}`;
+      }
+    },
+
     data: function() {
       return {
         date: new Date(),
