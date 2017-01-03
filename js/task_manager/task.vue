@@ -216,8 +216,10 @@
       });
 
       this.eventBus.$on('changes-undo-all', () => {
-        if(!this.show)
+        if(!this.show) {
           this.show = true;
+          this.affected = false;
+        }
         if(this.updated)
           this.undoChanges();
       });

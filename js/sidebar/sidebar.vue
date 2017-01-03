@@ -162,7 +162,6 @@
   }
 </script>
 
-
 <style lang="stylus">
   
   .slide-transition
