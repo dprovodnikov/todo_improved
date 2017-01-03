@@ -54,7 +54,6 @@
 
     created: function() {
       setTimeout(() => {
-
         let currentYear = new Date().getFullYear();
 
         new Calendar({

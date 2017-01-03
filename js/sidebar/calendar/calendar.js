@@ -14,19 +14,10 @@ export default function(params) {
   currentCalendar, currentMonthNumber, currentYear,
   currentDay = curDate.getDate(),
   yearSlider = initYearSlider(yearFirst, yearLast, yearPrimary),
-  monthSlider = initMonthSlider(params.month);
+  monthSlider = initMonthSlider( (params.datePrimary) ? params.datePrimary.getMonth() : params.month);
 
   this.increaseDay = increaseDay;
   this.decreaseDay = decreaseDay;
-
-  if(params.datePrimary) {
-    let date = params.datePrimary;
-
-    monthSlider.switchMonth(date.getMonth(), {
-      cellToActivate: date.getDate(),
-      activeCellClass: 'cell-active'
-    });
-  }
 
   /*****************************************************************************************
   * The function generates information about the year, which was given in params.
@@ -171,31 +162,30 @@ export default function(params) {
     * there is a need to have coordinate representation of points, where
     * the circle has to be fixed
     *************************************************/
-    let anchors = [],
-    monthsEl = monthsContainer.find('div');
 
-    for(let month of monthsEl)
-      anchors.push( $(month).position().left );
-
-    function switchMonth(number, options) {
-      monthsEl.removeClass(currentMonthClass);
-      monthsEl.eq(number).addClass(currentMonthClass);
-      sliderCircle.css('left', anchors[number]);
-      monthTitleEl.text(currentCalendar[number].name);
-      currentMonth = currentMonthNumber = number;
-      renderCells(currentMonth, options);
-    }
+    let monthsEl = monthsContainer.find('div');
 
     /* Mark clicked month as active */
     monthsEl.click(function() {
       switchMonth($(this).text()-1);
     });
 
-    switchMonth(currentMonth || curDate.getMonth());
+    function switchMonth(number, options = {}) {
+      monthsEl.removeClass(currentMonthClass);
+      monthsEl.eq(number).addClass(currentMonthClass);
 
-    return {
-      switchMonth: switchMonth,
-    };
+      setTimeout(() => {
+        sliderCircle.css('left', monthsEl.eq(number).position().left);
+      }, options.init ? 300 : 0);
+
+      monthTitleEl.text(currentCalendar[number].name);
+      currentMonth = currentMonthNumber = number;
+      renderCells(currentMonth, options);
+    }
+
+    switchMonth(currentMonth || curDate.getMonth(), { init: true });
+
+    return { switchMonth: switchMonth };
   }
 
   function renderCells(month, options) {
@@ -249,7 +239,13 @@ export default function(params) {
     /*****************************************************************************************
     * Find today`s cell
     *****************************************************************************************/
-    if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
+    // if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
+    //   $(`#cell-${curDate.getDate()}`).addClass('cell-today');
+    // }
+    let dp = params.datePrimary;
+    if(dp && currentMonthNumber == dp.getMonth() && currentYear == dp.getFullYear()) {
+      $(`#cell-${dp.getDate()}`).addClass('cell-active');
+    } else if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
       $(`#cell-${curDate.getDate()}`).addClass('cell-today');
     }
 
