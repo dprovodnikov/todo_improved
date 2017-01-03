@@ -7,6 +7,7 @@ import toolbar from './task_manager/toolbar.vue';
 import changesManager from './changes_manager/changes_manager.vue';
 import sidebar from './sidebar/sidebar.vue';
 import currentDate from './current-date/current-date.vue';
+import notificationPopup from './notification/popup.vue';
 
 // root vue component
 const app = new Vue({
@@ -19,6 +20,7 @@ const app = new Vue({
     'toolbar': toolbar,
     'changes-manager': changesManager,
     'sidebar': sidebar,
-    'current-date': currentDate
+    'current-date': currentDate,
+    'notification-popup': notificationPopup
   },
 });

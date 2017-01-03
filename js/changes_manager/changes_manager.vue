@@ -15,12 +15,14 @@
         this.eventBus.$emit('changes-undo', task);
       },
 
-      undoAll: function() {
+      undoAll: function(count) {
         this.eventBus.$emit('changes-undo-all');
+        this.eventBus.$emit('notify', `${count} changes were undone`);
       },
 
-      confirm: function() {
+      confirm: function(count) {
         this.eventBus.$emit('changes-confirm');
+        this.eventBus.$emit('notify', `${count} changes were confirmed`);
       }
     },
 

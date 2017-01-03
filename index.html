@@ -12,6 +12,7 @@
     <sidebar :event-bus="eventBus"></sidebar>
 
     <section class="app-content">
+      
 
       <changes-manager :event-bus="eventBus"></changes-manager>
 
@@ -30,6 +31,9 @@
         </div>
 
       </div>
+
+      <notification-popup transition="popup" :duration="2000" :event-bus="eventBus"></notification-popup>
+
     </section>
   </div>
 

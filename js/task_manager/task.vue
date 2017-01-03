@@ -192,6 +192,7 @@
 
     created: function() {
       this.eventBus.$on('task-selected', () => {
+        this.close(); // helps to avoid simultaneous updating of different tasks
         this.checked = false;
       });
 
