@@ -130,11 +130,13 @@
   display flex
   justify-content center
   align-items center
-  transition all .3s
-  animation-name appear
-  animation-duration .8s
-  animation-timing-function ease-out
-  animation-fill-mode forwards
+  transform translateX(0)
+  position relative
+  left 0
+  &:nth-of-type(2)
+    transition-delay 25ms
+  &:last-of-type
+    transition-delay 50ms
 
 .tb-tool-hidden 
   display none 
@@ -152,23 +154,6 @@
 .tb-tool .fa 
   color #fff
   font-size 1.2em
-
-@keyframes appear 
-  0% 
-    transform translate(200%, 0)
-  40% 
-    transform translate(-30%, 0)
-  100% 
-    transform translate(0, 0)
-
-@keyframes disappear
-  0%
-    transform translate(0, 0)
-  40%
-    transfrom translate(-30%, 0)
-  100%
-    transform translate(200%, 0)
-
 
 /*********************************************
 * TASK EDITOR

@@ -70,7 +70,7 @@
             else
               this.pick(date);
 
-            setTimeout(() => this.$emit('close'), 400);
+            this.$emit('close');
             
           }
         });

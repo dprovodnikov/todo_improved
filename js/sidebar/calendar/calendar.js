@@ -88,10 +88,10 @@ export default function(params) {
     * where the primary item will be centered
     ************************************/
     setTimeout(function() {
-      yearsTape.css({
+      yearsTape.animate({
         left: -(primaryYearEl.position().left - tapeWrap.width() / 2 +  primaryYearEl.outerWidth(true) / 2)
-      });
-    }, parseFloat($(params.container).css('transition-duration')) * 1000);
+      }, 50);
+    }, 400);
 
     /************************************
     * Generate calendar according to the current year

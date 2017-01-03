@@ -1,13 +1,13 @@
 <template>
   
   <div class="toolbar">
-    <div @click="complete()" class="tb-tool tb-tool-complete {{ show ? '' : 'tb-tool-hidden' }}">
+    <div v-show="show" @click="complete()" transition="toolbar" class="tb-tool tb-tool-complete">
       <i class="fa fa-check"></i>
     </div>
-    <div @click="update()" class="tb-tool tb-tool-update {{ show ? '' : 'tb-tool-hidden' }}">
+    <div v-show="show" @click="update()" transition="toolbar" class="tb-tool tb-tool-update">
       <i class="fa fa-pencil"></i>
     </div>
-    <div @click="delete()" class="tb-tool tb-tool-delete {{ show ? '' : 'tb-tool-hidden' }}">
+    <div v-show="show" @click="delete()" transition="toolbar" class="tb-tool tb-tool-delete">
       <i class="fa fa-trash"></i>
     </div>
   </div>
@@ -53,3 +53,15 @@
   };
 
 </script>
+
+<style lang="stylus">
+  .toolbar-transition
+    transition all .5s cubic-bezier(.87,-.41,.19,1.44)
+  
+  .toolbar-enter,
+  .toolbar-leave
+    left 200px
+    
+</style> 
+
+

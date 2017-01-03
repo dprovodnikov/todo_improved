@@ -1,6 +1,7 @@
 <template>
   
   <nav class="app-sidebar" v-click-outside="sidebar-focus-lost">
+
     <ul class="main-nav">
       <li v-for="button in buttons"
           v-bind:class="{'sidebar-item-active': button.active}"
@@ -11,19 +12,19 @@
       </li>
     </ul>
 
-    <div class="side-panel" v-if="buttons[1].panel.show">
+    <div transition="slide" class="side-panel" v-if="buttons[1].panel.show">
       <usercard :event-bus="eventBus"></usercard>
     </div>
 
-    <div class="side-panel" v-if="buttons[2].panel.show">
+    <div transition="slide" class="side-panel" v-if="buttons[2].panel.show">
       <calendar @close="closePanel()" :init-args="initArgs" :event-bus="eventBus"></calendar>
     </div>
 
-    <div class="side-panel" v-if="buttons[3].panel.show">
+    <div transition="slide" class="side-panel" v-if="buttons[3].panel.show">
       <charts :event-bus="eventBus"></charts>
     </div>
 
-    <div class="side-panel transparent" v-if="buttons[6].panel.show">
+    <div transition="slide" class="side-panel transparent" v-if="buttons[6].panel.show">
       <folders :event-bus="eventBus"></folders>
     </div>
 
@@ -160,4 +161,18 @@
     }
   }
 </script>
+
+
+<style lang="stylus">
+  
+  .slide-transition
+    transition transform .3s, opacity .1s .1s
+  .slide-enter,
+  .slide-leave
+    transform rotateY(90deg)
+    opacity 0
+
+</style>
+
+
 

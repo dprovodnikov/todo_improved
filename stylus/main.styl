@@ -49,6 +49,8 @@ html, body
   width 70px
   background $red
   position relative
+  z-index 2
+  perspective 100px
 
 .main-nav
   reset()
@@ -88,11 +90,10 @@ html, body
   position absolute
   top 0
   left 70px
-  transition  all .2s
   overflow hidden
-  z-index 2
   box-shadow: 11px 0px 16px -12px #000;
-  
+  transform-origin center left
+
 
 /**********************************
 * APP CONTENT

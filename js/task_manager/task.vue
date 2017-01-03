@@ -1,5 +1,5 @@
 <template>
-  <div class="tl-task {{getPriority(task.priority)}}"
+  <div transition="task" class="tl-task {{getPriority(task.priority)}}"
     v-if="show"
     v-on:click="check()"
     v-bind:class="{'tl-task-active': checked, 'tl-task-updating': updating}">
@@ -232,3 +232,15 @@
     }
   }
 </script>
+
+<style lang="stylus">
+  
+  .task-transition
+    transition all .3s cubic-bezier(.87,-.41,.19,1.44)
+  
+  .task-enter,
+  .task-leave
+    opacity 0
+    transform scale(.7)
+
+</style>
