@@ -43,9 +43,7 @@
   export default {
     props: ['eventBus', 'initArgs'],
     data: function() {
-      return {
-        calendar: null
-      };
+      return {};
     },
 
     methods: {
@@ -59,11 +57,12 @@
 
         let currentYear = new Date().getFullYear();
 
-        this.calendar = new Calendar({
+        new Calendar({
           container: '.' + this.$el.parentNode.className,
           yearFirst: currentYear - 3,
           yearLast: currentYear + 3,
           yearPrimary: currentYear,
+          datePrimary: this.initArgs.date || null,
           onclick: date => {
 
             if(this.initArgs.onpick)

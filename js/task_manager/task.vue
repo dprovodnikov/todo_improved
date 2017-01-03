@@ -12,7 +12,7 @@
     </div>
 
     <div class="tl-task-editor" v-if="updating">
-    <i class="fa fa-close tl-te-cancel" @click="updating = false"></i>
+    <i class="fa fa-close tl-te-cancel" @click="close()"></i>
 
       <textarea class="tl-te-text" v-model="newText" autofocus>{{task.text}}</textarea>
 
@@ -162,7 +162,7 @@
 
       setDeadline: function() {
         this.eventBus.$emit('open-calendar', {
-          date: this.task.date, 
+          date: this.newDate, 
           onpick: (date) => this.newDate = date.instance
         });
       },
@@ -170,6 +170,16 @@
       getPriority: function(priority) {
         return priority == 0 ? 'tl-task-low' : (priority == 1 ? 'tl-task-normal' : 'tl-task-high');
       },
+
+      close: function() {
+        this.updating = false;
+        this.task.old = {};
+        this.newPriority = this.task.priority;
+        this.newFolder = this.task.folder;
+        this.newDate = this.task.date;
+
+        this.switchToolset('main');
+      }
 
     },
 
@@ -183,8 +193,6 @@
     created: function() {
       this.eventBus.$on('task-selected', () => {
         this.checked = false;
-        this.updating = false;
-        this.switchToolset('main');
       });
 
       this.eventBus.$on('task-unfocus', () => {

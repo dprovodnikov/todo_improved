@@ -19,6 +19,14 @@ export default function(params) {
   this.increaseDay = increaseDay;
   this.decreaseDay = decreaseDay;
 
+  if(params.datePrimary) {
+    let date = params.datePrimary;
+
+    monthSlider.switchMonth(date.getMonth(), {
+      cellToActivate: date.getDate(),
+      activeCellClass: 'cell-active'
+    });
+  }
 
   /*****************************************************************************************
   * The function generates information about the year, which was given in params.
@@ -259,17 +267,15 @@ export default function(params) {
       switchDay( $(this).text(), {el: $(this)});
     });
 
-    function switchDay(day, options) {
+    function switchDay(day, options, doNothing) {
       currentDay = day;
 
       let el;
 
-      if(options && options.el) {
+      if(options && options.el)
         el = options.el;
-      }
-      else {
+      else
         el = $(`#cell-${day}`);
-      }
 
       if( el.hasClass('cell-prev') ) {
         if(currentMonthNumber == 0){
@@ -283,7 +289,8 @@ export default function(params) {
           activeCellClass: activeCellClass
         });
 
-        return doCallback();
+        if(!doNothing)
+          return doCallback();
       }
 
       if( el.hasClass('cell-next') ) {
@@ -296,13 +303,15 @@ export default function(params) {
           cellToActivate: day,
           activeCellClass: activeCellClass,
         });
-        return doCallback();
+
+        if(!doNothing)
+          return doCallback();
       }
 
       $('.cell').removeClass(activeCellClass);
       el.addClass(activeCellClass);
 
-      doCallback();
+      if(!doNothing) doCallback();
     } // switchDay
 
     function doCallback() {
@@ -312,7 +321,7 @@ export default function(params) {
         year: currentYear,
         monthName: currentCalendar[currentMonthNumber].name,
         weekday: weekday(currentDay),
-        instance: new Date(currentYear, currentMonthNumber + 1, currentDay)
+        instance: new Date(currentYear, currentMonthNumber, currentDay)
       });
 
       function weekday(day) {
@@ -354,5 +363,4 @@ export default function(params) {
   } //init events
 
   return $('.calendar-wrap');
-
 };

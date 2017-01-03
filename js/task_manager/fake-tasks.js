@@ -1,12 +1,10 @@
-import format from '../utils/date-converter.js';
-
 export default [
   {
     text: 'Sometimes the same is different',
     priority: 0,
     folder: 'folder',
     id: 'task-1',
-    date: format('dd-mm-yy', new Date()),
+    date: new Date(),
     folder: {color: '#5ED2D3'}
   },
   {
@@ -14,7 +12,7 @@ export default [
     priority: 1,
     folder: 'folder',
     id: 'task-2',
-    date: format('dd-mm-yy', new Date()),
+    date: new Date(),
     folder: {color: '#D75555'}
   },
   {
@@ -22,7 +20,7 @@ export default [
     priority: 2,
     folder: 'folder',
     id: 'task-3',
-    date: format('dd-mm-yy', new Date()),
+    date: new Date('2017-05-11'),
     folder: {color: '#597DA3'}
 
   },
@@ -31,7 +29,7 @@ export default [
     priority: 1,
     folder: 'folder',
     id: 'task-4',
-    date: format('dd-mm-yy', new Date()),
+    date: new Date(),
     folder: {color: '#5EB571'}
   },
   {
@@ -39,7 +37,7 @@ export default [
     priority: 0,
     folder: 'folder',
     id: 'task-5',
-    date: format('dd-mm-yy', new Date()),
+    date: new Date(),
     folder: {color: '#CC5FC3'}
   },
 ];
