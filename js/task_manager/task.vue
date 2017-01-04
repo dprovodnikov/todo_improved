@@ -238,7 +238,7 @@
 <style lang="stylus">
   
   .task-transition
-    transition all .3s cubic-bezier(.87,-.41,.19,1.44)
+    transition all .3s cubic-bezier(.87,-.41,.19,1.44), background 50ms
   
   .task-enter,
   .task-leave

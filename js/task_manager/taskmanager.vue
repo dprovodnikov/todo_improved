@@ -1,4 +1,26 @@
 <template>
+  
+  <div class="tl-task-filter">
+    <div class="tl-filter-title tl-filter-today">Tasks for today</div>
+    <div class="tl-filter-controls">
+      <div class="tl-filter-select"
+           @click="f.show = !f.show"
+           v-bind:class="{'select-open': f.show, 'select-close': !f.show}">
+
+        <div class="tl-filter-name">By date</div>
+
+        <i class="fa fa-filter tl-filter-icon"></i>
+
+        <div class="tl-filter-list">
+          <li v-for="filter in f.list">
+            <i :class="filter.icon"></i>
+            {{filter.text}}
+          </li>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <div class="tasklist-global" v-click-outside="task-unfocus">
     <task v-for="task in tasks"
@@ -25,7 +47,15 @@
     },
     data: function() {
       return {
-        tasks: taskList
+        tasks: taskList,
+        f: {
+          list: [
+           { icon: 'fa fa-flag', text: 'Priority' },
+           { icon: 'fa fa-sort-alpha-asc', text: 'Alphabet' },
+           { icon: 'fa fa-sort-amount-asc', text: 'Length' },
+          ],
+          show: false,
+        }
       };
     },
     methods: {

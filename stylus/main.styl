@@ -94,7 +94,6 @@ html, body
   box-shadow: 11px 0px 16px -12px #000;
   transform-origin center left
 
-
 /**********************************
 * APP CONTENT
 **********************************/
@@ -102,12 +101,15 @@ html, body
   height 100%
   width calc(100% - 70px)
   position relative
+  flexbox(false, true)
+  flex-direction column
 
 .right-toolbar
   width 100px
   height 100%
   position absolute
   right 0
+  top 0
 
 .add-button-wrap
   flexbox(true, true)

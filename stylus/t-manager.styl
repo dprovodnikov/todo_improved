@@ -1,11 +1,6 @@
 .tasklist-global 
-  max-width 400px
+  width 400px
   max-height 450px
-  position absolute
-  left 0
-  right 0
-  top 7%
-  margin auto
   overflow-y scroll
   padding 0 5px
   box-sizing content-box
@@ -21,13 +16,109 @@
     &:hover
       background #ccc
 
+/*********************************************
+* TASKLIST FILTER
+*********************************************/
+.tl-task-filter
+  flexbox(false, true)
+  justify-content space-between
+  width 60%
+  margin 50px 0 10px 0
+  padding 0 5px
+
+.tl-filter-title
+  display inline-block
+  padding 5px 0 0 0
+  font 500 1em 'Hind'
+  color #6d6d6d
+  position relative
+  padding-left 25px
+  &.tl-filter-today:after
+    content '\f017'
+    height 19px
+    width @height
+    font normal @height 'fontawesome'
+    position absolute
+    left 0; top 0; bottom 0
+    margin auto
+
+.tl-filter-select
+  flexbox(true, true)
+  color #6d6d6d
+  transition all .1s
+  position relative
+  &:after
+    content '\f0d7'
+    color inherit
+    font normal 12px 'fontawesome'
+    position relative
+    right 110%
+    top 0; bottom 0
+    margin auto
+    transform translateY(10%)
+    transition all .1s
+  &.select-open:after
+    content '\f0d8' !important
+
+.select-open
+  .tl-filter-list
+    opacity 1
+    transform translateY(80%)
+
+.tl-filter-name
+  font 500 .8em 'Cabin'
+  color inherit
+  margin-right 5px
+  transform translateY(10%)
+  &:hover
+    cursor pointer
+    color #3d3d3d
+
+.tl-filter-icon
+  color inherit
+
+.tl-filter-list
+  white-space nowrap
+  left 0
+  background #fff
+  position absolute
+  z-index 2
+  transform translateY(100%)
+  transition all .1s
+  opacity 0
+  box-sizing content-box
+  padding 10px
+  list-style none
+  font normal 0.9em 'Cabin'
+  line-height 20px
+  box-shadow 2px 2px 3px 0 rgba(0, 0, 0, .2);
+  border-radius 2px
+  poisiton relative
+  &:after
+    content ''
+    border-bottom 9px solid #fff
+    border-top 9px solid transparent
+    border-left @border-top
+    border-right @border-top
+    position absolute
+    top 0
+    transform translateY(-95%)
+  .fa
+    margin-right 5px
+  li
+    cursor pointer
+    &:hover
+      color #3d3d3d
+
+/*********************************************
+* TASKS
+*********************************************/
 .tl-task 
   width 100%
   background #fff
   margin 10px 0
   position relative
   cursor pointer
-  transition all 50ms
   flexbox(true , false)
   flex-direction column
   align-items center

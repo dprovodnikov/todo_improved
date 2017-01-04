@@ -93,7 +93,7 @@ class ChangesManager {
 
       this.el.css({
         transition: transitionString,
-        bottom: 0
+        bottom: 0,
       });
 
     };
