@@ -57,6 +57,7 @@ class ChangesManager {
     this.opened = false;
     this.body.height(0);
     this.curtain.fadeTo(50, 0);
+    this.el.removeClass(this.openedClass);
 
     setTimeout(() => {
       this.curtain.hide();
@@ -131,6 +132,7 @@ class ChangesManager {
     let curtainAnimationDuration = parseFloat(
       this.curtain.css('transition-duration')
     ) * 1000;
+
     this.el.toggleClass(this.openedClass);
 
     const open = () => {
@@ -141,14 +143,11 @@ class ChangesManager {
       }, curtainAnimationDuration / 10);
 
       let tabs = new Tabs(this.body, {
-        onundo: id => this._undoOne(id),
-        onundoall: () => {
-          this._event('undoall', curtainAnimationDuration);
-        },
-        confirm: () => {
-          this._event('confirm', curtainAnimationDuration);
-        }
+        onundo: task => this._undoOne(task),
+        onundoall: () => this._event('undoall', curtainAnimationDuration),
+        confirm: () => this._event('confirm', curtainAnimationDuration),
       });
+
 
       for(let task of this.tasks) {
         switch(task.status) {
@@ -177,11 +176,21 @@ class ChangesManager {
     this.opened ? close() : open();
   }
 
+  _replaceIfExists(task) {
+    let exists, index;
+
+    for(let [i, t] of this.tasks.entries())
+      t.id == task.id ? (exists = true, index = i) : exists = false;
+
+    exists ? (this.tasks[index] = task) : (this.tasks.push(task))
+  }
+
   /*********************
   * PUBLIC
   *********************/
   update(task) {
-    this.tasks.push(task);
+    this._replaceIfExists(task);
+
     this.title.html(
       `${this.tasks.length} tasks were affected`
     );

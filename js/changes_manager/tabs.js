@@ -105,6 +105,8 @@ class Tabs {
   }
 
   _undoOne(task) {
+    let doUndo = true;
+
     let taskPreview = $(`.cm-preview-${task.id}`);
 
     let siblings = taskPreview.siblings();
@@ -118,8 +120,10 @@ class Tabs {
 
       if(this.tabsAvailable.length)
         this._switchTab(this.tabsAvailable[0]);
-      else
+      else {
         this.onundoall();
+        doUndo = false;
+      }
     }
 
     taskPreview.css({
@@ -135,7 +139,7 @@ class Tabs {
       }, 100);
     }, 150);
 
-    this.onundo(task); 
+    if(doUndo) this.onundo(task);
   }
 
   pushUpdated(task) { this._pushTask(task, this.tabs[2]); }

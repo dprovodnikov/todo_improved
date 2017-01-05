@@ -82,6 +82,8 @@
         newFolder: this.task.folder,
         newDate: this.task.date,
 
+        old: {},
+
         toolsets: {
           main: true,
           folders: false,
@@ -114,12 +116,13 @@
       saveChanges: function() {
         let task = this.task;
 
-        task.old = {
+        this.old = this.updated ? this.old : {
           text: task.text,
           priority: task.priority,
           folder: task.folder,
           date: task.date,
         };
+
 
         task.text = this.newText;
         task.priority = this.newPriority;
@@ -131,18 +134,20 @@
       },
 
       undoChanges: function() {
-        for(let [k, v] of Object.entries(this.task.old))
+        for(let [k, v] of Object.entries(this.old)) {
           this.task[k] = v;
+        }
 
-        this.task.old = {};
+        this.old = {};
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
         this.newDate = this.task.date;
         this.task.status = '';
+        this.updated = false;
       },
 
       confirmChanges: function() {
-        this.task.old = {};
+        this.old = {};
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
         this.newDate = this.task.date;
@@ -173,7 +178,6 @@
 
       close: function() {
         this.updating = false;
-        this.task.old = {};
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
         this.newDate = this.task.date;
@@ -211,8 +215,9 @@
       this.eventBus.$on('changes-undo', task => {
         if(task == this.task && task.status != 'updated')
           this.show = true;
-        else if(task == this.task)
+        else if(task == this.task) {
           this.undoChanges();
+        }
       });
 
       this.eventBus.$on('changes-undo-all', () => {
