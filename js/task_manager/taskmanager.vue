@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="tasklist-global" v-click-outside="task-unfocus">
+  <div class="tasklist-global" v-click-outside="task-unfocus" v-if="tasksShow">
     <task v-for="task in sortedTasks"
           :task-remove="removeTask(task)"
           :task="task"
@@ -72,7 +72,10 @@
           ],
           active: {},
           show: false,
-        }
+        },
+
+        tasksShow: true,
+
       };
     },
 
@@ -99,6 +102,13 @@
             iteratees = { key: ['text'], option: ['asc'] }; break;
           default: iteratees = _default;
         }
+
+        /*
+        * can cause problems because we have to rerender the
+        * whole list of tasks every time new filter was selected
+        */
+        this.tasksShow = false;
+        setTimeout(() => this.tasksShow = true, 50);
 
         return _.orderBy(this.tasks, iteratees.key, iteratees.option);
       }
