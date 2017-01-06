@@ -38,6 +38,10 @@ module.exports = {
     ],
   },
 
+  externals: {
+    '_': '_' //lodash
+  },
+
   plugins: [
     new ExtractTextPlugin('build.css', {
       allChunks: true,

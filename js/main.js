@@ -10,7 +10,7 @@ import currentDate from './current-date/current-date.vue';
 import notificationPopup from './notification/popup.vue';
 
 // root vue component
-const app = new Vue({
+const app = new Vue({ 
   el: '.application-container',
   data: {
     eventBus: new Vue(), // allows all the components to communicate using events

@@ -27,9 +27,10 @@
   </div>
 
   <div class="tasklist-global" v-click-outside="task-unfocus">
-    <task v-for="task in tasks"
+    <task v-for="task in sortedTasks"
           :task-remove="removeTask(task)"
           :task="task"
+          :show-delay="(100 * $index) / 2"
           :event-bus="eventBus">
     </task>
   </div> 
@@ -40,6 +41,7 @@
   import taskList from './fake-tasks.js';
   import taskComponent from './task.vue';
   import clickOutsideDirective from '../directives/click-outside.js';
+  import _ from '_';
 
   export default {
     props: ['eventBus'],
@@ -61,12 +63,12 @@
     data: function() {
       return {
         tasks: taskList,
-        f: {
+        f: { //filter
           list: [
-            { icon: 'fa fa-calendar', name: 'date', hint: 'Tasks for today' },
-            { icon: 'fa fa-flag', name: 'priority', hint: 'High pripority first' },
-            { icon: 'fa fa-sort-alpha-asc', name: 'alphabet', hint: 'Tasks in alphabet order' },
-            { icon: 'fa fa-sort-amount-asc', name: 'length', hint: 'Longest tasks first' },
+            { icon: 'fa fa-calendar',        name: 'date',     hint: 'Tasks for today' },
+            { icon: 'fa fa-flag',            name: 'priority', hint: 'High pripority first' },
+            { icon: 'fa fa-sort-alpha-asc',  name: 'alphabet', hint: 'Tasks in alphabet order' },
+            { icon: 'fa fa-sort-amount-asc', name: 'length',   hint: 'Longest tasks first' },
           ],
           active: {},
           show: false,
@@ -77,6 +79,28 @@
     methods: {
       removeTask: function(task) {
         this.tasks.$remove(task);
+      },
+    },
+
+    computed: {
+      sortedTasks: function() {
+        let iteratees = {};
+
+        let _default = { key: ['priority'], option: ['desc'] };
+
+        switch(this.f.active.name) {
+          case 'date':
+            iteratees = { key: ['date'], option: ['asc'] }; break;
+          case 'priority':
+            iteratees = _default; break;
+          case 'length':
+            iteratees = { key: ['text', task => task.text.length], option: ['asc'] }; break;
+          case 'alphabet':
+            iteratees = { key: ['text'], option: ['asc'] }; break;
+          default: iteratees = _default;
+        }
+
+        return _.orderBy(this.tasks, iteratees.key, iteratees.option);
       }
     },
 

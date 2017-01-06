@@ -67,13 +67,13 @@
       }
     },
 
-    props: ['eventBus', 'task'],
+    props: ['eventBus', 'task', 'showDelay'],
 
     data: function() {
       return {
         affected: false,
         checked: false,
-        show: true,
+        show: false,
         updating: false,
         updated: false,
 
@@ -195,6 +195,8 @@
     },
 
     created: function() {
+      setTimeout(() => this.show = true, this.showDelay)
+
       this.eventBus.$on('task-selected', () => {
         this.close(); // helps to avoid simultaneous updating of different tasks
         this.checked = false;
