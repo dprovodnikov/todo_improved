@@ -86,7 +86,7 @@
           {
             id: 'charts', 
             active: false,
-            icon: 'fa fa-area-chart' , 
+            icon: 'fa fa-pie-chart' , 
             panel: {
               show: false
             },

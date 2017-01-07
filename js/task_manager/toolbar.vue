@@ -56,7 +56,7 @@
 
 <style lang="stylus">
   .toolbar-transition
-    transition all .5s cubic-bezier(.87,-.41,.19,1.44)
+    transition left .5s cubic-bezier(.87,-.41,.19,1.44)
   
   .toolbar-enter,
   .toolbar-leave

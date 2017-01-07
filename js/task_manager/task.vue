@@ -11,14 +11,14 @@
       </div>
     </div>
 
-    <div class="tl-task-editor" v-if="updating">
+    <div class="tl-task-editor" v-show="updating">
     <i class="fa fa-close tl-te-cancel" @click="close()"></i>
 
       <textarea class="tl-te-text" v-model="newText" autofocus>{{task.text}}</textarea>
 
       <div class="tl-te-toolbar">
 
-        <div class="tl-te-tools-wrap" v-if="toolsets.main">
+        <div class="tl-te-tools-wrap" v-show="toolsets.main" transition="toolset-main">
           <i class="fa fa-calendar tl-te-tool" @click="setDeadline()">
             <span class="tl-te-tool-hint">Deadline</span>
             <span class="tl-te-date">{{newDate | date 'dd-mm-yy'}}</span>
@@ -31,7 +31,7 @@
           </i>
         </div>
 
-        <div v-if="toolsets.priorities">
+        <div class="tl-te-toolset" v-show="toolsets.priorities" transition="toolset">
           <i class="fa fa-long-arrow-left tl-te-back" @click="switchToolset('main')"></i>
 
           <i class="fa fa-flag tl-te-tool tl-priority-0" @click="setPriority(0)"></i>
@@ -39,7 +39,7 @@
           <i class="fa fa-flag tl-te-tool tl-priority-2" @click="setPriority(2)"></i>
         </div>
 
-        <div v-if="toolsets.folders">
+        <div class="tl-te-toolset" v-show="toolsets.folders" transition="toolset">
           <i class="fa fa-long-arrow-left tl-te-back" @click="switchToolset('main')"></i>
 
           <i v-for="folder in folders"
@@ -76,6 +76,7 @@
         show: false,
         updating: false,
         updated: false,
+        doNotFocusOnMe: false,
 
         newText: '',
         newPriority: this.task.priority,
@@ -103,7 +104,7 @@
 
     methods: {
       check: function() {
-        if(this.updating) return false
+        if(this.updating || this.doNotFocusOnMe) return false
         this.eventBus.$emit('task-selected', this.task);
         this.checked = true;
       },
@@ -129,14 +130,16 @@
         task.folder = this.newFolder;
         task.date = this.newDate;
         this.eventBus.$emit('task-updated', task);
-        this.updating = false;
         this.updated = true;
+        this.updating = false;
+
+        this.doNotFocusOnMe = true;
+        setTimeout(() => this.doNotFocusOnMe = false, 1000);
       },
 
       undoChanges: function() {
-        for(let [k, v] of Object.entries(this.old)) {
+        for(let [k, v] of Object.entries(this.old))
           this.task[k] = v;
-        }
 
         this.old = {};
         this.newPriority = this.task.priority;
@@ -251,5 +254,19 @@
   .task-leave
     opacity 0
     transform scale(.7)
+    
+  .toolset-transition
+    transition all .1s .1s
+  .toolset-main-transition
+    transition all .1s
+
+  .toolset-enter
+    transform rotateX(-90deg)
+  .toolset-leave
+    display none
+
+  .toolset-main-enter,
+  .toolset-main-leave
+    transform rotateX(90deg)
 
 </style>

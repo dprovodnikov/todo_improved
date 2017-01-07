@@ -1,7 +1,10 @@
 <template>
   
   <div class="tl-task-filter">
-    <div class="tl-filter-title tl-filter-today">{{ f.active.hint }}</div>
+    <div class="tl-filter-title">
+      <i class="fa fa-th-list"></i>
+      {{ f.active.hint }}
+    </div>
     <div class="tl-filter-controls">
 
       <div class="tl-filter-select"
@@ -10,7 +13,7 @@
 
         <div class="tl-filter-name">By {{ f.active.name }}</div>
 
-        <i class="fa fa-filter tl-filter-icon"></i>
+        <i class="{{f.active.icon}} tl-filter-icon"></i>
 
         <div class="tl-filter-list">
 
@@ -68,7 +71,7 @@
             { icon: 'fa fa-calendar',        name: 'date',     hint: 'Tasks for today' },
             { icon: 'fa fa-flag',            name: 'priority', hint: 'High pripority first' },
             { icon: 'fa fa-sort-alpha-asc',  name: 'alphabet', hint: 'Tasks in alphabet order' },
-            { icon: 'fa fa-sort-amount-asc', name: 'length',   hint: 'Longest tasks first' },
+            { icon: 'fa fa-sort-amount-desc', name: 'length',   hint: 'Longest tasks first' },
           ],
           active: {},
           show: false,
