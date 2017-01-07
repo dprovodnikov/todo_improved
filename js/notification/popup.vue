@@ -60,7 +60,7 @@
     justify-content center
     align-items center
     i
-      font-size 1.5em
+      font-size 1em
       color #fff
   
   .np-message

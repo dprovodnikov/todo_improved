@@ -1,10 +1,10 @@
 <template>
   <div transition="task" class="tl-task {{getPriority(task.priority)}}"
     v-if="show"
-    v-on:click="check()"
-    v-bind:class="{'tl-task-active': checked, 'tl-task-updating': updating}">
-
-    <div class="tl-task-content" v-if="!updating">
+    @click="check()"
+    :class="{'tl-task-active': checked, 'tl-task-updating': updating}">
+    
+    <div class="tl-task-content" v-show="!updating">
       <div class="tl-task-text">{{task.text}}</div>
       <div class="tl-task-folder">
         <div class="fa fa-folder" style="color: {{task.folder.color}}"></div>
@@ -184,9 +184,53 @@
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
         this.newDate = this.task.date;
-
         this.switchToolset('main');
-      }
+      },
+
+      bindEvents: function() {
+        this.eventBus.$on('task-selected', () => {
+          this.close(); // helps to avoid simultaneous updating of different tasks
+          this.checked = false;
+        });
+
+        this.eventBus.$on('task-unfocus', () => {
+          this.checked = false;
+        });
+
+        this.eventBus.$on('toolbar-action', (task) => {
+          if(task == this.task && task.status != 'updated') {
+            this.affected = true;
+            this.show = false;
+          } else if (task == this.task)
+            this.updating = true;
+        });
+
+        this.eventBus.$on('changes-undo', task => {
+          if(task == this.task && task.status != 'updated')
+            this.show = true;
+          else if(task == this.task) {
+            this.undoChanges();
+          }
+        });
+
+        this.eventBus.$on('changes-undo-all', () => {
+          if(!this.show) {
+            this.show = true;
+            this.affected = false;
+          }
+          if(this.updated)
+            this.undoChanges();
+        });
+
+        this.eventBus.$on('changes-confirm', () => {
+          if(this.affected)
+            this.$emit('task-remove', this);
+
+          if(this.updated)
+            this.confirmChanges();
+        });
+
+      },
 
     },
 
@@ -200,47 +244,7 @@
     created: function() {
       setTimeout(() => this.show = true, this.showDelay)
 
-      this.eventBus.$on('task-selected', () => {
-        this.close(); // helps to avoid simultaneous updating of different tasks
-        this.checked = false;
-      });
-
-      this.eventBus.$on('task-unfocus', () => {
-        this.checked = false;
-      });
-
-      this.eventBus.$on('toolbar-action', (task) => {
-        if(task == this.task && task.status != 'updated') {
-          this.affected = true;
-          this.show = false;
-        } else if (task == this.task)
-          this.updating = true;
-      });
-
-      this.eventBus.$on('changes-undo', task => {
-        if(task == this.task && task.status != 'updated')
-          this.show = true;
-        else if(task == this.task) {
-          this.undoChanges();
-        }
-      });
-
-      this.eventBus.$on('changes-undo-all', () => {
-        if(!this.show) {
-          this.show = true;
-          this.affected = false;
-        }
-        if(this.updated)
-          this.undoChanges();
-      });
-
-      this.eventBus.$on('changes-confirm', () => {
-        if(this.affected)
-          this.$emit('task-remove', this);
-
-        if(this.updated)
-          this.confirmChanges();
-      });
+      this.bindEvents();
     }
   }
 </script>
@@ -248,7 +252,8 @@
 <style lang="stylus">
   
   .task-transition
-    transition all .3s cubic-bezier(.87,-.41,.19,1.44), background 50ms
+    transition transform .3s cubic-bezier(.87,-.41,.19,1.44),
+      background 50ms, opacity .3s cubic-bezier(.87,-.41,.19,1.44)
   
   .task-enter,
   .task-leave

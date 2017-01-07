@@ -77,7 +77,7 @@
           show: false,
         },
 
-        tasksShow: true,
+        tasksShow: false,
 
       };
     },
@@ -106,12 +106,6 @@
           default: iteratees = _default;
         }
 
-        /*
-        * can cause problems because we have to rerender the
-        * whole list of tasks every time new filter was selected
-        */
-        this.tasksShow = false;
-        setTimeout(() => this.tasksShow = true, 50);
 
         return _.orderBy(this.tasks, iteratees.key, iteratees.option);
       }
@@ -119,6 +113,8 @@
 
     created: function() {
       this.f.active = this.f.list[0];
+
+      setTimeout(() => this.tasksShow = true, 50);
     }
   }
 

@@ -30,19 +30,25 @@ class ChangesManager {
     <div class="changes-manager">
       <div class="cm-header">
         <div class="cm-header-title"></div>
-        <div class="cm-header-toggle">
-          <div class="fa fa-window-minimize"></div>
+        <div class="cm-header-controls">
+          <i class="fa fa-check"></i>
         </div>
       </div>
       <div class="cm-body"></div>
-    </div>
-    `;
+    </div>`;
 
     rootEl.find('.app-content').append(template);
   }
 
   _bindEvents() {
-    this.header.click(e => this._toggle());
+    
+    this.header.click(e => {
+      if( e.target.tagName == 'I' )
+        this._event('confirm', 300);
+      else
+        this._toggle();
+    });
+
     this.curtain.click(e => this._toggle());
   }
 
@@ -147,7 +153,6 @@ class ChangesManager {
         onundoall: () => this._event('undoall', curtainAnimationDuration),
         confirm: () => this._event('confirm', curtainAnimationDuration),
       });
-
 
       for(let task of this.tasks) {
         switch(task.status) {

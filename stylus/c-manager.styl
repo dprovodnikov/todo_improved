@@ -26,20 +26,19 @@
 .cm-opened
   z-index 3
 
-.cm-header-toggle
+.cm-header-controls
+  flexbox(true, true)
   position absolute
   right 15px
   padding 5px
   transition background .1s
-  &:hover
-    background #e15757
-  .fa
-    font-size .8em
-    font-weight light
-    transition transform .2s
-    transform translateY(-100%)
+  i
+    font-size 1.1em
+    transition color .3s, transform .1s
+    &:hover
+      color $gray
 
-.cm-opened .cm-header-toggle .fa
+.cm-opened i
   transform none
 
 .cm-body
