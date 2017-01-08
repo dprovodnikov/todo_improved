@@ -52,30 +52,26 @@
       }
     },
 
-    created: function() {
-      setTimeout(() => {
-        let currentYear = new Date().getFullYear();
+    ready: function() {
+      let currentYear = new Date().getFullYear();
 
-        new Calendar({
-          container: '.' + this.$el.parentNode.className,
-          yearFirst: currentYear - 3,
-          yearLast: currentYear + 3,
-          yearPrimary: currentYear,
-          datePrimary: this.initArgs.date || null,
-          onclick: date => {
+      new Calendar({
+        container: '.' + this.$el.parentNode.className,
+        yearFirst: currentYear - 3,
+        yearLast: currentYear + 3,
+        yearPrimary: currentYear,
+        datePrimary: this.initArgs.date || null,
+        onclick: date => {
 
-            if(this.initArgs.onpick)
-              this.initArgs.onpick(date);
-            else
-              this.pick(date);
+          if(this.initArgs.onpick)
+            this.initArgs.onpick(date);
+          else
+            this.pick(date);
 
-            this.$emit('close');
-            
-          }
-        });
-
-
-      }, 1);
+          this.$emit('close');
+          
+        }
+      });
     },
   }
   

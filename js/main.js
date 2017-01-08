@@ -9,6 +9,12 @@ import sidebar from './sidebar/sidebar.vue';
 import currentDate from './current-date/current-date.vue';
 import notificationPopup from './notification/popup.vue';
 
+/*
+* A Vue.js plugin for easily animating v-for rendered lists.
+* Repository: https://github.com/vuejs/vue-animated-list
+*/
+Vue.use(require('../vendor/vue-animated-list'));
+
 // root vue component
 const app = new Vue({ 
   el: '.application-container',

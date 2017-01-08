@@ -76,7 +76,6 @@
         show: false,
         updating: false,
         updated: false,
-        doNotFocusOnMe: false,
 
         newText: '',
         newPriority: this.task.priority,
@@ -104,7 +103,7 @@
 
     methods: {
       check: function() {
-        if(this.updating || this.doNotFocusOnMe) return false
+        if(this.updating) return false
         this.eventBus.$emit('task-selected', this.task);
         this.checked = true;
       },
@@ -132,9 +131,6 @@
         this.eventBus.$emit('task-updated', task);
         this.updated = true;
         this.updating = false;
-
-        this.doNotFocusOnMe = true;
-        setTimeout(() => this.doNotFocusOnMe = false, 1000);
       },
 
       undoChanges: function() {
@@ -273,5 +269,8 @@
   .toolset-main-enter,
   .toolset-main-leave
     transform rotateX(90deg)
+
+  .task-move
+    transition all .3s
 
 </style>

@@ -115,7 +115,7 @@
 
         Chart.pie({
           selector: '#' + this.selectors.pie,
-          r: 60, r2: 30,
+          r: 60, r2: 20,
           animationDuration: 700,
           hover: function() {},
           sectors: [
@@ -128,13 +128,11 @@
       },
 
     },
-    created: function() {
-      setTimeout(() => {
-        this.buildCompletedChart();
-        this.buildOverdueChart();
-        this.buildRadialChart();
-        this.buildPieChart();
-      }, 0);
+    ready: function() {
+      this.buildCompletedChart();
+      this.buildOverdueChart();
+      this.buildRadialChart();
+      this.buildPieChart();
     },
   }
 

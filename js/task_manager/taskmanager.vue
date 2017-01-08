@@ -30,12 +30,13 @@
   </div>
 
   <div class="tasklist-global" v-click-outside="task-unfocus" v-if="tasksShow">
-    <task v-for="task in sortedTasks"
-          :task-remove="removeTask(task)"
-          :task="task"
-          :show-delay="(100 * $index) / 2"
-          :event-bus="eventBus">
-    </task>
+    <div v-for="task in sortedTasks" transition="sort">
+      <task :task-remove="removeTask(task)"
+            :task="task"
+            :show-delay="(100 * $index) / 2"
+            :event-bus="eventBus">
+      </task>
+    </div>
   </div> 
 
 </template>
@@ -68,9 +69,9 @@
         tasks: taskList,
         f: { //filter
           list: [
-            { icon: 'fa fa-calendar',        name: 'date',     hint: 'Tasks for today' },
-            { icon: 'fa fa-flag',            name: 'priority', hint: 'High pripority first' },
-            { icon: 'fa fa-sort-alpha-asc',  name: 'alphabet', hint: 'Tasks in alphabet order' },
+            { icon: 'fa fa-calendar',         name: 'date',     hint: 'Tasks for today' },
+            { icon: 'fa fa-flag',             name: 'priority', hint: 'High pripority first' },
+            { icon: 'fa fa-sort-alpha-asc',   name: 'alphabet', hint: 'Tasks in alphabet order' },
             { icon: 'fa fa-sort-amount-desc', name: 'length',   hint: 'Longest tasks first' },
           ],
           active: {},
@@ -106,7 +107,6 @@
           default: iteratees = _default;
         }
 
-
         return _.orderBy(this.tasks, iteratees.key, iteratees.option);
       }
     },
@@ -120,3 +120,7 @@
 
 </script>
 
+<style lang="stylus">
+  .sort-move
+    transition transform .3s cubic-bezier(.55,0,.1,1)
+</style>
