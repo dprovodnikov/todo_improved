@@ -101,7 +101,7 @@
           case 'priority':
             iteratees = _default; break;
           case 'length':
-            iteratees = { key: ['text', task => task.text.length], option: ['asc'] }; break;
+            iteratees = { key: (task) => task.text.length, option: ['desc'] }; break;
           case 'alphabet':
             iteratees = { key: ['text'], option: ['asc'] }; break;
           default: iteratees = _default;
