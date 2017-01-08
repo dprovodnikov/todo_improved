@@ -76,7 +76,8 @@ class ChangesManager {
   }
 
   _undoOne(task) {
-    this.tasks = this.tasks.filter(task => task.id != task.id);
+    this.tasks = this.tasks.filter(item => item.id != task.id);
+
     this.title.html(`${this.tasks.length} tasks were affected`);
 
     let cb = this.events['undo'];
