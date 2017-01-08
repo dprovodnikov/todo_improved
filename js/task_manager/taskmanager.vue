@@ -31,7 +31,7 @@
 
   <div class="tasklist-global" v-click-outside="task-unfocus" v-if="tasksShow">
     <div v-for="task in sortedTasks" transition="sort">
-      <task :task-remove="removeTask(task)"
+      <task @task-remove="removeTask(task)"
             :task="task"
             :show-delay="(100 * $index) / 2"
             :event-bus="eventBus">
@@ -114,6 +114,7 @@
     created: function() {
       this.f.active = this.f.list[0];
 
+      //to achieve init transition
       setTimeout(() => this.tasksShow = true, 50);
     }
   }

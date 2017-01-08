@@ -71,11 +71,11 @@
 
     data: function() {
       return {
-        affected: false,
+        affected: false, // means "deleted" of "completed" but not confirmed yet
         checked: false,
         show: false,
-        updating: false,
-        updated: false,
+        updating: false, // means the editor is open and changes are being done now
+        updated: false, // means "updated" but not confirmed yet
 
         newText: '',
         newPriority: this.task.priority,
@@ -122,7 +122,6 @@
           folder: task.folder,
           date: task.date,
         };
-
 
         task.text = this.newText;
         task.priority = this.newPriority;

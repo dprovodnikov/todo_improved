@@ -17,12 +17,18 @@
 
       undoAll: function(count) {
         this.eventBus.$emit('changes-undo-all');
-        this.eventBus.$emit('notify', `${count} changes were undone`);
+
+        let pluralExpression = (count == 1) ? 'change was' : 'changes were';
+
+        this.eventBus.$emit('notify', `${count} ${pluralExpression} undone`);
       },
 
       confirm: function(count) {
         this.eventBus.$emit('changes-confirm');
-        this.eventBus.$emit('notify', `${count} changes were confirmed`);
+
+        let pluralExpression = (count == 1) ? 'change was' : 'changes were';
+
+        this.eventBus.$emit('notify', `${count} ${pluralExpression} confirmed`);
       }
     },
 
