@@ -164,10 +164,12 @@
       },
 
       setDeadline: function() {
-        this.eventBus.$emit('open-calendar', {
-          date: this.newDate, 
-          onpick: (date) => this.newDate = date.instance
-        });
+        setTimeout(() => {
+          this.eventBus.$emit('open-calendar', {
+            date: this.newDate, 
+            onpick: (date) => this.newDate = date.instance
+          });
+        }, 100);
       },
 
       getPriority: function(priority) {

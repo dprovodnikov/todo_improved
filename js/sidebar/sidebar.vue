@@ -1,6 +1,6 @@
 <template>
   
-  <nav class="app-sidebar" v-click-outside="sidebar-focus-lost">
+  <nav class="app-sidebar" v-click-outside>
 
     <ul class="main-nav">
       <li v-for="button in buttons"
@@ -63,68 +63,47 @@
             id: 'search',  
             active: false,
             icon: 'fa fa-search' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: {show: false },
+          }, {
             id: 'user',   
             active: false,
             icon: 'fa fa-user' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'calendar',
             active: false,
             icon: 'fa fa-calendar' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'charts', 
             active: false,
             icon: 'fa fa-pie-chart' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'weather',
             active: false,
             icon: 'fa fa-cloud' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'events', 
             active: false,
             icon: 'fa fa-bell' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'folders', 
             active: false,
             icon: 'fa fa-folder' , 
-            panel: {
-              show: false
-            },
-          },
-          {
+            panel: { show: false },
+          }, {
             id: 'exit',   
             active: false,
-            icon: 'fa fa-sign-out' , panel: {
-              show: false
-            },
+            icon: 'fa fa-sign-out', 
+            panel: { show: false },
           },
         ],
       };
     },
+
     methods: {
       openPanel: function(id) {
         this.buttons.forEach(button => {
@@ -147,18 +126,28 @@
           this.initArgs = {};
         }
       },
+
+      bindEvents: function() {
+        this.eventBus.$on('sidebar-focus-lost', () => {
+          this.closePanel();
+        });
+
+        this.eventBus.$on('open-calendar', args => {
+          this.openPanel('calendar');
+          this.initArgs = args;
+        });
+
+        this.$on('collapse-me', () => {
+          this.closePanel()
+        });
+
+      }
     },
+
     created: function() {
-      this.eventBus.$on('sidebar-focus-lost', () => {
-        this.closePanel();
-      });
-
-      this.eventBus.$on('open-calendar', args => {
-        this.openPanel('calendar');
-
-        this.initArgs = args;
-      });
+      this.bindEvents();
     }
+
   }
 </script>
 

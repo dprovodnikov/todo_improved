@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div class="tasklist-global" v-click-outside="task-unfocus" v-if="tasksShow">
+  <div class="tasklist-global" v-if="tasksShow" v-click-outside>
     <div v-for="task in sortedTasks" transition="sort">
       <task @task-remove="removeTask(task)"
             :task="task"
@@ -87,6 +87,12 @@
       removeTask: function(task) {
         this.tasks.$remove(task);
       },
+
+      bindEvents: function() {
+        this.$on('collapse-me', () => {
+          this.eventBus.$emit('task-unfocus');
+        });
+      }
     },
 
     computed: {
@@ -116,6 +122,8 @@
 
       //to achieve init transition
       setTimeout(() => this.tasksShow = true, 50);
+
+      this.bindEvents();
     }
   }
 

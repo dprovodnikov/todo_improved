@@ -2,22 +2,14 @@ export default {
   
   bind: function() {
 
-    this.emitEvent = (e) => {
-      this.vm.eventBus.$emit(this.expression);
-    };
+    $(document).on('click', e => {
 
-    this.stopPropagation = (e) => { 
-      e.stopPropagation();
-    }
+      if( !$(e.target).parents('.' + this.el.className).length )
+        this.vm.$emit('collapse-me');
+    });
 
-    this.el.addEventListener('click', this.stopPropagation);
-
-    document.body.addEventListener('click', this.emitEvent);
   },
 
-  unbind: function() {
-    this.el.removeEventListener('click', this.stopPropagation);
-    document.body.removeEventListener('click',this.emitEvent);
-  },
+  unbind: function() {},
 
 };
