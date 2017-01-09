@@ -1,6 +1,8 @@
 <template>
-  <div transition="task" class="tl-task {{getPriority(task.priority)}}"
+  <div  class="tl-task {{getPriority(task.priority)}}"
+    transition="task"
     v-if="show"
+    v-right-click="openContext"
     @click="check()"
     :class="{'tl-task-active': checked, 'tl-task-updating': updating}">
     
@@ -52,14 +54,21 @@
         <button class="tl-te-btn" @click="saveChanges()">Save</button>
       </div>
     </div>
-
+    
   </div>
+
+
 </template>
 
 <script>
   import format from '../utils/date-converter.js';
+  import rightClickDirective from '../directives/right-click.js';
 
   export default {
+
+    directives: {
+      'right-click': rightClickDirective,
+    },
 
     filters: {
       date: function(value, pattern) {
@@ -169,7 +178,7 @@
             date: this.newDate, 
             onpick: (date) => this.newDate = date.instance
           });
-        }, 100);
+        }, 10);
       },
 
       getPriority: function(priority) {
@@ -184,15 +193,20 @@
         this.switchToolset('main');
       },
 
+      openContext: function(e) {
+        this.eventBus.$emit('open-context', {
+          vm: this,
+          event: e
+        });
+      },
+
       bindEvents: function() {
         this.eventBus.$on('task-selected', () => {
           this.close(); // helps to avoid simultaneous updating of different tasks
           this.checked = false;
         });
 
-        this.eventBus.$on('task-unfocus', () => {
-          this.checked = false;
-        });
+        this.eventBus.$on('task-unfocus', () => this.checked = false );
 
         this.eventBus.$on('toolbar-action', (task) => {
           if(task == this.task && task.status != 'updated') {
@@ -205,9 +219,8 @@
         this.eventBus.$on('changes-undo', task => {
           if(task == this.task && task.status != 'updated')
             this.show = true;
-          else if(task == this.task) {
+          else if(task == this.task)
             this.undoChanges();
-          }
         });
 
         this.eventBus.$on('changes-undo-all', () => {
@@ -226,7 +239,6 @@
           if(this.updated)
             this.confirmChanges();
         });
-
       },
 
     },
@@ -240,7 +252,6 @@
 
     created: function() {
       setTimeout(() => this.show = true, this.showDelay)
-
       this.bindEvents();
     }
   }

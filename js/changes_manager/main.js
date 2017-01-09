@@ -197,8 +197,10 @@ class ChangesManager {
   update(task) {
     this._replaceIfExists(task);
 
+    let count = this.tasks.length;
+
     this.title.html(
-      `${this.tasks.length} tasks were affected`
+      `${count} ${count == 1 ? 'task' : 'tasks'} were affected`
     );
     this._slideUpDown(task.text);
   };

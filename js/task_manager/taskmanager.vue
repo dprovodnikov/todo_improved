@@ -11,6 +11,8 @@
       </task>
     </div>
   </div> 
+  
+  <context-menu :event-bus="eventBus"></context-menu>
 
 </template>
 
@@ -18,6 +20,7 @@
   import taskList from './fake-tasks.js';
   import taskComponent from './task.vue';
   import sortbar from './sortbar.vue';
+  import contextMenu from './context.vue';
   import clickOutsideDirective from '../directives/click-outside.js';
   import _ from '_';
 
@@ -27,6 +30,7 @@
     components: {
       'task': taskComponent,
       'sortbar': sortbar,
+      'context-menu': contextMenu,
     },
 
     directives: {
