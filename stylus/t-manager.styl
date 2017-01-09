@@ -17,16 +17,16 @@
       background #ccc
 
 /*********************************************
-* TASKLIST FILTER
+* TASKLIST SORTBAR
 *********************************************/
-.tl-task-filter
+.tl-task-sortbar
   flexbox(false, true)
   justify-content space-between
   width 60%
   margin 50px 0 10px 0
   padding 0 5px
 
-.tl-filter-title
+.tl-sortbar-title
   display inline-block
   padding 5px 0 0 0
   font 500 1em 'Hind'
@@ -34,7 +34,7 @@
   position relative
   padding-left 25px
 
-.tl-filter-select
+.tl-sortbar-select
   flexbox(true, true)
   color #6d6d6d
   transition all .1s
@@ -53,15 +53,15 @@
     content '\f0d8' !important
 
 .select-open
-  .tl-filter-list
+  .tl-sortbar-list
     opacity 1
     transform translateY(80%)
 
 .select-close
-  .tl-filter-list
+  .tl-sortbar-list
     pointer-events none
 
-.tl-filter-name
+.tl-sortbar-name
   font 500 .8em 'Cabin'
   color inherit
   margin-right 5px
@@ -70,10 +70,10 @@
     cursor pointer
     color #3d3d3d
 
-.tl-filter-icon
+.tl-sortbar-icon
   color inherit
 
-.tl-filter-list
+.tl-sortbar-list
   white-space nowrap
   left 0
   background #fff

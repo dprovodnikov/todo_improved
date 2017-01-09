@@ -1,33 +1,6 @@
 <template>
   
-  <div class="tl-task-filter">
-    <div class="tl-filter-title">
-      <i class="fa fa-th-list"></i>
-      {{ f.active.hint }}
-    </div>
-    <div class="tl-filter-controls">
-
-      <div class="tl-filter-select"
-           @click="f.show = !f.show"
-           :class="{'select-open': f.show, 'select-close': !f.show}">
-
-        <div class="tl-filter-name">By {{ f.active.name }}</div>
-
-        <i class="{{f.active.icon}} tl-filter-icon"></i>
-
-        <div class="tl-filter-list">
-
-          <li v-for="filter in f.list | available" @click="f.active = filter">
-            <i :class="filter.icon"></i>
-            {{ filter.name }}
-          </li>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
+  <sortbar @key-changed="changeKey"></sortbar>
 
   <div class="tasklist-global" v-if="tasksShow" v-click-outside>
     <div v-for="task in sortedTasks" transition="sort">
@@ -44,6 +17,7 @@
 <script>
   import taskList from './fake-tasks.js';
   import taskComponent from './task.vue';
+  import sortbar from './sortbar.vue';
   import clickOutsideDirective from '../directives/click-outside.js';
   import _ from '_';
 
@@ -51,13 +25,8 @@
     props: ['eventBus'],
 
     components: {
-      task: taskComponent
-    },
-
-    filters: {
-      available: function(array) {
-        return array.filter(item => this.f.active != item);
-      }
+      'task': taskComponent,
+      'sortbar': sortbar,
     },
 
     directives: {
@@ -67,25 +36,18 @@
     data: function() {
       return {
         tasks: taskList,
-        f: { //filter
-          list: [
-            { icon: 'fa fa-calendar',         name: 'date',     hint: 'Tasks for today' },
-            { icon: 'fa fa-flag',             name: 'priority', hint: 'High pripority first' },
-            { icon: 'fa fa-sort-alpha-asc',   name: 'alphabet', hint: 'Tasks in alphabet order' },
-            { icon: 'fa fa-sort-amount-desc', name: 'length',   hint: 'Longest tasks first' },
-          ],
-          active: {},
-          show: false,
-        },
-
         tasksShow: false,
-
+        key: {}
       };
     },
 
     methods: {
       removeTask: function(task) {
         this.tasks.$remove(task);
+      },
+
+      changeKey: function(key) {
+        this.key = key;
       },
 
       bindEvents: function() {
@@ -99,13 +61,13 @@
       sortedTasks: function() {
         let iteratees = {};
 
-        let _default = { key: ['priority'], option: ['desc'] };
+        let _default = { key: ['date'], option: ['asc'] };
 
-        switch(this.f.active.name) {
+        switch(this.key.name) {
           case 'date':
-            iteratees = { key: ['date'], option: ['asc'] }; break;
-          case 'priority':
             iteratees = _default; break;
+          case 'priority':
+            iteratees = { key: ['priority'], option: ['desc'] }; break;
           case 'length':
             iteratees = { key: (task) => task.text.length, option: ['desc'] }; break;
           case 'alphabet':
@@ -118,8 +80,6 @@
     },
 
     created: function() {
-      this.f.active = this.f.list[0];
-
       //to achieve init transition
       setTimeout(() => this.tasksShow = true, 50);
 
