@@ -13,6 +13,8 @@
     methods: {
       undoOne: function(task) {
         this.eventBus.$emit('changes-undo', task);
+
+        this.eventBus.$emit('notify', 'One change was undone');
       },
 
       undoAll: function(count) {
@@ -20,7 +22,7 @@
 
         let pluralExpression = (count == 1) ? 'change was' : 'changes were';
 
-        this.eventBus.$emit('notify', `${count} ${pluralExpression} undone`);
+        this.eventBus.$emit('notify', `${count == 1 ? 'One' : count} ${pluralExpression} undone`);
       },
 
       confirm: function(count) {
@@ -28,7 +30,7 @@
 
         let pluralExpression = (count == 1) ? 'change was' : 'changes were';
 
-        this.eventBus.$emit('notify', `${count} ${pluralExpression} confirmed`);
+        this.eventBus.$emit('notify', `${count == 1 ? 'One' : count} ${pluralExpression} confirmed`);
       }
     },
 

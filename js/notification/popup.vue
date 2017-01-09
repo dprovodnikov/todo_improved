@@ -1,6 +1,6 @@
 <template>
   
-  <div v-show="show" class="notification-popup">
+  <div v-show="show" class="notification-popup" transition="popup">
     <div class="np-icon">
       <i class="fa fa-bell"></i>
     </div>
