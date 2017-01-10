@@ -25,11 +25,11 @@ class Bar extends ChartModel {
           }, 1500, mina.elastic);
         }, timeout);
 
-        bar.hover(function(e) {
-          this.stop().animate({fill: style.hover}, 200, mina.easeinout);
+        bar.hover(e => {
+          bar.stop().animate({fill: style.hover}, 200, mina.easeinout);
           this.callback(e, col);
-        }, function() {
-          this.stop().animate({fill: style.fill}, 200, mina.easeinout);
+        }, () => {
+          bar.stop().animate({fill: style.fill}, 200, mina.easeinout);
         });
 
       }

@@ -1,13 +1,24 @@
-import Util from './util';
+import Util from './util.js';
 
 class Pie {
   constructor(settings) {
-    this.height = settings.r * 3;
+    this.height = settings.r * 3; // need more space than just radius to accommodate hints
     this.width = this.height;
-    this.r = settings.r || 100;
-    this.r2 = settings.r2,
-    this.c = this.height / 2;
-    this.sectorsData = settings.sectors;
+    this.r = settings.r || 100;  // outer radius
+    this.r2 = settings.r2,       // inner radius
+    this.c = this.height / 2;    // center
+
+    this.hintColor = settings.hintColor;
+
+    /********************************************************************
+    * We have to define either we got a static set of sector definions or
+    * we got an array of data to parse.
+    *********************************************************************/
+    if(Array.isArray(settings.sectors))
+      this.sectorsData = settings.sectors;
+    else
+      this.sectorsData = this._parse(settings.sectors);
+
     this.groups = [];
     this.cb = settings.hover;
     this.animationDuration = settings.animationDuration;
@@ -18,7 +29,32 @@ class Pie {
     });
 
     this._draw();
-    this._bindEvents();
+
+    setTimeout(() => this._bindEvents(), this.animationDuration + 300);
+  }
+
+  _parse(sectors) {
+    let data, key, colors, summary, output;
+
+    data = sectors.data;
+    key = sectors.key;
+    colors = sectors.colors;
+
+    summary = {};
+
+    for(let item of data)
+      summary[ item[key] ] ? summary[ item[key] ]++ : summary[ item[key] ] = 1
+
+    output = [];
+
+    for(let [k, v] of Object.entries(summary)) {
+      output.push({
+        persent: Math.round(v * 100 / data.length),
+        fill: colors[k]
+      });
+    }
+
+    return output;
   }
 
   _sector(angle) {
@@ -32,12 +68,12 @@ class Pie {
   }
 
   _getAngle(persent) {
-    return persent * 360 / 100;
+    return persent * 360 / 100
   }
-
 
   _getMissingSector(totalAngle) {
     let angle = 360 - Math.round(totalAngle);
+
     let s = this._sector(angle)
     .attr({
       fill: 'rgba(255,255,255,.3)',
@@ -56,7 +92,7 @@ class Pie {
       textAnchor: 'middle',
       opacity: 0,
       fontFamily: 'Ubuntu Light',
-      fill: '#3d3d3d'
+      fill: '#fff'
     }).transform(`r${totalAngle + angle / 2}, ${this.c}, ${this.c}`);
 
     this._group(s, t);
@@ -76,7 +112,7 @@ class Pie {
       setTimeout(() => {
         sector.animate({
           fillOpacity: 1
-        }, 500);
+        }, 150);
       }, duration);
 
       setTimeout(() => {
@@ -95,8 +131,8 @@ class Pie {
 
       sector.hover(e => {
         sector.animate({
-          d: Util.describeSector(this.c, this.c, this.r - (this.r / 15), this.r2, 0, sector.data('angle'))
-        }, 500, mina.elastic);
+          d: Util.describeSector(this.c, this.c, this.r - (this.r / 20), this.r2, 0, sector.data('angle'))
+        }, 300, mina.elastic);
 
         this.cb();
       }, e => {
@@ -117,7 +153,7 @@ class Pie {
         fill: sector.fill,
         strokeDasharray: 2 * Math.PI * sector.angle,
         strokeDashoffset: 2 * Math.PI * sector.angle,
-        strokeWidth: 1,
+        strokeWidth: 3,
         stroke: sector.fill,
         fillOpacity: 0,
       }).transform(`r${totalAngle}, ${this.c}, ${this.c}`);
@@ -129,7 +165,7 @@ class Pie {
         textAnchor: 'middle',
         opacity: 0,
         fontFamily: 'Ubuntu Light',
-        fill: '#3d3d3d'
+        fill: this.hintColor
       }).transform(`r${totalAngle + sector.angle / 2}, ${this.c}, ${this.c}`);
 
       this._group(s, t);

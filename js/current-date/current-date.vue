@@ -15,7 +15,7 @@
   export default {
     filters: {
       'zero': function (value) {
-        return value.length > 1 ? value : `0${value}`;
+        return value.toString().length > 1 ? value : `0${value}`;
       }
     },
 

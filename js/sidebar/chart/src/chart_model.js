@@ -135,7 +135,7 @@ class ChartModel {
         color: chartData.line.color || defaultColor,
         fill: chartData.line.fill || defaultColor,
         width: chartData.line.width || 2,
-        hover: chartData.line.hovercolor || defaultColor,
+        hover: chartData.line.hoverColor || defaultColor,
         point: {
           r: chartData.point.radius || 4,
           fill: chartData.point.innerColor || defaultColor,

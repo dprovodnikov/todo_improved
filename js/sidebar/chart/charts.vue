@@ -115,8 +115,9 @@
 
         Chart.pie({
           selector: '#' + this.selectors.pie,
-          r: 60, r2: 20,
+          r: 60, r2: 30,
           animationDuration: 700,
+          hintColor: '#3d3d3d',
           hover: function() {},
           sectors: [
             {persent: 25, fill: '#B70C41'},
