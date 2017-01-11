@@ -201,7 +201,7 @@
           event: e
         });
 
-        if(this.checked) this.eventBus.$emit('task-unfocus');
+        this.eventBus.$emit('task-unfocus');
       },
 
       bindEvents: function() {
