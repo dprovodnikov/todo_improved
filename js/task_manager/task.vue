@@ -257,7 +257,8 @@
     created: function() {
       setTimeout(() => this.show = true, this.showDelay)
       this.bindEvents();
-    }
+    },
+
   }
 </script>
 

@@ -6,19 +6,64 @@
        transition="context"
        v-click-outside>
     
-    <div class="tm-context-toolset"></div>
+    <button class="tm-context-button">
+      <i class="fa fa-pencil"></i>
+      <span>Update the task</span>
+    </button>
 
     <div class="tm-context-splitter"></div>
 
-    <div class="tm-context-toolset"></div>
+    <div class="tm-context-toolset">
+      <h2>Planning</h2>
+      <ul>
+        <li>
+          <i class="fa fa-calendar-check-o"></i>
+          <span class="tm-ctx-toolset-hint">Today</span>
+        </li>
+        <li>
+          <i class="fa fa-calendar-plus-o"></i>
+          <span class="tm-ctx-toolset-hint">Tomorrow</span>
+        </li>
+        <li>
+          <i class="fa fa-calendar"></i>
+          <span class="tm-ctx-toolset-hint">Next week</span>
+        </li>
+        <li>
+          <i class="fa fa-sliders"></i>
+          <span class="tm-ctx-toolset-hint">More</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tm-context-toolset">
+      <h2>Priorities</h2>
+      <ul>
+        <li>
+          <i class="fa fa-flag tl-priority-0"></i>
+          <span class="tm-ctx-toolset-hint">Low</span>
+        </li>
+        <li>
+          <i class="fa fa-flag tl-priority-1"></i>
+          <span class="tm-ctx-toolset-hint">Normal</span>
+        </li>
+        <li>
+          <i class="fa fa-flag tl-priority-2"></i>
+          <span class="tm-ctx-toolset-hint">High</span>
+        </li>
+      </ul>
+    </div>
 
     <div class="tm-context-splitter"></div>
 
-    <div class="tm-context-toolset"></div>
+    <button class="tm-context-button">
+      <i class="fa fa-check"></i>
+      <span>Mark as complete</span>
+    </button>
 
-    <div class="tm-context-splitter"></div>
-
-    <div class="tm-context-toolset"></div>
+    <button class="tm-context-button">
+      <i class="fa fa-trash"></i>
+      <span>Remove the task</span>
+    </button>
 
    </div>
 
@@ -70,7 +115,8 @@
 
           this.coords = {x: x, y: y - difference}
           this.vm = args.vm;
-          this.show = !this.show 
+
+          this.show = !this.show;
         });
       }
     },

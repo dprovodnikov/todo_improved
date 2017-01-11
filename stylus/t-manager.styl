@@ -142,12 +142,6 @@
   &:hover
     background $red !important
 
-.tl-task-removed
-  transition all .5s cubic-bezier(.36,-0.64,.34,1.76)
-  padding 0 
-  margin 0 
-  opacity 0
-
 .tl-task:hover
   box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
 
@@ -361,7 +355,7 @@
 .tm-context-menu
   width 200px
   background #fff
-  box-shadow 0px 0px 5px 1px rgba(0, 0, 0, .2);
+  box-shadow 0px 0px 10px 2px rgba(0, 0, 0, .2);
   position absolute
   top 0
   right 0
@@ -372,11 +366,65 @@
 
 .tm-context-toolset
   height 50px
-  padding 10px
+  padding 0 5px
   margin 2px 0
+  h2
+    font normal 0.7em 'Cabin'
+    color #aaa
+  ul
+    flexbox(false, true)
+    justify-content space-around
+    padding 10px 0 15px 0
+  li
+    list-style none
+    position relative
+    &:hover
+      .tm-ctx-toolset-hint
+        opacity 1
+        transform translateY(0)
+  i
+    color #8d8d8d
+    font-size 1.3em
+    transition all .1s
+    cursor pointer
+    &:hover
+      color $red
+
+.tm-ctx-toolset-hint
+  @extends .tl-te-tool-hint
+  top -150%
+  transform translateY(-5%)
+  background #3d3d3d
+  white-space nowrap
 
 .tm-context-splitter
   height 1px
   background #eee
   margin 4px 0
+
+.tm-context-button
+  padding 5px 10px
+  color #7d7d7d
+  font 300 .9em 'Hind'
+  cursor pointer
+  outline none
+  border none
+  background transparent
+  width 100%
+  text-align left
+  transition all .1s
+  &:hover
+    background #eee
+  i
+    font-size 1.1em
+    margin-right 10px
+    color #aaa
+  
+
+
+
+
+
+
+
 
