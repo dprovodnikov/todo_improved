@@ -48,15 +48,28 @@
         this.$on('collapse-me', () => this.show = false);
 
         this.eventBus.$on('open-context', args => {
+          let rootEl, contextEl, rootOffset, difference;
+
+          rootEl = $('.app-content');
+          contextEl = $(this.$el);
+          rootOffset = rootEl.offset();
+          difference = 0; // amount of how far the context menu would be beyond the app borders
+
+          let [x, y] = [
+            args.event.pageX - rootOffset.left,
+            args.event.pageY - rootOffset.top
+          ];
+
+          let [rootEnd, contextEnd] = [
+            rootOffset.top + rootEl.outerHeight(true),
+            y + contextEl.outerHeight(true) + rootOffset.top
+          ];
+
+          if(contextEnd > rootEnd)
+            difference = contextEl.outerHeight(true)
+
+          this.coords = {x: x, y: y - difference}
           this.vm = args.vm;
-
-          let applicationContainer = $('.app-content').offset();
-
-          this.coords = {
-            x: args.event.pageX - applicationContainer.left,
-            y: args.event.pageY - applicationContainer.top
-          }
-
           this.show = !this.show 
         });
       }
