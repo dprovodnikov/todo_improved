@@ -5,6 +5,21 @@
        style="top: {{coords.y}}px; left: {{coords.x}}px"
        transition="context"
        v-click-outside>
+    
+    <div class="tm-context-toolset"></div>
+
+    <div class="tm-context-splitter"></div>
+
+    <div class="tm-context-toolset"></div>
+
+    <div class="tm-context-splitter"></div>
+
+    <div class="tm-context-toolset"></div>
+
+    <div class="tm-context-splitter"></div>
+
+    <div class="tm-context-toolset"></div>
+
    </div>
 
 </template>
@@ -42,12 +57,7 @@
             y: args.event.pageY - applicationContainer.top
           }
 
-          if(this.show) {
-            this.show = false;
-            setTimeout(() => this.show = true, 300);
-          } else
-            this.show = true;
-
+          this.show = !this.show 
         });
       }
     },

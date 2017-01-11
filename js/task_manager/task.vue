@@ -194,10 +194,14 @@
       },
 
       openContext: function(e) {
+        if(this.updating) return false;
+
         this.eventBus.$emit('open-context', {
           vm: this,
           event: e
         });
+
+        if(this.checked) this.eventBus.$emit('task-unfocus');
       },
 
       bindEvents: function() {
