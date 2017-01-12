@@ -195,13 +195,13 @@
 
       openContext: function(e) {
         if(this.updating) return false;
-
-        this.eventBus.$emit('open-context', {
-          vm: this,
-          event: e
-        });
-
+        this.eventBus.$emit('open-context', {vm: this, event: e});
         this.eventBus.$emit('task-unfocus');
+      },
+
+      markAsDeleted: function(task) {
+        this.affected = true;
+        this.show = false;
       },
 
       bindEvents: function() {
@@ -210,20 +210,23 @@
           this.checked = false;
         });
 
-        this.eventBus.$on('task-unfocus', () => this.checked = false );
+        this.eventBus.$on('task-unfocus', () => this.checked = false);
 
-        this.eventBus.$on('toolbar-action', (task) => {
-          if(task == this.task && task.status != 'updated') {
-            this.affected = true;
-            this.show = false;
-          } else if (task == this.task)
+        this.eventBus.$on('toolbar-action', task => {
+          if(task != this.task) return false;
+
+          if(task.status != 'updated')
+            this.markAsDeleted();
+          else
             this.updating = true;
         });
 
         this.eventBus.$on('changes-undo', task => {
-          if(task == this.task && task.status != 'updated')
+          if(task != this.task) return false;
+
+          if(task.status != 'updated')
             this.show = true;
-          else if(task == this.task)
+          else
             this.undoChanges();
         });
 
@@ -232,6 +235,7 @@
             this.show = true;
             this.affected = false;
           }
+
           if(this.updated)
             this.undoChanges();
         });

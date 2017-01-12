@@ -6,7 +6,7 @@
        transition="context"
        v-click-outside>
     
-    <button class="tm-context-button">
+    <button class="tm-context-button" @click="doAction('updated')">
       <i class="fa fa-pencil"></i>
       <span>Update the task</span>
     </button>
@@ -55,12 +55,12 @@
 
     <div class="tm-context-splitter"></div>
 
-    <button class="tm-context-button">
+    <button class="tm-context-button" @click="doAction('completed')">
       <i class="fa fa-check"></i>
       <span>Mark as complete</span>
     </button>
 
-    <button class="tm-context-button">
+    <button class="tm-context-button" @click="doAction('deleted')">
       <i class="fa fa-trash"></i>
       <span>Remove the task</span>
     </button>
@@ -89,10 +89,20 @@
     },
 
     methods: {
+      doAction: function(status) {
+        this.vm.task.status = status;
+        this.eventBus.$emit('toolbar-action', this.vm.task);
+      },
+
       bindEvents: function() {
         this.$on('collapse-me', () => this.show = false);
 
         this.eventBus.$on('open-context', args => {
+          if(this.show) {
+            this.show = false;
+            return false;
+          }
+
           let rootEl, contextEl, rootOffset, difference;
 
           rootEl = $('.app-content');
@@ -116,7 +126,7 @@
           this.coords = {x: x, y: y - difference}
           this.vm = args.vm;
 
-          this.show = !this.show;
+          this.show = true;
         });
       }
     },
@@ -132,7 +142,7 @@
 <style lang="stylus">
   
   .context-transition
-    transition transform .1s, opacity .1s, left .1s .2s, top .1s .2s
+    transition transform .1s, opacity .1s, left .1s .1s, top .1s .1s
 
   .context-enter,
   .context-leave
