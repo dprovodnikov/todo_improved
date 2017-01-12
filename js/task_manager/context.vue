@@ -38,15 +38,15 @@
     <div class="tm-context-toolset">
       <h2>Priorities</h2>
       <ul>
-        <li>
+        <li @click="setPriority(0)">
           <i class="fa fa-flag tl-priority-0"></i>
           <span class="tm-ctx-toolset-hint">Low</span>
         </li>
-        <li>
+        <li @click="setPriority(1)">
           <i class="fa fa-flag tl-priority-1"></i>
           <span class="tm-ctx-toolset-hint">Normal</span>
         </li>
-        <li>
+        <li @click="setPriority(2)">
           <i class="fa fa-flag tl-priority-2"></i>
           <span class="tm-ctx-toolset-hint">High</span>
         </li>
@@ -92,6 +92,11 @@
       doAction: function(status) {
         this.vm.task.status = status;
         this.eventBus.$emit('toolbar-action', this.vm.task);
+      },
+
+      setPriority(priority) {
+        this.vm.newPriority = priority;
+        this.vm.saveChanges();
       },
 
       bindEvents: function() {
