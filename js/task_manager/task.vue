@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import format from '../utils/date-converter.js';
+  import {format} from '../utils/date-utils.js';
   import rightClickDirective from '../directives/right-click.js';
 
   export default {
@@ -172,13 +172,19 @@
         this.switchToolset('main');
       },
 
-      setDeadline: function() {
-        setTimeout(() => {
-          this.eventBus.$emit('open-calendar', {
-            date: this.newDate, 
-            onpick: (date) => this.newDate = date.instance
-          });
-        }, 10);
+      setDeadline: function(ops) {
+        if(ops.date)
+          this.newDate = ops.date, this.saveChanges()
+        else
+          setTimeout(() => {
+            this.eventBus.$emit('open-calendar', {
+              date: this.newDate, 
+              onpick: (date) => {
+                this.newDate = date.instance
+                if(ops.autosave) this.saveChanges();
+              }
+            });
+          }, 10);
       },
 
       getPriority: function(priority) {

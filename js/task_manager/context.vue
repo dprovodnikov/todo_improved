@@ -7,7 +7,7 @@
        v-click-outside>
     
     <button class="tm-context-button" @click="doAction('updated')">
-      <i class="fa fa-pencil"></i>
+      <i class="fa fa-pencil fa-fw"></i>
       <span>Update the task</span>
     </button>
 
@@ -16,20 +16,20 @@
     <div class="tm-context-toolset">
       <h2>Planning</h2>
       <ul>
-        <li>
+        <li @click="setDeadline(new Date())">
           <i class="fa fa-calendar-check-o"></i>
           <span class="tm-ctx-toolset-hint">Today</span>
         </li>
-        <li>
+        <li @click="setDeadline(tomorrow())">
           <i class="fa fa-calendar-plus-o"></i>
           <span class="tm-ctx-toolset-hint">Tomorrow</span>
         </li>
-        <li>
+        <li @click="setDeadline(nextWeek())">
           <i class="fa fa-calendar"></i>
           <span class="tm-ctx-toolset-hint">Next week</span>
         </li>
-        <li>
-          <i class="fa fa-sliders"></i>
+        <li @click="setDeadline()">
+          <i class="fa fa-calendar-o"></i>
           <span class="tm-ctx-toolset-hint">More</span>
         </li>
       </ul>
@@ -56,12 +56,12 @@
     <div class="tm-context-splitter"></div>
 
     <button class="tm-context-button" @click="doAction('completed')">
-      <i class="fa fa-check"></i>
+      <i class="fa fa-check fa-fw"></i>
       <span>Mark as complete</span>
     </button>
 
     <button class="tm-context-button" @click="doAction('deleted')">
-      <i class="fa fa-trash"></i>
+      <i class="fa fa-trash fa-fw"></i>
       <span>Remove the task</span>
     </button>
 
@@ -71,6 +71,7 @@
 
 <script>
   import clickOutsideDirective from '../directives/click-outside.js';
+  import {tomorrow, thisDayNextWeek} from '../utils/date-utils.js';
   
   export default {
 
@@ -98,6 +99,16 @@
         this.vm.newPriority = priority;
         this.vm.saveChanges();
       },
+
+      setDeadline(date) {
+        if(date)
+          this.vm.setDeadline({date: date});
+        else
+          this.vm.setDeadline({autosave: true});
+      },
+
+      tomorrow: tomorrow,
+      nextWeek: thisDayNextWeek,
 
       bindEvents: function() {
         this.$on('collapse-me', () => this.show = false);

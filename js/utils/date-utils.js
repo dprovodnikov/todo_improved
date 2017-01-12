@@ -1,4 +1,14 @@
-export default function (format, date, settings) {
+export function tomorrow() {
+  let curDate = new Date();
+  return new Date(curDate.setDate(curDate.getDate() + 1));
+};
+
+export function thisDayNextWeek() {
+  let curDate = new Date();
+  return new Date(curDate.setDate(curDate.getDate() + 7));
+}
+
+export function format(format, date, settings) {
   if (!date) return '';
 
   let iFormat,
