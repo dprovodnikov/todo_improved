@@ -111,11 +111,17 @@
       nextWeek: thisDayNextWeek,
 
       bindEvents: function() {
-        this.$on('collapse-me', () => this.show = false);
+        this.$on('collapse-me', () => {
+          this.show = false
+          if(this.vm)
+            this.vm.contextOpen = false;
+        });
 
         this.eventBus.$on('open-context', args => {
           if(this.show) {
             this.show = false;
+            if(this.vm)
+              this.vm.contextOpen = false;
             return false;
           }
 
@@ -143,6 +149,7 @@
           this.vm = args.vm;
 
           this.show = true;
+          this.vm.contextOpen = true;
         });
       }
     },

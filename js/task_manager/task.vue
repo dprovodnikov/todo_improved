@@ -4,7 +4,7 @@
     v-if="show"
     v-right-click="openContext"
     @click="check()"
-    :class="{'tl-task-active': checked, 'tl-task-updating': updating}">
+    :class="{'tl-task-active': checked, 'tl-task-updating': updating, 'tl-task-highlight': contextOpen}">
     
     <div class="tl-task-content" v-show="!updating">
       <div class="tl-task-text">{{task.text}}</div>
@@ -92,6 +92,8 @@
         newDate: this.task.date,
 
         old: {},
+
+        contextOpen: false,
 
         toolsets: {
           main: true,
@@ -285,8 +287,10 @@
     
   .toolset-transition
     transition all .1s .1s
+    transform-origin 0 0
   .toolset-main-transition
     transition all .1s
+    transform-origin 0 0
 
   .toolset-enter
     transform rotateX(-90deg)
