@@ -97,10 +97,12 @@
 
       setPriority(priority) {
         this.vm.newPriority = priority;
+        this.vm.task.status = 'updated';
         this.vm.saveChanges();
       },
 
       setDeadline(date) {
+        this.vm.task.status = 'updated';
         if(date)
           this.vm.setDeadline({date: date});
         else

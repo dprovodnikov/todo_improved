@@ -174,10 +174,10 @@
         this.switchToolset('main');
       },
 
-      setDeadline: function(ops) {
+      setDeadline: function(ops={}) {
         if(ops.date)
           this.newDate = ops.date, this.saveChanges()
-        else
+        else {
           setTimeout(() => {
             this.eventBus.$emit('open-calendar', {
               date: this.newDate, 
@@ -187,6 +187,7 @@
               }
             });
           }, 10);
+        }
       },
 
       getPriority: function(priority) {
