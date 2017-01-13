@@ -225,8 +225,10 @@
 
           if(task.status != 'updated')
             this.markAsDeleted();
-          else
+          else {
+            this.eventBus.$emit('task-selected');
             this.updating = true;
+          }
         });
 
         this.eventBus.$on('changes-undo', task => {
