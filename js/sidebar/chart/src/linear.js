@@ -25,37 +25,38 @@ class Linear extends ChartModel {
     for(let col of columns) {
 
       let pointCoords = {
-       x: _offsetX,
-       y: -col.count * this.scale - _offsetY,
+        x: _offsetX,
+        y: -col.count * this.scale - _offsetY,
       };
 
       let point = this.paper.circle(pointCoords.x, pointCoords.y, 0)
       .attr({
-       strokeWidth: style.point.strokeWidth,
-       stroke: style.point.stroke,
-       fill: style.point.fill,
-       id: 'point',
+        strokeWidth: style.point.strokeWidth,
+        stroke: style.point.stroke,
+        fill: style.point.fill,
+        id: 'point',
       });
 
       setTimeout(function() {
-       point.animate({r: style.point.r}, 200, mina.easein);
+        point.animate({r: style.point.r}, 200, mina.easein);
       }, timeout);
       timeout += 30;
 
       let timer;
       point.hover(e => {
-       point.stop().animate({r: style.point.r * 2}, 1000, mina.elastic);
-       this.callback(e, col);
+        point.stop().animate({r: style.point.r * 2}, 1000, mina.elastic);
+        this.hover(col, e);
       }, e => {
-       clearTimeout(timer);
-       point.stop().animate({r: style.point.r}, 1000, mina.elastic);
+        this.unhover();
+        clearTimeout(timer);
+        point.stop().animate({r: style.point.r}, 1000, mina.elastic);
       });
 
       let pathString = chartPath.attr('d'),
       coords = `${_offsetX}, ${-col.count * this.scale - _offsetY}`;
 
       chartPath.attr({
-       d: pathString ? pathString + `L ${coords}` : `M ${coords}`,
+        d: pathString ? pathString + `L ${coords}` : `M ${coords}`,
       });
       _offsetX += this.colWidth;
 

@@ -103,3 +103,20 @@
 .chartzone-period-active
   color $red !important
   text-decoration underline
+
+.chart-info-popup
+  position absolute
+  max-width 200px
+  white-space nowrap
+  background #000
+  border-radius 3px
+  box-shadow 0 0 10px 1px rgba(0, 0, 0, .3);
+  color #fff
+  font 700 12px 'Hind'
+  padding 5px 10px
+  opacity 0
+  transition all .1s
+  pointer-events none
+.chart-info-popup-visible
+  transition all .1s, opacity .2s .2s
+  opacity .75 !important

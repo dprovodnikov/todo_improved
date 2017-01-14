@@ -11,7 +11,8 @@ class ChartModel {
     this.scale = settings.scale || 10;
     this.period = settings.period || 30;
     this.gridOptions = settings.grid || {};
-    this.callback = settings.hover;
+    this.hover = settings.hover;
+    this.unhover = settings.unhover;
 
     this.height = settings.height += this.offsetX;
     this.width = settings.width += this.offsetY * 2;

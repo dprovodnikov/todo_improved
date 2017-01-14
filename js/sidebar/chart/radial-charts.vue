@@ -25,6 +25,7 @@
   import Chart from './dist/chart.js';
   
   export default {
+    props: ['eventBus'],
 
     data: function() {
       return {
@@ -45,12 +46,13 @@
           selector: this.circle.id,
           persent: 83, 
           r: 60,
-          width: 7,
+          width: 8,
           duration: 700,
-          strokeFilled: '#EE0032',
-          strokeEmpty: 'transparent',
-          fontFamily: 'Muli',
-          fontWeight: '0',
+          strokeFilled: '#B70C41',
+          strokeEmpty: '#fff',
+          fill: '#eee',
+          fontFamily: 'Hind',
+          fontWeight: '500',
           fontColor: '#3d3d3d',
         });
       },
@@ -61,7 +63,12 @@
           r: 60, r2: 30,
           animationDuration: 700,
           hintColor: '#3d3d3d',
-          hover: function() {},
+          hover: (data) => {
+            this.eventBus.$emit('pie-hovered', data);
+          },
+          unhover: () => {
+            this.eventBus.$emit('pie-unhovered');
+          },
           sectors: [
             {persent: 25, fill: '#B70C41'},
             {persent: 35, fill: '#EE0032'},

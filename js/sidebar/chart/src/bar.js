@@ -27,8 +27,9 @@ class Bar extends ChartModel {
 
         bar.hover(e => {
           bar.stop().animate({fill: style.hover}, 200, mina.easeinout);
-          this.callback(e, col);
+          this.hover(col, e);
         }, () => {
+          this.unhover();
           bar.stop().animate({fill: style.fill}, 200, mina.easeinout);
         });
 

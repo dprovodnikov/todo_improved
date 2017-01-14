@@ -11,8 +11,8 @@ class Pie {
     this.hintColor = settings.hintColor;
 
     /********************************************************************
-    * We have to define either we got a static set of sector definions or
-    * we got an array of data to parse.
+    * We have to define either we've got a static set of sector definions or
+    * we've got an array of data to parse.
     *********************************************************************/
     if(Array.isArray(settings.sectors))
       this.sectorsData = settings.sectors;
@@ -20,7 +20,8 @@ class Pie {
       this.sectorsData = this._parse(settings.sectors);
 
     this.groups = [];
-    this.cb = settings.hover;
+    this.hover = settings.hover;
+    this.unhover = settings.unhover;
     this.animationDuration = settings.animationDuration;
 
     this.paper = Snap(settings.selector).attr({
@@ -134,8 +135,9 @@ class Pie {
           d: Util.describeSector(this.c, this.c, this.r - (this.r / 20), this.r2, 0, sector.data('angle'))
         }, 500, mina.elastic);
 
-        this.cb();
+        this.hover();
       }, e => {
+        this.unhover();
         sector.stop().animate({
           d: Util.describeSector(this.c, this.c, this.r, this.r2, 0, sector.data('angle'))
         }, 500, mina.elastic);
@@ -153,7 +155,7 @@ class Pie {
         fill: sector.fill,
         strokeDasharray: 2 * Math.PI * sector.angle,
         strokeDashoffset: 2 * Math.PI * sector.angle,
-        strokeWidth: 3,
+        strokeWidth: 0,
         stroke: sector.fill,
         fillOpacity: 0,
       }).transform(`r${totalAngle}, ${this.c}, ${this.c}`);

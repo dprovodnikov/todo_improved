@@ -20,6 +20,8 @@
   import Chart from './dist/chart.js';
   
   export default {
+    props: ['eventBus'],
+
     components: {
       'chartzone-topbar': periodSelect,
     },
@@ -48,7 +50,12 @@
           height: this.height,
           width: this.width,
           axis: false,
-          hover: function() {},
+          hover: (data) => {
+            this.eventBus.$emit('chart-hovered', data);
+          },
+          unhover: () => {
+            this.eventBus.$emit('chart-unhovered');
+          },
           grid: {
             color: '#eee',
             rows: true,

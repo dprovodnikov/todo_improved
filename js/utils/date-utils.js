@@ -8,6 +8,10 @@ export function thisDayNextWeek() {
   return new Date(curDate.setDate(curDate.getDate() + 7));
 }
 
+export function weekday(date) {
+  return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+}
+
 export function format(format, date, settings) {
   if (!date) return '';
 
