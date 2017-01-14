@@ -3,27 +3,51 @@
   <div class="chartzones">
     <div class="chartzone-wrap">
       <div class="chartzone-top">
-        <div class="fa fa-sliders"></div>
+        <div class="chartzone-title">
+          <i class="fa fa-calendar-check-o fa-fw"></i>
+          Completed tasks for the last 30 days
+        </div>
+
+        <period-select :period="charts.completed.period"
+            @period-changed="setCompletedChartPeriod">
+        </period-select>
+
       </div>
       <div class="chartzone">
-        <svg :id="selectors.completed"></svg>
+        <svg :id="charts.completed.id"></svg>
       </div>
     </div>
     <div class="chartzone-wrap">
       <div class="chartzone-top">
-        <div class="fa fa-sliders"></div>
+        <div class="chartzone-title">
+          <i class="fa fa-calendar-times-o fa-fw"></i>
+          Overdue tasks for the last 30 days
+        </div> 
+
+        <period-select :period="charts.overdue.period"
+            @period-changed="setOverdueChartPeriod">
+        </period-select>
+
       </div>
       <div class="chartzone">
-        <svg :id="selectors.overdue"></svg>
+        <svg :id="charts.overdue.id"></svg>
       </div>
     </div>
     <div class="chartzone-wrap">
       <div class="chartzone chartzone-double">
         <div class="chartzone-half">
-          <svg :id="selectors.radial"></svg>
+          <div class="chartzone-title">
+            <i class="fa fa-hourglass-start fa-fw"></i>
+            Today's progress
+          </div>
+          <svg :id="charts.radial.id"></svg>
         </div>
         <div class="chartzone-half">
-          <svg :id="selectors.pie"></svg>
+          <div class="chartzone-title">
+            <i class="fa fa-flag fa-fw"></i>
+            Priorities pie
+          </div>
+          <svg :id="charts.pie.id"></svg>
         </div>
       </div>
     </div>
@@ -35,37 +59,61 @@
 
   import Chart from './dist/chart.js';
   import fakeData from './src/demo.js';
+  import periodSelect from './period-select.vue';
   
   export default {
+    components: {
+      'period-select': periodSelect,
+    },
+
     data: function() {
       return {
-        height: 150,
+        height: 120,
         width: 350,
-        selectors: {
-          completed: 'chart-completed',
-          overdue: 'chart-overdue',
-          radial: 'radialchart',
-          pie: 'piechart',
+        charts: {
+          completed: { id: 'chart-completed', period: 30 },
+          overdue: { id: 'chart-overdue', period: 20 },
+          radial: { id: 'radialchart' },
+          pie: { id: 'piechart' },
         }
       };
     },
+
     methods: {
+      setCompletedChartPeriod: function(period) {
+        this.charts.completed.period = period;
+        this.buildCompletedChart();
+      },
+
+      setOverdueChartPeriod: function(period) {
+        this.charts.overdue.period = period;
+        this.buildOverdueChart();
+      },
+
       buildCompletedChart: function() {
 
         Chart.linear({
-          selector: '#' + this.selectors.completed,
-          period: 30,
+          selector: '#' + this.charts.completed.id,
+          period: this.charts.completed.period,
           height: this.height,
           width: this.width,
           axis: false,
           hover: function() {},
-          grid: { color: '#eee', rows: true, columns: false }
+          grid: {
+            color: '#eee',
+            rows: true,
+            columns: false,
+            text: {
+              fontWeight: 'normal',
+              fontFamily: 'Hind',
+            }
+          }
         }, [
           {
             data: fakeData[0],
-            line: { color: '#cc5656' },
+            line: { color: '#cc5656', width: '3px' },
             point: {
-              radius: 3,
+              radius: 4,
               innerColor: '#cc5656',
               outerColor: '#fff',
               strokeWidth: 1,
@@ -78,13 +126,23 @@
       buildOverdueChart: function() {
 
         Chart.bar({
-          selector: '#' + this.selectors.overdue,
-          period: 20,
-          height: this.height - 15,
+          selector: '#' + this.charts.overdue.id,
+          period: this.charts.overdue.period,
+          height: this.height - 10,
           width: this.width,
+          scale: 10,
           axis: false,
           hover: function() {},
-          grid: { columns: true, rows: true, color: '#eee' }
+          grid: {
+            columns: true,
+            rows: true,
+            color: '#eee',
+            text: {
+              fontFamily: 'Hind',
+              fontWeight: 'normal',
+              color: '#aaa'
+            },
+          }
         }, [
           {
             data: fakeData[0],
@@ -97,7 +155,7 @@
       buildRadialChart: function() {
 
         Chart.radial({
-          selector: '#' + this.selectors.radial,
+          selector: '#' + this.charts.radial.id,
           persent: 83, 
           r: 60,
           width: 7,
@@ -114,7 +172,7 @@
       buildPieChart: function() {
 
         Chart.pie({
-          selector: '#' + this.selectors.pie,
+          selector: '#' + this.charts.pie.id,
           r: 60, r2: 30,
           animationDuration: 700,
           hintColor: '#3d3d3d',

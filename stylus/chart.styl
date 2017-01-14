@@ -8,18 +8,18 @@
   height 33.3%
   width 100%
   background #fff
-  border-bottom 2px solid #eee
+  padding-bottom 20px
 
 .chartzone-top
   flexbox(false, true)
-  justify-content flex-end
-  padding 5px 10px
-  .fa
+  justify-content space-between
+  padding 5px 0
+  width 100%
+  .chartzone-settings
     font-size 1.2em
     color: #ccc
 
 .chartzone
-  height 85%
   flexbox(true, true)
 
 .chartzone-half
@@ -27,8 +27,79 @@
   height 100%
   width 50%
   box-sizing border-box
+  position relative
+  padding-top 40px
+  border-top 2px solid #eee
   &:first-of-type
     border-right 2px solid #eee
+  .chartzone-title
+    position absolute
+    top 5px
+    i
+     font-size 1em
+
 .chartzone-double
   height 100%
+  width 100%
   margin 0
+
+.chartzone-title
+  font 500 0.8em 'Hind'
+  color #4d4d4d
+  i
+    color #aaa
+    font-size 20px
+
+.chartzone-settings
+  position relative
+  i
+    font-size 17px
+    color #aaa
+  &:after
+    content '\f0d7'
+    color #aaa
+    font normal 12px 'fontawesome'
+    position absolute
+    right 150%
+    top 0; bottom 0
+    margin auto
+    transform translateY(20%)
+    transition all .1s
+  &.period-open
+    .chartzone-settings-list
+      opacity 1
+      transform translate(20%, 5%)
+    &:after
+      content '\f0d8' !important
+  &.period-close
+    .chartzone-settings-list
+      pointer-events none
+
+.chartzone-settings-list
+  white-space nowrap
+  top 120%
+  right 0
+  background #fff
+  position absolute
+  z-index 5
+  transition all .1s
+  opacity 0
+  box-sizing content-box
+  transform translate(20%, 0)
+  padding 10px
+  list-style none
+  font normal 0.9em 'Cabin'
+  line-height 20px
+  box-shadow 0 0 3px 0 rgba(0, 0, 0, .5);
+  border-radius 2px
+  li
+    list-style none
+    color #5d5d5d
+    font 500 12px 'Hind'
+    cursor pointer
+    &:hover
+      color #3d3d3d
+
+.chartzone-period-active
+  color $red !important
+  text-decoration underline

@@ -1,6 +1,8 @@
 class ChartModel {
   constructor(settings, charts) {
     if(!settings || !charts) return false;
+    
+    document.querySelector(settings.selector).innerHTML = '';
 
     this.charts = charts;
     this.colWidth = settings.width / settings.period;
@@ -45,7 +47,7 @@ class ChartModel {
     const gridStyle = {
       fill: 'transparent',
       stroke: this.gridOptions.color || '#aaa',
-      strokeWidth: '1px'
+      strokeWidth: '.5px'
     };
 
     this.gridOptions.text = this.gridOptions.text || {};
@@ -120,6 +122,7 @@ class ChartModel {
   }
   
   draw() {
+
     for(let chartData of this.charts) {
 
       let columns = this.getColumns(chartData.data),
