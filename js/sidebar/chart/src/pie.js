@@ -132,7 +132,7 @@ class Pie {
       sector.hover(e => {
         sector.animate({
           d: Util.describeSector(this.c, this.c, this.r - (this.r / 20), this.r2, 0, sector.data('angle'))
-        }, 300, mina.elastic);
+        }, 500, mina.elastic);
 
         this.cb();
       }, e => {
