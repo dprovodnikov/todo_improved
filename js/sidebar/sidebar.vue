@@ -146,8 +146,6 @@
 
     created: function() {
       this.bindEvents();
-
-      this.openPanel('charts');
     }
 
   }

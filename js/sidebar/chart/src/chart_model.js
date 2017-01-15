@@ -127,7 +127,7 @@ class ChartModel {
     for(let chartData of this.charts) {
 
       let columns = this.getColumns(chartData.data),
-      type = chartData.type || 'linear';
+          type = chartData.type || 'linear';
 
       let defaultColor = '#aaa';
 

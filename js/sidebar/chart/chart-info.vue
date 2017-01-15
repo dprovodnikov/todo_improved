@@ -50,7 +50,7 @@
       },
 
       update: function(data) {
-        let date = new Date(data.date);
+        let date = new Date(+data.date);
         this.date = 
           `${data.count == 0 ? 'No' : data.count}
           tasks on ${weekday(date)} ${format("dd, M yy", date)}`;

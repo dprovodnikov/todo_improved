@@ -1,3 +1,5 @@
+import fakeData from '../chart/src/demo.js';
+
 export default function(params) {
   if(!params) return false;
 
@@ -197,36 +199,38 @@ export default function(params) {
     *****************************************************************************************/
     let missingCellsCount = 7 - (7 - currentCalendar[month].firstDay), prevMonthDaysCount;
 
-    /* if current month is the first in year, than previous month is the last in the year */
+    /* if the current month is the first in year, than the previous month is the last in the year */
     if(month == 0)
       prevMonthDaysCount = currentCalendar[11].days;
     else
       prevMonthDaysCount = currentCalendar[month-1].days;
 
-    /* only for better appearance */
+    /* only for a better appearance */
     if(missingCellsCount == 0) missingCellsCount = 7;
 
     for(let i = prevMonthDaysCount + 1 - missingCellsCount; i <= prevMonthDaysCount; i++)
       cellsMarkup += `<div class="cell cell-out cell-prev">${i}</div>`
 
     /*****************************************************************************************
-    * Rendering cells of current month
+    * Rendering cells of the current month
     *****************************************************************************************/
     let currentMonthDaysCount = currentCalendar[month].days;
 
     for(let i = 1; i <= currentMonthDaysCount; i++) {
       if(options && options.cellToActivate && i == options.cellToActivate)
-        cellsMarkup += `<div id="cell-${i}" class="cell ${options.activeCellClass}">${i}</div>`
+        cellsMarkup += 
+        `<div id="cell-${i}" class="cell ${options.activeCellClass}">${i}</div>`
       else
-        cellsMarkup += `<div id="cell-${i}" class="cell">${i}</div>`
+        cellsMarkup +=
+        `<div id="cell-${i}" class="cell">${i}</div>`
     }
 
     /*****************************************************************************************
-    * Rendering missing cells to fill empty place after current cells
+    * Rendering missing cells to fill the empty place after the current cells
     *****************************************************************************************/
     missingCellsCount = 7 - (currentCalendar[month].lastDay + 1);
 
-    /* only for better appearance */
+    /* only for a better appearance */
     if(missingCellsCount == 0) missingCellsCount = 7;
 
     for(let i = 1; i <= missingCellsCount; i++)
@@ -239,14 +243,29 @@ export default function(params) {
     /*****************************************************************************************
     * Find today`s cell
     *****************************************************************************************/
-    // if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
-    //   $(`#cell-${curDate.getDate()}`).addClass('cell-today');
-    // }
     let dp = params.datePrimary;
     if(dp && currentMonthNumber == dp.getMonth() && currentYear == dp.getFullYear()) {
       $(`#cell-${dp.getDate()}`).addClass('cell-active');
     } else if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
       $(`#cell-${curDate.getDate()}`).addClass('cell-today');
+    }
+
+    if(!dp) {
+      addHints();
+    }
+
+  }
+
+  function addHints() {
+    // here we load all uncompleted tasks for the current month
+    
+    let data = _.groupBy(fakeData[2], 'date');
+
+    for(let [date, tasks] of Object.entries(data)) {
+      date = new Date(date);
+      $(`#cell-${date.getDate()}`).append(`
+        <div class="calendar-cell-number">${tasks.length}</div>
+      `);
     }
 
   }

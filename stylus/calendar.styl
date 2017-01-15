@@ -160,12 +160,24 @@
   background #eee
   border-bottom 1px solid $red
   
-  
 .cell-today:hover
   color #3d3d3d
 .cell-active 
   background $red !important
   color #fff !important
+
+.calendar-cell-number
+  flexbox(true, true)
+  position absolute
+  top 0; right 0
+  height 18px
+  width @height
+  font 500 10px 'Hind'
+  background $red
+  color #fff
+  transform translate(0%, -20%)
+  z-index 2
+
 
 
 /*******************************************

@@ -262,7 +262,38 @@ const data2 = [
   {date: new Date(2016, 9, 26)},
 ];
 
+const data3 = [
+  {date: new Date(2017, 0, 17)},
+  {date: new Date(2017, 0, 17)},
+  {date: new Date(2017, 0, 17)},
 
-export default [data, data2];
+  {date: new Date(2017, 0, 22)},
+  {date: new Date(2017, 0, 22)},
+
+  {date: new Date(2017, 0, 23)},
+  {date: new Date(2017, 0, 23)},
+  {date: new Date(2017, 0, 23)},
+  {date: new Date(2017, 0, 23)},
+  {date: new Date(2017, 0, 23)},
+
+  {date: new Date(2017, 0, 25)},
+  {date: new Date(2017, 0, 25)},
+  {date: new Date(2017, 0, 25)},
+
+  {date: new Date(2017, 0, 28)},
+  {date: new Date(2017, 0, 28)},
+  {date: new Date(2017, 0, 28)},
+  {date: new Date(2017, 0, 28)},
+  {date: new Date(2017, 0, 28)},
+
+  {date: new Date(2017, 0, 30)},
+  {date: new Date(2017, 0, 30)},
+  {date: new Date(2017, 0, 30)},
+  {date: new Date(2017, 0, 30)},
+  {date: new Date(2017, 0, 30)},
+  {date: new Date(2017, 0, 30)},
+];
+
+export default [data, data2, data3];
 
 
