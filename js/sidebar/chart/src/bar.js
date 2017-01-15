@@ -15,7 +15,8 @@ class Bar extends ChartModel {
         let bar = this.paper.rect(_offsetX, -_offsetY, this.colWidth, 0)
         .attr({
           fill: style.fill,
-          stroke: style.color 
+          stroke: style.color,
+          strokeWidth: 3
          });
 
         setTimeout(() => {

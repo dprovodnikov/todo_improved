@@ -31,7 +31,7 @@
         selector: '#chart-completed',
         period: 30,
         role: 'completed',
-        height: 120,
+        height: 130,
         width: 350,
       };
     },
@@ -56,7 +56,7 @@
           grid: {
             color: '#eee',
             rows: true,
-            columns: false,
+            columns: true,
             text: {
               fontWeight: 'normal',
               fontFamily: 'Hind',

@@ -15,13 +15,13 @@ class ChartModel {
     this.unhover = settings.unhover;
     this.click = settings.click;
 
-    this.height = settings.height += this.offsetX;
+    this.height = settings.height += this.offsetY;
     this.width = settings.width += this.offsetY * 2;
 
     this.paper = Snap(settings.selector).attr({
       height: this.height,
       width: this.width + 50,
-      viewBox: `0 -${this.height - 5} ${this.width} ${this.height}`,
+      viewBox: `0 -${this.height} ${this.width} ${this.height}`,
     });
 
     if(settings.grid.rows || settings.grid.columns) {
@@ -49,7 +49,7 @@ class ChartModel {
     const gridStyle = {
       fill: 'transparent',
       stroke: this.gridOptions.color || '#aaa',
-      strokeWidth: '.5px'
+      strokeWidth: '1px'
     };
 
     this.gridOptions.text = this.gridOptions.text || {};
