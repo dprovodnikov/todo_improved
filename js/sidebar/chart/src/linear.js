@@ -52,6 +52,9 @@ class Linear extends ChartModel {
         point.stop().animate({r: style.point.r}, 1000, mina.elastic);
       });
 
+      //call "click" callback function
+      point.click(e => this.click(col, e));
+
       let pathString = chartPath.attr('d'),
       coords = `${_offsetX}, ${-col.count * this.scale - _offsetY}`;
 

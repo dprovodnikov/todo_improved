@@ -13,6 +13,7 @@ class ChartModel {
     this.gridOptions = settings.grid || {};
     this.hover = settings.hover;
     this.unhover = settings.unhover;
+    this.click = settings.click;
 
     this.height = settings.height += this.offsetX;
     this.width = settings.width += this.offsetY * 2;

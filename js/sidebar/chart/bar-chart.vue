@@ -51,12 +51,9 @@
           width: this.width,
           scale: 10,
           axis: false,
-          hover: (data) => {
-            this.eventBus.$emit('chart-hovered', data);
-          },
-          unhover: () => {
-            this.eventBus.$emit('chart-unhovered');
-          },
+          hover: (data) => this.eventBus.$emit('chart-hovered', data),
+          unhover: () => this.eventBus.$emit('chart-unhovered'),
+          click: (data, event) => this.eventBus.$emit('chart-clicked', data, event),
           grid: {
             columns: true,
             rows: true,

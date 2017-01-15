@@ -33,6 +33,9 @@ class Bar extends ChartModel {
           bar.stop().animate({fill: style.fill}, 200, mina.easeinout);
         });
 
+        // call "click" callback function
+        bar.click(e => this.click(col, e));
+
       }
       timeout += 40;
       _offsetX += this.colWidth;

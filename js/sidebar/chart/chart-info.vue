@@ -5,7 +5,7 @@
        style="top: {{coords.y}}px; left: {{coords.x}}px">
     {{date}}
 
-    <ul v-if="details" class="c-info-list">
+    <ul v-if="detailed" class="c-info-list">
       <li v-for="task in tasks"> 
         {{task.text}}
       </li>
@@ -26,7 +26,7 @@
         date: '',
         visible: false, 
         tasks: [],
-        details: false,
+        detailed: false,
       };
     },
 
@@ -60,6 +60,12 @@
 
       hide: function() {
         this.visible = false;
+        this.detailed = false;
+      },
+
+      showDetailed: function(data, event) {
+        this.detailed = true;
+        setTimeout(() => this.move(event), 10);
       },
 
       bindEvents: function() {
@@ -67,6 +73,7 @@
 
         this.eventBus.$on('chart-hovered', this.update);
         this.eventBus.$on('chart-unhovered', this.hide);
+        this.eventBus.$on('chart-clicked', this.showDetailed);
       },
 
       unbindEvents: function() {
