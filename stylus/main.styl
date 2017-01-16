@@ -8,6 +8,7 @@
 @import 'c-manager'
 @import 't-manager'
 @import 'folders'
+@import 'events'
 
 /**********************************
 * COMMON 
@@ -66,16 +67,29 @@ html, body
   transition all .1s
   cursor pointer
   border-right 0px solid #fff
+  position relative
   &:hover
     background darken($red, 20%)
   &.sidebar-item-active
     background darken($red, 20%)
     border-right-width 3px
-  .fa
+  i
     flex 2
     flexbox(true, true)
     color #fff 
     font-size 1.3em
+
+.main-nav-hint
+  flexbox(true, true)
+  position absolute
+  top 0; right 0
+  transform translate(-75%, 75%)
+  border-radius 50%
+  background #3d3d3d
+  color #fff
+  height 20px
+  width 20px
+  font 500 13px 'Hind'
 
 /**********************************
 * APP BODY
@@ -90,7 +104,7 @@ html, body
   position absolute
   top 0
   left 70px
-  overflow hidden
+  // overflow hidden
   box-shadow: 11px 0px 16px -12px #000;
   transform-origin center left
 

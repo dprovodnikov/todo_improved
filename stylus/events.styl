@@ -1,0 +1,129 @@
+.event-history
+  height 100%
+  width 350px
+  background #fff
+  padding 10px 20px 30px 40px
+
+.event-notification
+  flex-wrap nowrap
+  width 100%
+  min-height 100px
+  border 2px solid #eee
+  border-top none
+  border-right none
+  padding 15px 20px 35px 50px
+  min-height 100px
+  position relative
+  &:first-of-type
+    border-top 2px solid #eee
+  &:last-of-type
+    &:after
+      content ''
+      width 2px
+      background #eee
+      position absolute
+      height 20px
+      left 0
+      bottom 0
+      transform translate(-100%, 100%)
+
+.event-action-label
+  flexbox(true, true)
+  position absolute
+  top 20px; left 0
+  height 40px
+  width 40px
+  transform translateX(-50%)
+  background #3d3d3d
+  border-radius 50%
+  border 2px solid #fff
+
+.event-time
+  background #fff
+  font 500 12px 'Hind'
+  color #aaa
+  padding 0 5px
+  position absolute
+  top 0; right 20px
+  transform translateY(-50%)
+  cursor pointer
+  &:hover
+    text-decoration underline
+
+.event-title
+  font 500 14px 'Hind'
+  width 100%
+  text-align right
+  text-decoration underline
+  color $red
+
+.event-description
+  font 300 14px 'Hind'
+  color #3d3d3d
+
+.event-deleted:after
+  content '\f014'
+  font 300 16px 'fontawesome'
+.event-completed:after
+  content '\f00c'
+  font 300 16px 'fontawesome'
+.event-updated:after
+  content '\f040'
+  font 300 16px 'fontawesome'
+.event-reminder:after
+  content '\f252'
+  font 300 16px 'fontawesome'
+
+.event-deleted:after,
+.event-completed:after,
+.event-updated:after,
+.event-reminder:after
+  color #fff
+
+/****************************
+* event TOPBAR
+*****************************/
+.event-topbar
+  flexbox(false, true);
+  justify-content space-between
+  width 100%
+  margin-bottom 20px
+  padding-bottom 10px
+
+.event-topbar-controls
+  height 100%
+  flexbox(false, true)
+  i
+    color #aaa
+    margin 0 2px
+    cursor pointer
+    transition all .1s
+    position relative
+    font-size 14px
+    &:hover
+      color $red
+      .event-topbar-hint
+        opacity .8
+        transform translateY(0)
+
+.event-topbar-title
+  font 500 14px 'Hind'
+  color #3d3d3d
+  position relative
+  transform translateX(-10%)
+
+.event-topbar-hint
+  color #fff
+  background #000
+  position absolute
+  bottom -200%
+  left 0
+  padding 2px 7px
+  border-radius 3px
+  font 500 .9em 'Hind'
+  transform translateY(-5%)
+  transition all .1s ease-in
+  pointer-events none
+  white-space nowrap
+  z-index 2
+  opacity 0

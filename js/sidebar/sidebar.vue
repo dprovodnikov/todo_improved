@@ -7,7 +7,8 @@
           v-bind:class="{'sidebar-item-active': button.active}"
           v-bind:id="button.id"
           v-on:click="openPanel(button.id)">
-
+        
+        <div v-show="button.hint" class="main-nav-hint">{{button.hint}}</div>
         <i :class="button.icon"></i>
       </li>
     </ul>
@@ -22,6 +23,10 @@
 
     <div transition="slide" class="side-panel" v-if="buttons[3].panel.show">
       <charts :event-bus="eventBus"></charts>
+    </div>
+
+    <div transition="slide" class="side-panel" v-if="buttons[5].panel.show">
+      <event-history :event-bus="eventBus"></event-history>
     </div>
 
     <div transition="slide" class="side-panel transparent" v-if="buttons[6].panel.show">
@@ -39,6 +44,7 @@
   import calendar from './calendar/calendar.vue';
   import charts from './chart/charts.vue';
   import folders from './folders/folders.vue';
+  import eventHistory from './events/history.vue';
 
   export default {
     components: {
@@ -46,6 +52,7 @@
       'calendar': calendar,
       'charts': charts,
       'folders': folders,
+      'event-history': eventHistory,
     },
 
     directives: {
@@ -62,42 +69,43 @@
           {
             id: 'search',  
             active: false,
-            icon: 'fa fa-search' , 
+            icon: 'fa fa-search', 
             panel: {show: false },
           }, {
-            id: 'user',   
+            id: 'user',
             active: false,
-            icon: 'fa fa-user' , 
+            icon: 'fa fa-user',
             panel: { show: false },
           }, {
             id: 'calendar',
             active: false,
-            icon: 'fa fa-calendar' , 
+            icon: 'fa fa-calendar',
             panel: { show: false },
           }, {
-            id: 'charts', 
+            id: 'charts',
             active: false,
-            icon: 'fa fa-pie-chart' , 
+            icon: 'fa fa-pie-chart',
             panel: { show: false },
           }, {
             id: 'weather',
             active: false,
-            icon: 'fa fa-cloud' , 
+            icon: 'fa fa-cloud',
             panel: { show: false },
           }, {
-            id: 'events', 
+            id: 'events',
             active: false,
-            icon: 'fa fa-bell' , 
+            icon: 'fa fa-bell',
+            panel: { show: false },
+            hint: 4,
+          }, {
+            id: 'folders',
+            active: false,
+            icon: 'fa fa-folder',
             panel: { show: false },
           }, {
-            id: 'folders', 
+            id: 'exit',
             active: false,
-            icon: 'fa fa-folder' , 
-            panel: { show: false },
-          }, {
-            id: 'exit',   
-            active: false,
-            icon: 'fa fa-sign-out', 
+            icon: 'fa fa-sign-out',
             panel: { show: false },
           },
         ],
@@ -147,7 +155,7 @@
     created: function() {
       this.bindEvents();
 
-      this.openPanel('charts');
+      this.openPanel('events')
     }
 
   }

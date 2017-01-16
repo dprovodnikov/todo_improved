@@ -112,7 +112,8 @@ class Pie {
 
       setTimeout(() => {
         sector.animate({
-          fillOpacity: 1
+          fillOpacity: 1,
+          strokeWidth: 0
         }, 150);
       }, duration);
 
@@ -155,7 +156,7 @@ class Pie {
         fill: sector.fill,
         strokeDasharray: 2 * Math.PI * sector.angle,
         strokeDashoffset: 2 * Math.PI * sector.angle,
-        strokeWidth: 0,
+        strokeWidth: 2,
         stroke: sector.fill,
         fillOpacity: 0,
       }).transform(`r${totalAngle}, ${this.c}, ${this.c}`);

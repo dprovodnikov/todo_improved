@@ -7,7 +7,7 @@ import toolbar from './task_manager/toolbar.vue';
 import changesManager from './changes_manager/changes_manager.vue';
 import sidebar from './sidebar/sidebar.vue';
 import currentDate from './current-date/current-date.vue';
-import notificationPopup from './notification/popup.vue';
+import notificationPopup from './sidebar/events/popup.vue';
 
 /*
 * A Vue.js plugin for easily animating v-for rendered lists.

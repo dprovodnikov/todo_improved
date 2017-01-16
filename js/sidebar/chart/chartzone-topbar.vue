@@ -9,11 +9,13 @@
     </div>
 
     <div class="chartzone-settings-wrap" v-click-outside>
-      <div class="chartzone-settings" 
-           @click="show = !show"
+      <div class="chartzone-settings" @click="show = !show"
            :class="{'period-open': show, 'period-close': !show}">
+        
 
-        <i class="fa fa-clock-o"></i>
+        <i class="fa fa-clock-o">
+          <span class="chartzone-settings-hint">Change period</span>
+        </i>
         <div class="chartzone-settings-list">
           <ul>
             <li v-for="period of periods"

@@ -57,6 +57,14 @@
   i
     font-size 17px
     color #aaa
+    cursor pointer
+    &:hover .chartzone-settings-hint
+      transform translateX(-120%)
+      opacity .75
+      
+  &:hover
+    &:after, i
+      color #4d4d4d
   &:after
     content '\f0d7'
     color #aaa
@@ -66,16 +74,34 @@
     top 0; bottom 0
     margin auto
     transform translateY(20%)
-    transition all .1s
+    transition none
+    pointer-events none
   &.period-open
+    i
+      color #4d4d4d
     .chartzone-settings-list
       opacity 1
       transform translate(20%, 5%)
     &:after
+      color #4d4d4d
       content '\f0d8' !important
   &.period-close
     .chartzone-settings-list
       pointer-events none
+
+.chartzone-settings-hint
+  position absolute
+  left 0; top 0; bottom 0
+  transition all .1s linear
+  opacity 0
+  background #000
+  padding 3px 5px
+  border-radius 3px
+  transform translateX(-125%)
+  font 700 12px 'Hind'
+  color #fff
+  white-space nowrap
+  pointer-events none
 
 .chartzone-settings-list
   white-space nowrap
@@ -119,6 +145,9 @@
   opacity 0
   transition all .1s
   pointer-events none
+
 .chart-info-popup-visible
   transition all .1s, opacity .2s .2s
   opacity .75 !important
+
+

@@ -21,7 +21,7 @@ class ChartModel {
     this.paper = Snap(settings.selector).attr({
       height: this.height,
       width: this.width + 50,
-      viewBox: `0 -${this.height} ${this.width} ${this.height}`,
+      viewBox: `0 -${this.height - 5} ${this.width} ${this.height}`,
     });
 
     if(settings.grid.rows || settings.grid.columns) {
