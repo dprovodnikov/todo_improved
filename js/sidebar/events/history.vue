@@ -9,7 +9,7 @@
       </div>
       <div class="event-topbar-controls">
 
-        <i class="fa fa-trash fa-fw">
+        <i class="fa fa-trash fa-fw" @click="clear">
           <span class="event-topbar-hint">Delete these</span>
         </i>
         <i class="i fa fa-bell-slash fa-fw">
@@ -20,11 +20,11 @@
     </div>
 
     <div class="event-list">
-      <div v-for="event of events" class="event-notification">
+      <div transition="task" v-show="showEvents" v-for="event of events" class="event-notification">
         <div class="event-time">{{event.time}}</div>
         <div class="event-action-label event-{{event.kind}}"></div>
         <div class="event-title">{{event.title}}</div>
-        <div class="event-description">{{event.description}}</div>
+        <div class="event-description">{{{event.description}}}</div>
       </div>
     </div>
 
@@ -33,43 +33,45 @@
 </template>
 
 <script>
+  import {format} from '../../utils/date-utils.js';
+
   export default {
+
+    props: ['eventBus'],
+
     data: function() {
       return {
-        events: [
-          {
-            title: 'The task was deleted',
-            description: 'Manage to accomplish all the tasks until something bad happened',
-            kind: 'deleted',
-            time: '27 Jan on 9:23pm',
-          }, {
-            title: 'The task was completed',
-            description: 'Sometimest hes same is different but mostly its the same',
-            kind: 'completed',
-            time: '24 Jan on 9:23pm',
-          }, {
-            title: 'The task was updated',
-            description: 'Sometimest hes same is different',
-            kind: 'updated',
-            time: '22 Jan on 9:23pm',
-          }, {
-            title: 'The deadline is coming',
-            description: 'Lorem ipsum dolor sit amet',
-            kind: 'reminder',
-            time: '15 Jan on 9:23pm',
-          },
-        ],
+        showEvents: false,
+        events: [],
       };
     },
 
     methods: {
-      bindEvents: function() {
+      clear: function() {
+        this.events = [];
+        this.$emit('events-cleared');
+      },
 
+      bindEvents: function() {
+        this.eventBus.$on('notify', (event) => {
+          this.events.push({
+            title: event.title,
+            description: event.description,
+            kind: event.kind,
+            time: format("dd M 'on' h:t'pm'", event.time)
+          });
+
+          if(this.events.length > 4) {
+            this.events.shift()
+          }
+        });
       },
     },
 
     created: function() {
       this.bindEvents();
+
+      setTimeout(() => this.showEvents = true, 200); //to achieve the init animation
     },
 
   }

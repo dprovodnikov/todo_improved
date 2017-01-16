@@ -59,7 +59,6 @@ class ChangesManager {
   _event(eventString, curtainAnimationDuration) {
     let tasksCount = this.tasks.length;
 
-    this.tasks = [];
     this.opened = false;
     this.body.height(0);
     this.curtain.fadeTo(50, 0);
@@ -72,7 +71,9 @@ class ChangesManager {
     this.el.animate({'bottom': '-100%'}, 300);
 
     let cb = this.events[eventString];
-    if(cb) cb(tasksCount);
+    if(cb) cb(this.tasks);
+
+    this.tasks = [];
   }
 
   _undoOne(task) {

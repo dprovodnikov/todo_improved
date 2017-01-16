@@ -22,13 +22,29 @@
       }
     },
 
-    created: function() {
-      this.eventBus.$on('notify', message => {
+    methods:  {
+
+      showPopup(message) {
         this.message = message;
         this.show = true;
-
         setTimeout(() => {this.show = false}, this.duration || 1500);
-      });
+      },
+
+      bindEvents: function() {
+
+        this.eventBus.$on('notify', (event) => {
+          this.showPopup(event.title);
+        });
+
+        this.eventBus.$on('changes-undo-all', (message) => {
+          this.showPopup(message);
+        });
+
+      },
+    },
+
+    created: function() {
+      this.bindEvents();
     }
   }
 

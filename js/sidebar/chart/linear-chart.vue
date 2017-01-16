@@ -65,12 +65,12 @@
         }, [
           {
             data: fakeData[0],
-            line: { color: '#cc5656', width: '3px' },
+            line: { color: '#cc5656', width: 3 },
             point: {
-              radius: 4,
+              radius: 5,
               innerColor: '#cc5656',
               outerColor: '#fff',
-              strokeWidth: 1,
+              strokeWidth: 1.5,
             },
           }
         ]);

@@ -14,23 +14,47 @@
       undoOne: function(task) {
         this.eventBus.$emit('changes-undo', task);
 
-        this.eventBus.$emit('notify', 'One change was undone');
+        this.eventBus.$emit('notify', {
+          title: `User refused to ${task.status.slice(0, -1) || 'update'} the task`,
+          description: task.text,
+          kind: task.status || 'updated',
+          time: new Date(Date.now())
+        });
+
       },
 
-      undoAll: function(count) {
-        this.eventBus.$emit('changes-undo-all');
+      undoAll: function(tasks) {
+        this.eventBus.$emit(
+          'changes-undo-all',
+          `${tasks.length} ${tasks.length > 1 ? 'changes were' : 'change was'} rejected`
+        );
 
-        let pluralExpression = (count == 1) ? 'change was' : 'changes were';
-
-        this.eventBus.$emit('notify', `${count == 1 ? 'One' : count} ${pluralExpression} undone`);
       },
 
-      confirm: function(count) {
+      confirm: function(tasks) {
         this.eventBus.$emit('changes-confirm');
 
-        let pluralExpression = (count == 1) ? 'change was' : 'changes were';
+        let categories = {
+          completed: '',
+          deleted: '',
+          updated: '',
+        };
 
-        this.eventBus.$emit('notify', `${count == 1 ? 'One' : count} ${pluralExpression} confirmed`);
+        for(let task of tasks) {
+          categories[task.status || 'updated'] += `${task.text}, `;
+        }
+
+        let description = '';
+        for(let [k, v] of Object.entries(categories)) {
+          if(v) description += `<b>${k}:</b> ${v}<br/>`;
+        }
+
+        this.eventBus.$emit('notify', {
+          title: `Some changes were confirmed`,
+          description: description,
+          kind: 'updated',
+          time: new Date(Date.now())
+        });
       }
     },
 

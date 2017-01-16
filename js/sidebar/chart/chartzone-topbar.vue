@@ -2,7 +2,8 @@
 
   <div class="chartzone-top">
     <div class="chartzone-title">
-      <i class="fa fa-calendar-check-o fa-fw"></i>
+      <i v-if="role == 'completed'" class="fa fa-calendar-check-o fa-fw"></i>
+      <i v-else="role == 'overdue'" class="fa fa-calendar-times-o fa-fw"></i>
       {{role | capitalize}} tasks for the last
       <span class="chartzone-period-active">{{period}}</span>
       days

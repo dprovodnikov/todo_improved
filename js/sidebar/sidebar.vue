@@ -25,8 +25,8 @@
       <charts :event-bus="eventBus"></charts>
     </div>
 
-    <div transition="slide" class="side-panel" v-if="buttons[5].panel.show">
-      <event-history :event-bus="eventBus"></event-history>
+    <div transition="slide" class="side-panel" v-show="buttons[5].panel.show">
+      <event-history @events-cleared="setEventsToZero" :event-bus="eventBus"></event-history>
     </div>
 
     <div transition="slide" class="side-panel transparent" v-if="buttons[6].panel.show">
@@ -96,7 +96,7 @@
             active: false,
             icon: 'fa fa-bell',
             panel: { show: false },
-            hint: 4,
+            hint: 0,
           }, {
             id: 'folders',
             active: false,
@@ -135,6 +135,11 @@
         }
       },
 
+      setEventsToZero: function() {
+        this.buttons[5].hint = 0
+        this.closePanel();
+      },
+
       bindEvents: function() {
         this.eventBus.$on('sidebar-focus-lost', () => {
           this.closePanel();
@@ -146,16 +151,15 @@
         });
 
         this.$on('collapse-me', () => {
-          this.closePanel()
+          this.closePanel();
         });
 
+        this.eventBus.$on('notify', () => this.buttons[5].hint++);
       }
     },
 
     created: function() {
       this.bindEvents();
-
-      this.openPanel('events')
     }
 
   }

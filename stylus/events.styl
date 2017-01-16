@@ -33,10 +33,28 @@
   top 20px; left 0
   height 40px
   width 40px
-  transform translateX(-50%)
+  transform translateX(-50%) scale(0)
   background #3d3d3d
   border-radius 50%
   border 2px solid #fff
+  animation-name label
+  animation-fill-mode forwards
+  animation-timing-function linear
+  animation-duration .2s
+  animation-delay .3s
+
+@keyframes label
+  0% 
+    opacity 0
+    transform translateX(-50%) scale(0)
+  15%
+    opacity 1
+  40%
+    transform translateX(-50%) scale(1.2)
+  70%
+    transform translateX(-50%) scale(.95)
+  100%
+    transform translateX(-50%) scale(1)
 
 .event-time
   background #fff
@@ -56,6 +74,7 @@
   text-align right
   text-decoration underline
   color $red
+  cursor pointer
 
 .event-description
   font 300 14px 'Hind'

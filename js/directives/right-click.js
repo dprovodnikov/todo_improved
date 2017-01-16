@@ -11,6 +11,6 @@ export default {
   },
 
   unbind: function() {
-
+    $(this.el).off('contextmenu', this.emit);
   },
 }

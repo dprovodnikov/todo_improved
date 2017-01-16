@@ -81,6 +81,12 @@ export function format(format, date, settings) {
             output += ( lookAhead( "y" ) ? date.getFullYear() :
               ( date.getFullYear() % 100 < 10 ? "0" : '' ) + date.getFullYear() % 100 );
             break;
+          case "h":
+            output += formatNumber( "H", date.getHours(), 2);
+            break;
+          case "t":
+            output += formatNumber( "t", date.getMinutes(), 2);
+            break;
           case "@":
             output += date.getTime();
             break;
