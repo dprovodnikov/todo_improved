@@ -134,7 +134,9 @@
 
 .chart-info-popup
   position absolute
-  max-width 200px
+  max-width 300px
+  overflow hidden
+  text-overflow ellipsis
   white-space nowrap
   background #000
   border-radius 3px
@@ -145,6 +147,8 @@
   opacity 0
   transition all .1s
   pointer-events none
+  li
+    list-style none
 
 .chart-info-popup-visible
   transition all .1s, opacity .2s .2s
