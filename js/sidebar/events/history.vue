@@ -2,7 +2,7 @@
 
   <div class="event-history">
     
-    <div class="event-topbar">
+    <div class="event-topbar" v-show="events.length">
       <div class="event-topbar-title">
         <i class="fa fa-bell" style="transform: rotate(20deg)"></i>
         Recent events
@@ -19,9 +19,16 @@
       </div>
     </div>
 
+    <div class="events-history-placeholder" v-else="events.length" transition="placeholder">
+      <i class="fa fa-bell"></i>
+      <p>
+        Here you can see most recent notifications, events and reminders
+      </p>
+    </div>
+
     <div class="event-list">
       <div transition="task" v-show="showEvents" v-for="event of events" class="event-notification">
-        <div class="event-time">{{event.time}}</div>
+        <div class="event-time">{{event.time | date "dd M 'on' h:t'pm'"}}</div>
         <div class="event-action-label event-{{event.kind}}"></div>
         <div class="event-title">{{event.title}}</div>
         <div class="event-description">{{{event.description}}}</div>
@@ -39,10 +46,41 @@
 
     props: ['eventBus'],
 
+    filters: {
+      date: function(value, pattern) {
+        return format(pattern, new Date(value.toString()));
+      }
+    },
+
     data: function() {
       return {
         showEvents: false,
-        events: [],
+        events: [
+          {
+            title: 'Some bla bla were bla bla',
+            description: 'Sometimes the same is different',
+            time: new Date(),
+            kind: 'completed',
+          },
+          {
+            title: 'Some bla bla were bla bla',
+            description: 'Sometimes the same is different',
+            time: new Date(),
+            kind: 'deleted',
+          },
+          {
+            title: 'Some bla bla were bla bla',
+            description: 'Sometimes the same is different',
+            time: new Date(),
+            kind: 'updated',
+          },
+          {
+            title: 'Some bla bla were bla bla',
+            description: 'Sometimes the same is different',
+            time: new Date(),
+            kind: 'reminder',
+          },
+        ],
       };
     },
 
@@ -58,12 +96,14 @@
             title: event.title,
             description: event.description,
             kind: event.kind,
-            time: format("dd M 'on' h:t'pm'", event.time)
+            time: event.time
           });
 
           if(this.events.length > 4) {
             this.events.shift()
           }
+
+          this.$emit('event-happen', this.events.length);
         });
       },
     },
@@ -76,3 +116,14 @@
 
   }
 </script>
+
+<style lang="stylus">
+  .placeholder-transition
+    transition all .2s .3s
+
+  .placeholder-enter,
+  .placeholder-leave
+    opacity 0
+</style>
+
+

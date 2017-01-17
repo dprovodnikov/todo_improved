@@ -26,7 +26,10 @@
     </div>
 
     <div transition="slide" class="side-panel" v-show="buttons[5].panel.show">
-      <event-history @events-cleared="setEventsToZero" :event-bus="eventBus"></event-history>
+      <event-history @event-happen="updateHint"
+                     @events-cleared="setEventsToZero"
+                     :event-bus="eventBus">
+      </event-history>
     </div>
 
     <div transition="slide" class="side-panel transparent" v-if="buttons[6].panel.show">
@@ -96,7 +99,7 @@
             active: false,
             icon: 'fa fa-bell',
             panel: { show: false },
-            hint: 0,
+            hint: 4,
           }, {
             id: 'folders',
             active: false,
@@ -135,6 +138,8 @@
         }
       },
 
+      updateHint: function(count) {this.buttons[5].hint = count},
+
       setEventsToZero: function() {
         this.buttons[5].hint = 0
         this.closePanel();
@@ -153,14 +158,10 @@
         this.$on('collapse-me', () => {
           this.closePanel();
         });
-
-        this.eventBus.$on('notify', () => this.buttons[5].hint++);
       }
     },
 
-    created: function() {
-      this.bindEvents();
-    }
+    created: function() {this.bindEvents()}
 
   }
 </script>
