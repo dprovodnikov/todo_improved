@@ -161,7 +161,11 @@
       }
     },
 
-    created: function() {this.bindEvents()}
+    created: function() {
+      this.bindEvents()
+
+      this.openPanel('calendar');
+    }
 
   }
 </script>

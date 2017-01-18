@@ -47,9 +47,7 @@
     },
 
     methods: {
-      pick: function(date) {
-        console.log('default pick function');
-      }
+      pick: function(date) {}
     },
 
     ready: function() {
@@ -63,13 +61,11 @@
         datePrimary: this.initArgs.date || null,
         onclick: date => {
 
-          if(this.initArgs.onpick)
+          if(this.initArgs.onpick) {
             this.initArgs.onpick(date);
-          else
+            this.$emit('close');
+          } else
             this.pick(date);
-
-          this.$emit('close');
-          
         }
       });
     },

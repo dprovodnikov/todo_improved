@@ -87,7 +87,7 @@
   color #aaa
   text-align center
   cursor pointer
-
+  font 300 15px 'Hind'
 
 .month-current
   color $red !important 
@@ -95,10 +95,9 @@
 .month-line 
   height 2px
   margin 12px 0 0 0
-  background linear-gradient(to right, transparent 3%, #eee 3%, #eee 98%,  transparent 98%)
+  background linear-gradient(to right, transparent 3%, #eee 3%, #eee 96%,  transparent 98%)
   flexbox(false, true)
   font-family 'Oxygen'
-
 
 .slider-circle 
   height 13px
@@ -115,7 +114,7 @@
   text-transform uppercase
   text-align center
   margin-top 25px
-  font 1em 'Cabin'
+  font 300 17px 'Oxygen'
 
 
 /*******************************************
@@ -129,8 +128,7 @@
   text-align center
   margin-bottom 10px
   color #7d7d7d
-  font 'Oxygen' bold
-
+  font normal 15px 'Hind'
 
 .calendar-cells-wrap 
   flexbox(false, false)
@@ -138,9 +136,9 @@
   justify-content space-between
 
 .cell 
+  flexbox(true, true)
   width calc(100% / 7)
   text-align center
-  flexbox(true, true)
   padding 8px 0
   margin-bottom 5px
   color #5d5d5d
@@ -148,6 +146,9 @@
   cursor pointer
   position relative
   transition all .1s
+  font 300 14px 'PT Sans'
+  border-left 2px solid #fff
+  border-right @border-left;
 
 .cell:hover
   background #eee
@@ -156,10 +157,9 @@
 .cell-out
   color #aaa !important
 .cell-today
-  color $red
-  background #eee
-  border-bottom 1px solid $red
-  
+  color #fff
+  background $red
+
 .cell-today:hover
   color #3d3d3d
 .cell-active 
@@ -169,112 +169,32 @@
 .calendar-cell-number
   flexbox(true, true)
   position absolute
-  top 0; right 0
-  height 18px
+  top 0; right -1px
+  height 20px
   width @height
   font 500 10px 'Hind'
-  background $red
+  background lighten($red, 20%)
+  border 1px solid #fff
   color #fff
   transform translate(0%, -20%)
+  opacity 0
   z-index 2
+  animation-name number
+  animation-fill-mode forwards
+  animation-timing-function linear
+  animation-duration .2s
+  animation-delay .3s
 
-
-
-/*******************************************
-* TASK CONSTRUCTOR
-*******************************************/
-.constructor-wrap 
-  height 440px
-  width 310px
-  background #c73f69
-  border-radius 0 3px 3px 0
-  box-shadow 0 1px 4px 1px rgba(0, 0, 0, .3)
-  padding 25px 35px
-
-
-.constructor-topbar 
-  flexbox(false, false)
-
-
-.constructor-date-wrap 
-  flex 3
-  color #fff
-  flexbox(false, false)
-
-
-.date-words-wrap 
-  display flex
-  flex-direction column
-  align-items center
-  justify-content center
-
-
-.constructor-date-month 
-  font-size 1.3em
-  width 100%
-
-.constructor-date-weekday 
-  width 100%
-  color #d2859d
-
-
-.constructor-date-day 
-  font-size 3em
-  margin-right 10px
-
-
-.constructor-controls 
-  display flex
-  justify-content space-around
-  flex 1
-  font-size 1.5em
-  font-weight bold
-  align-items center
-  color #d2859d
-
-
-.constructor-controls div 
-  transition all .1s
-  cursor pointer
-
-.constructor-controls div:hover
-  color #fff 
-
-.constructor-days-remain 
-  width 100%
-  color #d2859d
-  font-size .9em
-
-
-.contructor-body margin-top 20px 
-.descr-field-wrap 
-  background #fff
-  border-radius 3px
-  padding 10px
-
-.descr-field 
-  /*min-height 10px*/
-  max-height 260px
-  overflow hidden
-  outlinenone
-  color #3d3d3d
-  font-family 'PT Sans'
-
-.descr-field-bottom 
-  text-align right
-  color #d2859d
-  font-size .8em
-  padding 5px 0
-
-
-
-
-
-
-
-
-
-
-
-
-
+@keyframes number
+  0% 
+    opacity 0
+    transform translate(0%, -20%) scale(0)
+  15%
+    opacity 1
+  40%
+    transform translate(0%, -20%) scale(1.2)
+  70%
+    transform translate(0%, -20%) scale(.95)
+  100%
+    opacity 1
+    transform translate(0%, -20%) scale(1)
