@@ -22,7 +22,7 @@
     <div class="events-history-placeholder" v-else="events.length" transition="placeholder">
       <i class="fa fa-bell"></i>
       <p>
-        Here you can see most recent notifications, events and reminders
+        Here you will see most recent notifications, events and reminders
       </p>
     </div>
 

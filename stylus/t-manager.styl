@@ -307,19 +307,25 @@
   transform translateY(15%)
   margin-right 10px
 
+// .tl-te-tool-hint
+  // color #fff
+  // background #000
+  // position absolute
+  // top -200%
+  // left 0
+  // padding 0 7px
+  // border-radius 3px
+  // font 500 .9em 'Hind'
+  // transform translateY(-5%)
+  // transition all .1s ease-in
+  // pointer-events none
+  // opacity 0
+
 .tl-te-tool-hint
-  color #fff
-  background #000
-  position absolute
+  hint()
   top -200%
   left 0
-  padding 0 7px
-  border-radius 3px
-  font 500 .9em 'Hind'
   transform translateY(-5%)
-  transition all .1s ease-in
-  pointer-events none
-  opacity 0
 
 .tl-te-btn
   outline none
@@ -385,7 +391,7 @@
     position relative
     &:hover
       .tm-ctx-toolset-hint
-        opacity 1
+        opacity .8
         transform translateY(0)
   i
     color #8d8d8d
@@ -396,11 +402,9 @@
       color $red
 
 .tm-ctx-toolset-hint
-  @extends .tl-te-tool-hint
+  hint()
   top -150%
   transform translateY(-5%)
-  background #3d3d3d
-  white-space nowrap
 
 .tm-context-splitter
   height 1px
