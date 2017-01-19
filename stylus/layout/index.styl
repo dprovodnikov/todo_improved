@@ -1,0 +1,29 @@
+// APP BODY
+.app-body
+  flexbox(false, false)
+
+//APP CONTAINER
+.application-container
+  flexbox(false, false)
+  height 100vh
+  width 100vw
+  background #eee
+  box-shadow 0 5px 25px 2px rgba(0, 0, 0, .3)
+  position relative
+  overflow hidden
+  
+// APP CONTENT
+.app-content
+  height 100%
+  position relative
+  width calc(100% - 70px)
+  flexbox(false, true)
+  flex-direction column
+
+.right-toolbar
+  width 100px
+  height 100%
+  position absolute
+  right 0
+  top 0
+

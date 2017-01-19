@@ -307,20 +307,6 @@
   transform translateY(15%)
   margin-right 10px
 
-// .tl-te-tool-hint
-  // color #fff
-  // background #000
-  // position absolute
-  // top -200%
-  // left 0
-  // padding 0 7px
-  // border-radius 3px
-  // font 500 .9em 'Hind'
-  // transform translateY(-5%)
-  // transition all .1s ease-in
-  // pointer-events none
-  // opacity 0
-
 .tl-te-tool-hint
   hint()
   top -200%
@@ -429,7 +415,29 @@
     margin-right 10px
     color #aaa
   
+//GLOBAL ADD BUTTON
+.add-button-wrap
+  flexbox(true, true)
+  width 100%
+  position absolute
+  bottom 20px
 
+.add-button-global
+  height 50px
+  width 50px
+  border-radius 50%
+  outline none
+  border none
+  cursor pointer
+  background $red
+  transition all .3s
+  border 1px solid darken($red, 10%)
+  &:hover
+    background darken($red, 10%)
+    transform translateY(-7%)
+    box-shadow 0 3px 15px 1px rgba(0, 0, 0, .3)
+  .fa
+   color #fff
 
 
 
