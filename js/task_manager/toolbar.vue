@@ -54,14 +54,4 @@
 
 </script>
 
-<style lang="stylus">
-  .toolbar-transition
-    transition left .5s cubic-bezier(.87,-.41,.19,1.44)
-  
-  .toolbar-enter,
-  .toolbar-leave
-    left 200px
-    
-</style> 
-
 

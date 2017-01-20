@@ -92,8 +92,3 @@
   }
 
 </script>
-
-<style lang="stylus">
-  .sort-move
-    transition transform .3s cubic-bezier(.55,0,.1,1)
-</style>

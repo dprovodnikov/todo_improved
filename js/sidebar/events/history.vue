@@ -117,13 +117,4 @@
   }
 </script>
 
-<style lang="stylus">
-  .placeholder-transition
-    transition all .2s .3s
-
-  .placeholder-enter,
-  .placeholder-leave
-    opacity 0
-</style>
-
 

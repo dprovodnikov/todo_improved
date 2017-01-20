@@ -276,35 +276,3 @@
 
   }
 </script>
-
-<style lang="stylus">
-  
-  .task-transition
-    transition transform .3s cubic-bezier(.87,-.41,.19,1.44),
-      background 50ms, opacity .3s cubic-bezier(.87,-.41,.19,1.44)
-  
-  .task-enter,
-  .task-leave
-    opacity 0
-    transform scale(.7)
-    
-  .toolset-transition
-    transition all .1s .1s
-    transform-origin 0 0
-  .toolset-main-transition
-    transition all .1s
-    transform-origin 0 0
-
-  .toolset-enter
-    transform rotateX(-90deg)
-  .toolset-leave
-    display none
-
-  .toolset-main-enter,
-  .toolset-main-leave
-    transform rotateX(90deg)
-
-  .task-move
-    transition all .3s
-
-</style>

@@ -168,16 +168,5 @@
   }
 </script>
 
-<style lang="stylus">
-  
-  .slide-transition
-    transition transform .3s, opacity .1s .1s
-  .slide-enter,
-  .slide-leave
-    transform rotateY(90deg)
-    opacity 0
-
-</style>
-
 
 

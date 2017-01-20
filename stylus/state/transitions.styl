@@ -1,0 +1,116 @@
+
+// ============= //
+// TASK MANAGER  //
+// ============= //
+
+.sort-move
+  transition transform .3s cubic-bezier(.55,0,.1,1)
+
+.task-transition
+  transition transform .3s cubic-bezier(.87,-.41,.19,1.44),
+    background 50ms, opacity .3s cubic-bezier(.87,-.41,.19,1.44)
+
+.task-enter,
+.task-leave
+  opacity 0
+  transform scale(.7)
+  
+.toolset-transition
+  transition all .1s .1s
+  transform-origin 0 0
+.toolset-main-transition
+  transition all .1s
+  transform-origin 0 0
+
+.toolset-enter
+  transform rotateX(-90deg)
+.toolset-leave
+  display none
+
+.toolset-main-enter,
+.toolset-main-leave
+  transform rotateX(90deg)
+
+.task-move
+  transition all .3s
+
+// ========================== //
+// TASK MANAGER CONTEXT MENU  //
+// ========================== //
+
+.context-transition
+  transition transform .1s, opacity .1s, left .1s .1s, top .1s .1s
+
+.context-enter,
+.context-leave
+  opacity 0
+  transform translateY(5%)
+
+.placeholder-transition
+  transition all .2s .3s
+
+// ================//
+// EVENTS HISTORY  //
+// ================//
+.placeholder-enter,
+.placeholder-leave
+  opacity 0
+
+// ================//
+//   NOTIF. POPUP  //
+// ================//
+.notification-popup
+  display flex
+  align-items center
+  height 50px
+  border-radius 3px
+  margin 20px
+  font 500 1em 'Hind'
+  color #fff
+  position absolute
+  bottom 0; left 0
+  z-index 5
+  overflow hidden
+  box-shadow 0 5px 10px 1px rgba(0, 0, 0, .8);
+  background #3d3d3d
+  opacity .8
+
+.np-icon
+  height 100%
+  width 50px
+  background #000
+  display flex
+  justify-content center
+  align-items center
+  i
+    font-size 1em
+    color #fff
+
+.np-message
+  padding 20px
+
+.popup-transition
+  transition all .4s
+.popup-enter,
+.popup-leave
+  bottom -100%
+
+// ===========//
+//   SIDEBAR  //
+// ===========//
+.slide-transition
+  transition transform .3s, opacity .1s .1s
+.slide-enter,
+.slide-leave
+  transform rotateY(90deg)
+  opacity 0
+
+// ===========//
+//   TOOLBAR  //
+// ===========//
+.toolbar-transition
+  transition left .5s cubic-bezier(.87,-.41,.19,1.44)
+
+.toolbar-enter,
+.toolbar-leave
+  left 200px

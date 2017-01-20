@@ -163,15 +163,3 @@
   }
 
 </script>
-
-<style lang="stylus">
-  
-  .context-transition
-    transition transform .1s, opacity .1s, left .1s .1s, top .1s .1s
-
-  .context-enter,
-  .context-leave
-    opacity 0
-    transform translateY(5%)
-
-</style>
