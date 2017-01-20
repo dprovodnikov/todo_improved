@@ -31,8 +31,8 @@
         selector: '#chart-completed',
         period: 30,
         role: 'completed',
-        height: 130,
-        width: 350,
+        height: 150,
+        width: 400,
       };
     },
 

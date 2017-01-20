@@ -31,8 +31,8 @@
         selector: '#chart-overdue',
         role: 'overdue',
         period: 20,
-        height: 130,
-        width: 350,
+        height: 150,
+        width: 400,
       };
     },
 

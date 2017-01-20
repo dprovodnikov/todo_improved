@@ -1,23 +1,61 @@
 .usercard-wrap
   height 100%
-  width 250px !important
+  width 350px !important
   background darken($red, 20%)
 
 .usercard-avatar
   flexbox(false, true)
-  padding 30px 0
+  padding-bottom 30px
   flex-direction column
   
-.avatar
-  height 150px
-  width @height
-  border-radius 50%
+.avatar-wrap
+  background #3d3d3d
   overflow hidden
+  width 100%
+  position relative
+  &:hover
+    i
+      opacity 1
+    .avatar
+      transform scale(1.1)
+      opacity .7
+
+.avatar-settings
+  position absolute
+  bottom 0
+  right 0
+  transform translate(-50%, -50%)
+  i
+    cursor pointer
+    opacity 0
+    transition all .2s
+    font-size 30px
+    color #fff
+    &:hover
+      .avatar-settings-hint
+        opacity .8
+        transform translateX(-115%)
+
+.avatar-settings-hint
+  hint()
+  left 0
+  top 0
+  transform translateX(-120%)
+  font 500 13px 'Hind'
+
+.avatar
+  width 100%
   object-fit cover
-  border 5px solid #fff
+  transition all .3s ease-out
+  transform scale(1.05)
+
+.usercard-username-wrap
+  flexbox(false, true)
+  justify-content space-around
+  width 100%
+  margin-top 20px
 
 .username
-  margin-top 20px
   color #fff
   font-family 'Cabin'
   text-transform capitalize

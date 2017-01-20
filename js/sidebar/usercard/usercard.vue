@@ -2,10 +2,19 @@
 
   <div class="usercard-wrap">
     <div class="usercard-avatar">
-      <img :src="user.avatar" class="avatar"/>
-      <div class="username">{{ user.username }}</div>
-      <div class="usercard-email">
-        <p>{{ user.email }}</p>
+      <div class="avatar-wrap">
+        <img :src="user.avatar" class="avatar"/>
+        <div class="avatar-settings">
+          <i class="fa fa-cog">
+            <div class="avatar-settings-hint">Edit photo</div>
+          </i>
+        </div>
+      </div>
+      <div class="usercard-username-wrap">
+        <div class="username">{{ user.username }}</div>
+        <div class="usercard-email">
+          <p>{{ user.email }}</p>
+        </div>
       </div>
     </div>
 
