@@ -87,66 +87,56 @@ class ChartModel {
     }
   }
 
-  getColumns(tasks) {
-    
-    let curDate = new Date(),
-    columns = [],
-    curDay = curDate.getDate(),
-    curMonth = curDate.getMonth(),
-    curYear = curDate.getFullYear();
+  getColumns(data) {
+    let groups, output;
 
-    --curDay;
+    groups = _.groupBy(data, 'date');
+    output = [];
 
-    for(let i = 0; i < this.period; i++) {
-      if(curDay == 0)
-        curDay = daysInMonth(curYear, --curMonth);
-
-      columns.push({
-        date: new Date(curYear, curMonth, curDay--).getTime(),
-        count: 0,
-        tasks: [],
+    for(let [date, tasks] of Object.entries(groups)) {
+      output.push({
+        date: date,
+        tasks: tasks,
+        count: tasks.length
       });
     }
 
-    for(let task of tasks) {
-      let taskTime = task.date.setHours(0,0,0,0);
+    output = _.orderBy(output, (item) => new Date(item.date).getTime(), ['desc']);
 
-      for(let col of columns)
-        if(col.date == taskTime) {
-          col.count++;
-          col.tasks.push(task);
-        }
-    }
+    if(output.length > this.period)
+      output = output.slice(0, this.period);
 
-    return columns.reverse();
+    return output.reverse();
   }
-  
+
   draw() {
+    let columns, type, defaultColor, chartStyle, point, line;
 
     for(let chartData of this.charts) {
 
-      let columns = this.getColumns(chartData.data),
-          type = chartData.type || 'linear';
+      columns = this.getColumns(chartData.data);
+      type = chartData.type || 'linear';
 
-      let defaultColor = '#aaa';
+      defaultColor = '#aaa';
 
-      chartData.point = chartData.point || {};
-      chartData.line = chartData.line || {};
+      point = chartData.point || {};
+      line = chartData.line || {};
 
-      let chartStyle = {
-        opacity: chartData.line.opacity || 0.5,
-        color: chartData.line.color || defaultColor,
-        fill: chartData.line.fill || defaultColor,
-        width: chartData.line.width || 2,
-        hover: chartData.line.hoverColor || defaultColor,
+      chartStyle = {
+        opacity: line.opacity || 0.5,
+        color: line.color || defaultColor,
+        fill: line.fill || defaultColor,
+        width: line.width || 2,
+        hover: line.hoverColor || defaultColor,
         point: {
-          r: chartData.point.radius || 4,
-          fill: chartData.point.innerColor || defaultColor,
-          stroke: chartData.point.outerColor || defaultColor,
-          strokeWidth: chartData.point.strokeWidth || 3
+          r: point.radius || 4,
+          fill: point.innerColor || defaultColor,
+          stroke: point.outerColor || defaultColor,
+          strokeWidth: point.strokeWidth || 3
         }
       };
 
+      //virtual method
       this.build(columns, chartStyle);
     }
   }

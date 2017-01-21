@@ -318,5 +318,3 @@ const data3 = [
 ];
 
 export default [data, data2, data3];
-
-
