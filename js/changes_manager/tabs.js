@@ -105,41 +105,37 @@ class Tabs {
   }
 
   _undoOne(task) {
-    let doUndo = true;
+    const taskPreview = $(`.cm-preview-${task.id}`);
+    const siblings = taskPreview.siblings();
+    const removePreview = function() {
+      taskPreview.css({
+        width: taskPreview.width() + 'px',
+        transform: 'translateX(-120%)',
+        opacity: 0,
+      });
 
-    let taskPreview = $(`.cm-preview-${task.id}`);
-
-    let siblings = taskPreview.siblings();
+      setTimeout(function() {
+        taskPreview.animate({height: 0}, 100);
+        setTimeout(() => taskPreview.remove(), 100);
+      }, 150);
+    };
 
     if(siblings.length == 0) {
-      this.tabsAvailable = this.tabsAvailable.filter(tab => {
-        return tab.id != this.activeTab.id;
-      });
+      this.tabsAvailable = this.tabsAvailable.filter(tab => tab.id != this.activeTab.id );
 
       this.activeTab.buttonEl.addClass(this.class.disabled);
 
       if(this.tabsAvailable.length)
         this._switchTab(this.tabsAvailable[0]);
       else {
-        this.onundoall();
-        doUndo = false;
+        this.onundo(task, true);
+        return removePreview();
       }
     }
 
-    taskPreview.css({
-      width: taskPreview.width() + 'px',
-      transform: 'translateX(-120%)',
-      opacity: 0,
-    });
+    removePreview();
 
-    setTimeout(function() {
-      taskPreview.animate({height: 0}, 100);
-      setTimeout(function() {
-        taskPreview.remove();
-      }, 100);
-    }, 150);
-
-    if(doUndo) this.onundo(task);
+    this.onundo(task);
   }
 
   pushUpdated(task) { this._pushTask(task, this.tabs[2]); }

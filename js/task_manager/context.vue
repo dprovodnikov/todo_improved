@@ -93,31 +93,39 @@
       doAction: function(status) {
         this.vm.task.status = status;
         this.eventBus.$emit('toolbar-action', this.vm.task);
+
+        this.close();
       },
 
-      setPriority(priority) {
+      setPriority: function(priority) {
         this.vm.newPriority = priority;
         this.vm.task.status = 'updated';
         this.vm.saveChanges();
+
+        this.close();
       },
 
-      setDeadline(date) {
+      setDeadline: function(date) {
         this.vm.task.status = 'updated';
         if(date)
           this.vm.setDeadline({date: date});
         else
           this.vm.setDeadline({autosave: true});
+
+        this.close();
+      },
+
+      close: function() {
+        this.show = false;
+        if(this.vm)
+          this.vm.contextOpen = false;
       },
 
       tomorrow: tomorrow,
       nextWeek: thisDayNextWeek,
 
       bindEvents: function() {
-        this.$on('collapse-me', () => {
-          this.show = false
-          if(this.vm)
-            this.vm.contextOpen = false;
-        });
+        this.$on('collapse-me', this.close);
 
         this.eventBus.$on('open-context', args => {
           if(this.show) {

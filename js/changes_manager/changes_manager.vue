@@ -1,5 +1,4 @@
 <script>
-
   import ChangesManager from './main.js';
 
   export default {

@@ -44,7 +44,7 @@ class ChangesManager {
     
     this.header.click(e => {
       if( e.target.tagName == 'I' )
-        this._event('confirm', 300);
+        this._dispatch('confirm', 300);
       else
         this._toggle();
     });
@@ -56,33 +56,35 @@ class ChangesManager {
     this.events[event] = callback;
   }
 
-  _event(eventString, curtainAnimationDuration) {
-    let tasksCount = this.tasks.length;
-
+  _close(duration) {
     this.opened = false;
     this.body.height(0);
     this.curtain.fadeTo(50, 0);
     this.el.removeClass(this.openedClass);
 
-    setTimeout(() => {
-      this.curtain.hide();
-    }, curtainAnimationDuration);
+    setTimeout(() => this.curtain.hide(), duration);
 
     this.el.animate({'bottom': '-100%'}, 300);
+  }
 
+  _dispatch(eventString, curtainAnimationDuration) {
     let cb = this.events[eventString];
     if(cb) cb(this.tasks);
 
     this.tasks = [];
+
+    this._close(curtainAnimationDuration);
   }
 
-  _undoOne(task) {
+  _undoOne(task, duration=false) {
     this.tasks = this.tasks.filter(item => item.id != task.id);
 
     this.title.html(`${this.tasks.length} tasks were affected`);
 
     let cb = this.events['undo'];
     if(cb) cb(task);
+
+    if(duration) this._close(duration);
   }
 
   _slideUpDown(title, duration=200) {
@@ -151,9 +153,14 @@ class ChangesManager {
       }, curtainAnimationDuration / 10);
 
       let tabs = new Tabs(this.body, {
-        onundo: task => this._undoOne(task),
-        onundoall: () => this._event('undoall', curtainAnimationDuration),
-        confirm: () => this._event('confirm', curtainAnimationDuration),
+        onundo: (task, last) => {
+          if(last)
+            this._undoOne(task, curtainAnimationDuration)
+          else
+            this._undoOne(task)
+        },
+        onundoall: () => this._dispatch('undoall', curtainAnimationDuration),
+        confirm: () => this._dispatch('confirm', curtainAnimationDuration),
       });
 
       for(let task of this.tasks) {
