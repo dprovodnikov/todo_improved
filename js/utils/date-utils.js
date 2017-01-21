@@ -12,6 +12,10 @@ export function weekday(date) {
   return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
 }
 
+export function daysInMonth(year, month) {
+  return 32 - new Date(year, month, 32).getDate()
+};
+
 export function format(format, date, settings) {
   if (!date) return '';
 
@@ -20,7 +24,6 @@ export function format(format, date, settings) {
     dayNames = '',
     monthNamesShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     monthNames = ['January','February','March','April','May','Jun','July','August','September','October','Novemver','December'],
-
 
     // Check whether a format character is doubled
     lookAhead = function( match ) {

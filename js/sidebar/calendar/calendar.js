@@ -1,4 +1,5 @@
 import fakeData from '../chart/src/demo.js';
+import {daysInMonth} from '../../utils/date-utils.js';
 
 export default function(params) {
   if(!params) return false;
@@ -27,9 +28,8 @@ export default function(params) {
   * the first and the last days of the month
   *****************************************************************************************/
   function generateYearCalendar(year) {
-    const daysInMonth = function(month) { return 32 - new Date(year, month, 32).getDate(); };
     const startsWith = function(month) { return new Date(year, month, 1).getDay(); };
-    const endsWidth = function(month) { return new Date(year, month, daysInMonth(month)).getDay(); };
+    const endsWidth = function(month) { return new Date(year, month, daysInMonth(year, month)).getDay(); };
 
     let monthNames = `January February March April May
     June July August September October November December`.split(/\s+/),
@@ -38,7 +38,7 @@ export default function(params) {
     for(let i = 0; i < 12; i++) {
       months.push({
         name: monthNames[i],
-        days: daysInMonth(i),
+        days: daysInMonth(year, i),
         firstDay: startsWith(i),
         lastDay: endsWidth(i)
       });

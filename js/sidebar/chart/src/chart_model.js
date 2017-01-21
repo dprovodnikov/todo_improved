@@ -1,3 +1,5 @@
+import {daysInMonth} from '../../../utils/date-utils.js';
+
 class ChartModel {
   constructor(settings, charts) {
     if(!settings || !charts) return false;
@@ -86,11 +88,7 @@ class ChartModel {
   }
 
   getColumns(tasks) {
-
-    const daysInMonth = function(year, month) {
-      return 32 - new Date(year, month, 32).getDate();
-    };
-
+    
     let curDate = new Date(),
     columns = [],
     curDay = curDate.getDate(),
