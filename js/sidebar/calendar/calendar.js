@@ -259,7 +259,7 @@ export default function(params) {
   function addHints() {
     // here we load all uncompleted tasks for the current month
     
-    let data = _.groupBy(fakeData[2], 'date');
+    let data = _.groupBy(fakeData[1], 'date');
 
     for(let [date, tasks] of Object.entries(data)) {
       date = new Date(date);

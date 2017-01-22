@@ -1,3 +1,5 @@
+export function rand(l, h) { return Math.floor((h-l+1)*Math.random())+Math.floor(l) }
+
 export function tomorrow() {
   let curDate = new Date();
   return new Date(curDate.setDate(curDate.getDate() + 1));
@@ -15,6 +17,35 @@ export function weekday(date) {
 export function daysInMonth(year, month) {
   return 32 - new Date(year, month, 32).getDate()
 };
+
+export function getDatesForThePeriod(period) {
+  let date, output, day;
+
+  date = new Date();
+  day = date.getDate();
+  output = [];
+
+  for(let i = 0; i < period; i++)
+    output.push(
+      new Date(date.getFullYear(), date.getMonth(), day--)
+    );
+
+  return output;
+};
+
+export function getDaysFromNowToTheEndOfTheMonth(from=false) {
+  let curDate, day, output;
+
+  curDate = new Date();
+  day = curDate.getDate();
+  output = [];
+  from = from || day;
+
+  for(let i = from; i <= daysInMonth(curDate.getFullYear(), curDate.getMonth()); i++)
+    output.push(new Date(curDate.getFullYear(), curDate.getMonth(), i));
+
+  return output;
+}
 
 export function format(format, date, settings) {
   if (!date) return '';
