@@ -16,7 +16,8 @@ class Bar extends ChartModel {
         .attr({
           fill: style.fill,
           stroke: style.color,
-          strokeWidth: 3
+          strokeWidth: 3,
+          cursor: 'pointer'
          });
 
         setTimeout(() => {
@@ -34,7 +35,7 @@ class Bar extends ChartModel {
           bar.stop().animate({fill: style.fill}, 200, mina.easeinout);
         });
 
-        // call "click" callback function
+        // call "onclick" callback function
         bar.click(e => this.click(col, e));
 
       }

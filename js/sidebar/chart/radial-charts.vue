@@ -65,14 +65,19 @@
           animationDuration: 700,
           hintColor: '#3d3d3d',
           hover: (data) => this.eventBus.$emit('pie-hovered', data),
-          unhover: () => this.eventBus.$emit('pie-unhovered'),
+          unhover: () => this.eventBus.$emit('chart-unhovered'),
           sectors: {
             data: fakeData[0],
             key: 'priority',
             colors: { 
-              0: '#B70C41',
+              0: '#F9738C',
               1: '#EE0032',
-              2: '#F9738C'
+              2: '#B70C41',
+            },
+            aliases: {
+              0: 'Low',
+              1: 'Normal',
+              2: 'High'
             },
           }
         });

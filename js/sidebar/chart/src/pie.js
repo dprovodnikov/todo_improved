@@ -35,11 +35,14 @@ class Pie {
   }
 
   _parse(sectors) {
-    let data, key, colors, summary, output;
+    let data, key, colors, aliases, summary, output;
 
     data = sectors.data;
     key = sectors.key;
     colors = sectors.colors;
+    aliases = sectors.aliases;
+
+    this.totalTasksCount = data.length;
 
     summary = {};
 
@@ -51,7 +54,9 @@ class Pie {
     for(let [k, v] of Object.entries(summary)) {
       output.push({
         persent: Math.round(v * 99.999 / data.length),
-        fill: colors[k]
+        fill: colors[k],
+        alias: aliases[k],
+        count: v,
       });
     }
     return output;
@@ -135,7 +140,7 @@ class Pie {
           d: Util.describeSector(this.c, this.c, this.r - (this.r / 20), this.r2, 0, sector.data('angle'))
         }, 500, mina.elastic);
 
-        this.hover();
+        this.hover(sector.data('info'));
       }, e => {
         this.unhover();
         sector.stop().animate({
@@ -161,6 +166,12 @@ class Pie {
       }).transform(`r${totalAngle}, ${this.c}, ${this.c}`);
 
       s.data('angle', sector.angle);
+
+      s.data('info', {
+        alias: sector.alias,
+        count: sector.count,
+        total: this.totalTasksCount,
+      });
 
       let t = this.paper.text(this.c, this.c, sector.persent + '%')
       .attr({

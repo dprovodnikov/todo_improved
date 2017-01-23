@@ -34,7 +34,7 @@ class Linear extends ChartModel {
         strokeWidth: style.point.strokeWidth,
         stroke: style.point.stroke,
         fill: style.point.fill,
-        id: 'point',
+        cursor: 'pointer',
       });
 
       setTimeout(function() {
