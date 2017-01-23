@@ -23,6 +23,7 @@
 
 <script>
   import Chart from './dist/chart.js';
+  import fakeData from './src/demo.js';
   
   export default {
     props: ['eventBus'],
@@ -63,17 +64,17 @@
           r: 60, r2: 30,
           animationDuration: 700,
           hintColor: '#3d3d3d',
-          hover: (data) => {
-            this.eventBus.$emit('pie-hovered', data);
-          },
-          unhover: () => {
-            this.eventBus.$emit('pie-unhovered');
-          },
-          sectors: [
-            {persent: 25, fill: '#B70C41'},
-            {persent: 35, fill: '#EE0032'},
-            {persent: 40, fill: '#F9738C'},
-          ],
+          hover: (data) => this.eventBus.$emit('pie-hovered', data),
+          unhover: () => this.eventBus.$emit('pie-unhovered'),
+          sectors: {
+            data: fakeData[0],
+            key: 'priority',
+            colors: { 
+              0: '#B70C41',
+              1: '#EE0032',
+              2: '#F9738C'
+            },
+          }
         });
       }
     },

@@ -50,11 +50,10 @@ class Pie {
 
     for(let [k, v] of Object.entries(summary)) {
       output.push({
-        persent: Math.round(v * 100 / data.length),
+        persent: Math.round(v * 99.999 / data.length),
         fill: colors[k]
       });
     }
-
     return output;
   }
 

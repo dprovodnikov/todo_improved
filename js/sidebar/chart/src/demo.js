@@ -9,6 +9,7 @@ const getFakeData = (dates) => {
     for(let i = 0; i < rand(1, 14); i++) {
       output.push({
         text: 'Sometimes the same is different',
+        priority: rand(0, 2),
         date: date
       });
     }
