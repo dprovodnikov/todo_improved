@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import clickOutsideDirective from '../../directives/click-outside.js';
+  import clickOutsideDirective from '../../../directives/click-outside.js';
   export default {
 
     props: ['period', 'role'],

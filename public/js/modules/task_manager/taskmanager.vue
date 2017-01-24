@@ -21,7 +21,7 @@
   import taskComponent from './task.vue';
   import sortbar from './sortbar.vue';
   import contextMenu from './context.vue';
-  import clickOutsideDirective from '../directives/click-outside.js';
+  import clickOutsideDirective from '../../directives/click-outside.js';
   import _ from '_';
 
   export default {

@@ -2,12 +2,12 @@
 import styles from '../stylus/main.styl'
 
 // Vues
-import taskManager from './task_manager/taskmanager.vue';
-import toolbar from './task_manager/toolbar.vue';
-import changesManager from './changes_manager/changes_manager.vue';
-import sidebar from './sidebar/sidebar.vue';
-import currentDate from './current-date/current-date.vue';
-import notificationPopup from './sidebar/events/popup.vue';
+import taskManager from './modules/task_manager/taskmanager.vue';
+import toolbar from './modules/task_manager/toolbar.vue';
+import changesManager from './modules/changes_manager/changes_manager.vue';
+import sidebar from './modules/sidebar/sidebar.vue';
+import currentDate from './modules/current-date/current-date.vue';
+import notificationPopup from './modules/sidebar/events/popup.vue';
 
 /*
 * A Vue.js plugin for easily animating v-for rendered lists.

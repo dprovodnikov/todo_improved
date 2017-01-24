@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import {format, weekday} from '../../utils/date-utils.js';
+  import {format, weekday} from '../../../utils/date-utils.js';
   
   export default {
     props: ['eventBus'],

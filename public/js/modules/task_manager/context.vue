@@ -70,8 +70,8 @@
 </template>
 
 <script>
-  import clickOutsideDirective from '../directives/click-outside.js';
-  import {tomorrow, thisDayNextWeek} from '../utils/date-utils.js';
+  import clickOutsideDirective from '../../directives/click-outside.js';
+  import {tomorrow, thisDayNextWeek} from '../../utils/date-utils.js';
   
   export default {
 

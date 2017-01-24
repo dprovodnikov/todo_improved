@@ -1,5 +1,5 @@
 import fakeData from '../chart/src/demo.js';
-import {daysInMonth} from '../../utils/date-utils.js';
+import {daysInMonth} from '../../../utils/date-utils.js';
 
 export default function(params) {
   if(!params) return false;

@@ -4,6 +4,7 @@
   "description": "Improved task manager",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
     "babel-plugin-transform-runtime": "6.15.0",
     "babel-preset-es2015": "^6.18.0",
     "css-loader": "^0.26.1",
+    "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "stylus": "^0.54.5",

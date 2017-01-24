@@ -1,4 +1,4 @@
-import {daysInMonth} from '../../../utils/date-utils.js';
+import {daysInMonth} from '../../../../utils/date-utils.js';
 
 class ChartModel {
   constructor(settings, charts) {

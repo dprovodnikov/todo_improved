@@ -1,6 +1,6 @@
 import {getDaysFromNowToTheEndOfTheMonth,
   getDatesForThePeriod, rand
-} from '../../../utils/date-utils.js'
+} from '../../../../utils/date-utils.js'
 
 const getFakeData = (dates) => {
   let output = [];

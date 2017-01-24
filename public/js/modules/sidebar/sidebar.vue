@@ -42,7 +42,7 @@
 
 <script>
 
-  import clickOutsideDirective from '../directives/click-outside.js';
+  import clickOutsideDirective from '../../directives/click-outside.js';
   import usercard from './usercard/usercard.vue';
   import calendar from './calendar/calendar.vue';
   import charts from './chart/charts.vue';

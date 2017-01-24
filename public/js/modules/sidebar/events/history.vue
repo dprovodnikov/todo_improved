@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import {format} from '../../utils/date-utils.js';
+  import {format} from '../../../utils/date-utils.js';
 
   export default {
 

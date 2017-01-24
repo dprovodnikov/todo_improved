@@ -61,8 +61,8 @@
 </template>
 
 <script>
-  import {format} from '../utils/date-utils.js';
-  import rightClickDirective from '../directives/right-click.js';
+  import {format} from '../../utils/date-utils.js';
+  import rightClickDirective from '../../directives/right-click.js';
 
   export default {
 
