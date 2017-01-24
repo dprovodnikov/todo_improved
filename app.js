@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { join } from 'path';
+
 const app = express();
-const join = require('path').join;
 
 app.use(express.static(join(__dirname, '/public')));
 
