@@ -4,8 +4,8 @@
   "description": "Improved task manager",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "Wireden",
@@ -19,6 +19,7 @@
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "nodemon": "^1.11.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
     "stylus-normalize": "^3.0.3",

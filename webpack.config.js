@@ -7,7 +7,7 @@ module.exports = {
   entry: './js/main.js',
 
   output: {
-    path: './build',
+    path: './public/build/',
     filename: 'build.js'
   },
 
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('build.css', {
+    new ExtractTextPlugin('./build.css', {
       allChunks: true,
     }),
   ],

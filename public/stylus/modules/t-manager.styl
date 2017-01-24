@@ -1,5 +1,5 @@
 .tasklist-global 
-  width 400px
+  width 550px
   max-height 450px
   overflow-y scroll
   overflow-x hidden 
@@ -137,7 +137,8 @@
 .tl-task-active
   background $red
   box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
-  .tl-task-text
+  .tl-task-text,
+  .tl-task-date
     color #fff !important
   &:hover
     background $red !important
@@ -179,15 +180,25 @@
   max-width 80%
   pointer-events none
 
+.tl-task-date
+  flexbox(true, true)
+  height 100%
+  position absolute
+  right 10%
+  top 0
+  font 500 13px 'Hind'
+  color #aaa
+
+
 .tl-task-folder 
+  flexbox(false, true)
+  justify-content flex-end
+  padding 0 15px
   width 15%
   height 100%
   position absolute
   right 0
   top 0
-  display flex
-  justify-content center
-  align-items center
   pointer-events none
 
 .tl-task-folder .fa 

@@ -8,8 +8,9 @@
     
     <div class="tl-task-content" v-show="!updating">
       <div class="tl-task-text">{{task.text}}</div>
+      <div class="tl-task-date">{{task.date | date 'dd, M'}}</div>
       <div class="tl-task-folder">
-        <div class="fa fa-folder" style="color: {{task.folder.color}}"></div>
+        <i class="fa fa-folder" style="color: {{task.folder.color}}"></i>
       </div>
     </div>
 
