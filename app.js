@@ -6,6 +6,9 @@ import session from 'express-session';
 
 import config from './config';
 
+import userRouter from './routes/user-routes';
+import errorHandler from './middlewares/errorHandler';
+
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, (err) => {
   if(err) throw err;
@@ -14,6 +17,12 @@ mongoose.connect(config.database, (err) => {
 });
 
 const app = express();
+
+app.listen(config.port, (err) => {
+  if(err) throw err;
+
+  console.log(`Listening on http://localhost:${config.port}/`);
+});
 
 app.use(express.static(join(__dirname, '/public')));
 app.use(bodyParser.json());
@@ -25,12 +34,8 @@ app.use(session({
   secret: config.secret,
 }));
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+app.use('/user', userRouter);
 
-app.listen(config.port, err => {
-  if(err) throw err;
+app.get('/', (req, res) => res.render('index') );
 
-  console.log(`Listening on http://localhost:${config.port}/`);
-});
+app.use(errorHandler);
