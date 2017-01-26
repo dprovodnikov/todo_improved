@@ -1,0 +1,27 @@
+import mongoose, { Schema } from 'mongoose';
+
+const taskSchema = new Schema({
+  text: {
+    type: String,
+    require: true
+  },
+  completed: Boolean,
+  created: {
+    type: Date,
+    default: Date.now
+  }
+  date: {
+    type: Date,
+    require: true,
+  }
+  priority: {
+    type: Number,
+    require: true
+  },
+  userId: {
+    type: Schema.ObjectId,
+    ref: 'User',
+  }
+});
+
+export default mongoose.model('Task', taskSchema);

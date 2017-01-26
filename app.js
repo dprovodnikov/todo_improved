@@ -7,6 +7,7 @@ import session from 'express-session';
 import config from './config';
 
 import userRouter from './routes/user-routes';
+import taskRouter from './routes/task-routes';
 import errorHandler from './middlewares/errorHandler';
 
 mongoose.Promise = global.Promise;
@@ -35,6 +36,7 @@ app.use(session({
 }));
 
 app.use('/user', userRouter);
+app.use('/tasks', taskRouter);
 
 app.get('/', (req, res) => res.render('index') );
 
