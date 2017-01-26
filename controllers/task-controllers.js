@@ -1,8 +1,9 @@
 import Task from '../models/task';
 
 export function getCompleted(req, res, next) {
+  let { _id } = req.user;
 
-  Task.find({ completed: true })
+  Task.find({ completed: true, userId: _id })
     .then( (tasks) => {
 
       if(!tasks) {
@@ -25,10 +26,12 @@ export function getCompleted(req, res, next) {
 }
 
 export function getOverdue(req, res, next) {
+  let { _id } = req.user;
 
   let query = {
     completed: false,
-    date: { $lt: new Date() }
+    date: { $lt: new Date() },
+    userId: _id;
   };
 
   Task.find(query)
@@ -54,8 +57,9 @@ export function getOverdue(req, res, next) {
 }
 
 export function getCurrent(req, res, next) {
+  let { _id } = req.user;
 
-  Task.find({ completed: false })
+  Task.find({ completed: false, userId: _id })
     .then( (tasks) => {
 
       if(!tasks) {

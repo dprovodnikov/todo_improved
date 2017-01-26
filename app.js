@@ -4,11 +4,16 @@ import { join } from 'path';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 
+// config
 import config from './config';
 
+// routes
 import userRouter from './routes/user-routes';
 import taskRouter from './routes/task-routes';
-import errorHandler from './middlewares/errorHandler';
+
+// middlewares
+import currentUser from './middlewares/current-user';
+import errorHandler from './middlewares/error-handler';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, (err) => {
@@ -34,6 +39,8 @@ app.use(session({
   saveUninitialized: true,
   secret: config.secret,
 }));
+
+app.use(currentUser);
 
 app.use('/user', userRouter);
 app.use('/tasks', taskRouter);

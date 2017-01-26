@@ -5,15 +5,18 @@ const taskSchema = new Schema({
     type: String,
     require: true
   },
-  completed: Boolean,
+  completed: {
+    type: Boolean,
+    default: false
+  },
   created: {
     type: Date,
     default: Date.now
-  }
+  },
   date: {
     type: Date,
     require: true,
-  }
+  },
   priority: {
     type: Number,
     require: true
