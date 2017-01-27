@@ -105,32 +105,12 @@ export function create(req, res, next) {
 
 export function remove(req, res, next) {
   let { _id } = req.body;
+  let { userId } = req.session;
 
-  Task.findOne({ _id })
-    .then( (task) => {
+  Task.remove({ _id, userId })
+    .then( (affected) => {
 
-      if(!task) {
-        return next({
-          status: 400,
-          message: 'Task not found'
-        });
-      }
-
-      return task;
-    })
-    .then( (task) => {
-
-      task.remove((err) => {
-        
-        if(err) {
-          return next({
-            message: err.message
-          });
-        }
-
-        res.end();
-      })
-
+      return res.json({ affected });
     })
     .catch(({ message }) => {
       next({
@@ -139,3 +119,51 @@ export function remove(req, res, next) {
       });
     })
 }
+
+export function complete(req, res, next) {
+  let { userId } = req.session;
+  let { _id } = req.body;
+
+  console.log(req.user);
+
+  Task.update({ _id, userId }, { completed: true })
+    .then( (affected) => {
+
+      return res.json({ affected });
+    })
+    .catch(({ message }) => {
+      next({
+        status: 500,
+        message
+      });
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

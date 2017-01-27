@@ -12,4 +12,6 @@ router.post('/create', TaskController.create);
 
 router.post('/delete', TaskController.remove);
 
+router.post('/complete', TaskController.complete);
+
 export default router;
