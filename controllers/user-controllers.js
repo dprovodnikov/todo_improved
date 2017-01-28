@@ -3,7 +3,6 @@ import User from '../models/user';
 export function signIn(req, res, next) {
   let { username, password } = req.body;
 
-
   User.findOne({ username: username })
     .then( (user) => {
 
