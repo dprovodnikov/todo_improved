@@ -11,7 +11,7 @@
       
       <section class="builder-content">
         
-        <div id="b-text" class="b-text" contenteditable></div>
+        <div id="b-text" class="b-text" contenteditable v-editable-model="text"></div>
 
       </section>
 
@@ -29,6 +29,7 @@
 
 <script>
   import clickOutsideDirective from '../../directives/click-outside.js';
+  import editableModel from '../../directives/editable-model.js';
   
   export default {
 
@@ -43,6 +44,7 @@
 
     directives: {
       'click-outside': clickOutsideDirective,
+      'editable-model': editableModel,
     },
 
     methods: {
