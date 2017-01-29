@@ -427,12 +427,6 @@
     color #aaa
   
 //GLOBAL ADD BUTTON
-.add-button-wrap
-  flexbox(true, true)
-  width 100%
-  position absolute
-  bottom 20px
-
 .add-button-global
   height 50px
   width 50px
@@ -442,13 +436,95 @@
   cursor pointer
   background $red
   transition all .3s
+  position absolute
+  right 20px
+  bottom 20px
   border 1px solid darken($red, 10%)
+  z-index 1
   &:hover
     background darken($red, 10%)
     transform translateY(-7%)
     box-shadow 0 3px 15px 1px rgba(0, 0, 0, .3)
   .fa
    color #fff
+
+/*********************************************
+* BUILDER
+*********************************************/
+.builder
+  background #fff
+  width 600px
+  position absolute
+  left 50%
+  top 20%
+  transform translate(-50%, 0)
+  box-shadow 0 6px 20px 5px rgba(0, 0, 0, .4)
+  border-radius 5px
+  overflow hidden
+  z-index 3
+
+.builder-topbar,
+.builder-footer,
+.builder-content
+  padding 15px
+
+.builder-topbar
+  flexbox(false, true)
+  justify-content space-between
+
+.b-title
+  font normal 15px 'Cabin'
+  color #aaa
+
+.b-topbar-controls
+  flexbox(true, true)
+  height 100%
+  i
+    color #ccc
+
+.b-text
+  resize none
+  width 100%
+  min-height 20px
+  margin 10px 0
+  outline none
+  border-bottom 2px solid #eee
+  padding 10px
+  font normal 14px 'Hind'
+  color #3d3d3d
+
+.builder-footer
+  flexbox(false, true)
+  height 50px
+  width 100%
+  position relative
+  justify-content flex-end
+
+.b-btn
+  @extends .tl-te-btn
+  position relative
+  margin 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

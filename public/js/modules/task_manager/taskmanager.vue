@@ -14,6 +14,9 @@
   
   <context-menu :event-bus="eventBus"></context-menu>
 
+  <builder :event-bus="eventBus"></builder>
+
+
 </template>
 
 <script>
@@ -21,6 +24,7 @@
   import taskComponent from './task.vue';
   import sortbar from './sortbar.vue';
   import contextMenu from './context.vue';
+  import builder from './builder.vue';
   import clickOutsideDirective from '../../directives/click-outside.js';
   import _ from '_';
 
@@ -31,6 +35,7 @@
       'task': taskComponent,
       'sortbar': sortbar,
       'context-menu': contextMenu,
+      'builder': builder,
     },
 
     directives: {

@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="build/build.css">
 </head>
 <body>
+  <div id="overlay"></div>
   <div class="application-container">
     
     <sidebar :event-bus="eventBus"></sidebar>
 
     <section class="app-content">
-      
 
       <changes-manager :event-bus="eventBus"></changes-manager>
 
@@ -23,12 +23,6 @@
         <current-date></current-date>
 
         <toolbar :event-bus="eventBus"></toolbar>
-
-        <div class="add-button-wrap">
-          <button class="add-button-global">
-            <i class="fa fa-pencil"></i>
-          </button>
-        </div>
 
       </div>
 
