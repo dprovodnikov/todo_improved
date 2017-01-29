@@ -11,6 +11,7 @@ import config from './config';
 import userRouter from './routes/user-routes';
 import taskRouter from './routes/task-routes';
 import folderRouter from './routes/folder-routes'
+import eventRouter from './routes/event-routes';
 
 // middlewares
 import currentUser from './middlewares/current-user';
@@ -46,6 +47,7 @@ app.use(currentUser);
 app.use('/user', userRouter);
 app.use('/tasks', taskRouter);
 app.use('/folders', folderRouter);
+app.use('/events', eventRouter);
 
 app.get('/', (req, res) => res.render('index') );
 
