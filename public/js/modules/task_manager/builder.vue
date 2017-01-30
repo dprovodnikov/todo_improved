@@ -5,19 +5,40 @@
       <header class="builder-topbar">
         <div class="b-title">Task builder</div>
         <div class="b-topbar-controls">
-          <i class="fa fa-close"></i>
+          <i class="fa fa-close" @click="hideBuilder"></i>
         </div>
       </header>
       
       <section class="builder-content">
         
-        <div id="b-text" class="b-text" contenteditable v-editable-model="text"></div>
+       <div id="b-text"
+         class="b-text"
+         contenteditable
+         v-editable-model="text"
+         v-placeholder="Sometimes">
+
+       </div>
+       {{text}}
 
       </section>
 
       <footer class="builder-footer">
+        <div class="b-save-btn">Save task</div>
+        <div class="b-footer-controls">
+          
+          <i class="fa fa-flag-o">
+            <span class="b-hint">Priority</span>
+          </i>
 
-        <button class="b-btn">Save</button>
+          <i class="fa fa-folder-o">
+            <span class="b-hint">Folders</span>
+          </i>
+
+          <i class="fa fa-calendar-o">
+            <span class="b-hint">Deadlines</span>
+          </i>
+
+        </div>
       </footer>
     </div>
 
@@ -29,6 +50,7 @@
 
 <script>
   import clickOutsideDirective from '../../directives/click-outside.js';
+  import placeholderDirective from '../../directives/placeholder.js';
   import editableModel from '../../directives/editable-model.js';
   
   export default {
@@ -37,7 +59,8 @@
 
     data: function() {
       return {
-        show: false,
+        show: true,
+        text: '',
         overlay: $('#overlay'),
       };
     },
@@ -45,6 +68,7 @@
     directives: {
       'click-outside': clickOutsideDirective,
       'editable-model': editableModel,
+      'placeholder': placeholderDirective,
     },
 
     methods: {
@@ -52,6 +76,9 @@
       showBuilder: function() {
         this.overlay.show();
         this.show = true;
+
+        let el = document.getElementById('b-text');
+        setTimeout(() => el.focus(), 0); //a hack to set the focus on a contenteditable el
       },
 
       hideBuilder: function() {
@@ -70,8 +97,6 @@
     },
 
     ready: function() {
-      let el = document.getElementById('b-text');
-      setTimeout(() => el.focus(), 10)
     }
   }
 

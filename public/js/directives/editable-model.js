@@ -2,7 +2,9 @@ export default {
   bind: function() {
     let model = this.expression;
 
-    $(this.el).text(this.vm[model]);
+    console.log(this.vm[model]);
+    if(this.vm[model])
+      $(this.el).text(this.vm[model]);
 
     this.watch = (e) => {
       this.vm[model] = $(this.el).text();
