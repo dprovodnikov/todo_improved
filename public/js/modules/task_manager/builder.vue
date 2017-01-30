@@ -15,10 +15,9 @@
          class="b-text"
          contenteditable
          v-editable-model="text"
-         v-placeholder="Sometimes">
+         v-placeholder="Sometimes the same is different">
 
        </div>
-       {{text}}
 
       </section>
 

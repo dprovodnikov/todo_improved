@@ -2,7 +2,6 @@ export default {
   bind: function() {
     let model = this.expression;
 
-    console.log(this.vm[model]);
     if(this.vm[model])
       $(this.el).text(this.vm[model]);
 
