@@ -2,18 +2,16 @@ export default {
 
   bind: function() {
 
-    let text = this.expression;
-
     let placeholderClass = 'placeholder';
 
-    let markup = `<div class="${placeholderClass}">${text}</div>`
+    let markup = `<div class="${placeholderClass}">${this.expression}</div>`
 
     $(this.el).append(markup);
 
     this.focus = (e) => {
       let el = $(this.el);
 
-      if( $(el.html()).hasClass(`${placeholderClass}`) )
+      if(el.find('.' + placeholderClass).length)
         $(this.el).html('');
     }
 

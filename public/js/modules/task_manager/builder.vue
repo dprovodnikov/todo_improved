@@ -58,7 +58,7 @@
 
     data: function() {
       return {
-        show: true,
+        show: false,
         text: '',
         overlay: $('#overlay'),
       };
@@ -75,9 +75,6 @@
       showBuilder: function() {
         this.overlay.show();
         this.show = true;
-
-        let el = document.getElementById('b-text');
-        setTimeout(() => el.focus(), 0); //a hack to set the focus on a contenteditable el
       },
 
       hideBuilder: function() {

@@ -17,7 +17,7 @@
     <div class="tl-task-editor" v-show="updating">
     <i class="fa fa-close tl-te-cancel" @click="close()"></i>
 
-      <textarea class="tl-te-text" v-model="newText" autofocus>{{task.text}}</textarea>
+      <div class="tl-te-text" v-editable-model="newText" contenteditable>{{task.text}}</div>
 
       <div class="tl-te-toolbar">
 
@@ -64,11 +64,13 @@
 <script>
   import {format} from '../../utils/date-utils.js';
   import rightClickDirective from '../../directives/right-click.js';
+  import editableModelDirective from '../../directives/editable-model.js';
 
   export default {
 
     directives: {
       'right-click': rightClickDirective,
+      'editable-model': editableModelDirective,
     },
 
     filters: {
@@ -152,6 +154,7 @@
         this.newPriority = this.task.priority;
         this.newFolder = this.task.folder;
         this.newDate = this.task.date;
+        this.newText = this.task.text;
         this.task.status = '';
         this.updated = false;
       },
