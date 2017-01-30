@@ -98,8 +98,14 @@
       },
 
       setPriority: function(priority) {
+
+        if(priority == this.vm.newPriority) {
+          return this.close();
+        }
+
         this.vm.newPriority = priority;
         this.vm.task.status = 'updated';
+        this.vm.isEdited = true;
         this.vm.saveChanges();
 
         this.close();
@@ -107,10 +113,12 @@
 
       setDeadline: function(date) {
         this.vm.task.status = 'updated';
-        if(date)
+
+        if(date) {
           this.vm.setDeadline({date: date});
-        else
+        } else {
           this.vm.setDeadline({autosave: true});
+        }
 
         this.close();
       },

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import {format} from '../../utils/date-utils.js';
+  import { format, compare } from '../../utils/date-utils.js';
   import rightClickDirective from '../../directives/right-click.js';
   import editableModelDirective from '../../directives/editable-model.js';
 
@@ -93,6 +93,8 @@
         newPriority: this.task.priority,
         newFolder: this.task.folder,
         newDate: this.task.date,
+
+        isEdited: false,
 
         old: {},
 
@@ -130,6 +132,11 @@
       saveChanges: function() {
         let task = this.task;
 
+        if(!this.isEdited && task.text == this.newText) {
+          this.updating = false;
+          return;
+        }
+
         this.old = this.updated ? this.old : {
           text: task.text,
           priority: task.priority,
@@ -144,6 +151,8 @@
         this.eventBus.$emit('task-updated', task);
         this.updated = true;
         this.updating = false;
+
+        this.isEdited = false;
       },
 
       undoChanges: function() {
@@ -169,29 +178,60 @@
       },
 
       setPriority: function(priority) {
-        this.newPriority = priority;
+
+        if(priority != this.newPriority) {
+          this.isEdited = true;
+          this.newPriority = priority;
+        }
+
         this.switchToolset('main');
       },
 
       setFolder: function(folder) {
-        this.newFolder = folder;
+
+        if(folder != this.newFolder) {
+          this.isEdited = true;
+          this.newFolder = folder;
+        }
+
         this.switchToolset('main');
       },
 
       setDeadline: function(ops={}) {
-        if(ops.date)
-          this.newDate = ops.date, this.saveChanges()
-        else {
+        if(ops.date) {
+
+          if(compare(ops.date, this.newDate)) {
+            return false
+          }
+
+          this.newDate = ops.date;
+          this.isEdited = true;
+          this.saveChanges()
+
+        } else {
           setTimeout(() => {
             this.eventBus.$emit('open-calendar', {
               date: this.newDate, 
+
               onpick: (date) => {
+
+                if(compare(date.instance, this.newDate)) {
+                  return false
+                }
+
+                this.isEdited = true;
                 this.newDate = date.instance
-                if(ops.autosave) this.saveChanges();
+
+                if(ops.autosave) {
+                  this.saveChanges()
+                }
+
               }
+
             });
           }, 10);
         }
+
       },
 
       getPriority: function(priority) {

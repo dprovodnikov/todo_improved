@@ -18,6 +18,12 @@ export function daysInMonth(year, month) {
   return 32 - new Date(year, month, 32).getDate()
 };
 
+export function compare(a, b) {
+  return a.getDate() == b.getDate() &&
+         a.getMonth() == b.getMonth() &&
+         a.getFullYear() == b.getFullYear();
+}
+
 export function getDatesForThePeriod(period) {
   let date, output, day;
 
