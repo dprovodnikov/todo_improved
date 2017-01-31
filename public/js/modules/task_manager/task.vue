@@ -37,9 +37,18 @@
         <div class="tl-te-toolset" v-show="toolsets.priorities" transition="toolset">
           <i class="fa fa-long-arrow-left tl-te-back" @click="switchToolset('main')"></i>
 
-          <i class="fa fa-flag tl-te-tool tl-priority-0" @click="setPriority(0)"></i>
-          <i class="fa fa-flag tl-te-tool tl-priority-1" @click="setPriority(1)"></i>
-          <i class="fa fa-flag tl-te-tool tl-priority-2" @click="setPriority(2)"></i>
+          <i :class="{'priority-current': newPriority == 0 }"
+             class="fa fa-flag tl-te-tool tl-priority-0"
+             @click="setPriority(0)">
+          </i>
+          <i :class="{'priority-current': newPriority == 1 }"
+             class="fa fa-flag tl-te-tool tl-priority-1"
+             @click="setPriority(1)">
+          </i>
+          <i :class="{'priority-current': newPriority == 2 }"
+             class="fa fa-flag tl-te-tool tl-priority-2"
+             @click="setPriority(2)">
+          </i>
         </div>
 
         <div class="tl-te-toolset" v-show="toolsets.folders" transition="toolset">

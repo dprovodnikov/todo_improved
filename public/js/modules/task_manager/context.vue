@@ -38,17 +38,23 @@
     <div class="tm-context-toolset">
       <h2>Priorities</h2>
       <ul>
-        <li @click="setPriority(0)">
+        <li @click="setPriority(0)" :class="{'priority-current': vm.task.priority == 0}">
           <i class="fa fa-flag tl-priority-0"></i>
-          <span class="tm-ctx-toolset-hint">Low</span>
+          <span class="tm-ctx-toolset-hint">Low
+            <span v-if="vm.task.priority == 0">(current)</span>
+          </span>
         </li>
-        <li @click="setPriority(1)">
+        <li @click="setPriority(1)" :class="{'priority-current': vm.task.priority == 1}">
           <i class="fa fa-flag tl-priority-1"></i>
-          <span class="tm-ctx-toolset-hint">Normal</span>
+          <span class="tm-ctx-toolset-hint">Normal
+            <span v-if="vm.task.priority == 1">(current)</span>
+          </span>
         </li>
-        <li @click="setPriority(2)">
+        <li @click="setPriority(2)" :class="{'priority-current': vm.task.priority == 2}">
           <i class="fa fa-flag tl-priority-2"></i>
-          <span class="tm-ctx-toolset-hint">High</span>
+          <span class="tm-ctx-toolset-hint">High
+            <span v-if="vm.task.priority == 2">(current)</span>
+          </span>
         </li>
       </ul>
     </div>
