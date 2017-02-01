@@ -31,8 +31,18 @@
         <div class="b-save-btn">Save task</div>
         <div class="b-footer-controls">
           
-          <i class="fa fa-flag-o">
+          <i class="fa fa-flag-o" @click="priorities.show = !priorities.show">
             <span class="b-hint">Priority</span>
+            <div class="b-priority-set" :class="{'open': priorities.show}">
+              <div class="priorities-list">
+                <h2>Priorities</h2>
+                <ul>
+                  <li><i class="fa fa-flag tl-priority-0"></i></li>
+                  <li><i class="fa fa-flag tl-priority-1"></i></li>
+                  <li><i class="fa fa-flag tl-priority-2"></i></li>
+                </ul>
+              </div>
+            </div>
           </i>
 
           <i class="fa fa-folder-o">
@@ -46,6 +56,7 @@
     <button @click="showBuilder" class="add-button-global">
       <i class="fa fa-pencil"></i>
     </button>
+
   </div>
 </template>
 
@@ -64,6 +75,10 @@
         show: false,
         text: '',
         overlay: $('#overlay'),
+
+        priorities: {
+          show: false,
+        },
       };
     },
 
@@ -87,6 +102,8 @@
       },
 
       hideBuilder: function() {
+        this.priorities.show = false;
+
         this.overlay.hide();
         this.show = false;
       },

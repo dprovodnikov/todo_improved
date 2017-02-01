@@ -4,16 +4,6 @@
   padding 0 5px
   box-sizing content-box
   perspective 800px
-  &::-webkit-scrollbar
-    transition: all .2s
-    width 5px
-  &::-webkit-scrollbar-track
-    background #eee
-  &::-webkit-scrollbar-thumb
-    background #e7e7e7
-    border-radius 50px
-    &:hover
-      background #ccc
 
 /*********************************************
 * TASKLIST SORTBAR
@@ -464,13 +454,12 @@
   box-shadow 0 2px 15px 2px rgba(0, 0, 0, .4)
   border-radius 3px
   border 1px solid #8d8d8d
-  overflow hidden
   z-index 3
 
 .builder-topbar,
 .builder-footer,
 .builder-content
-  padding 25px
+  padding 20px
 
 .builder-content
   padding-top 0
@@ -479,6 +468,7 @@
 .builder-topbar
   flexbox(false, true)
   justify-content space-between
+  padding-bottom 10px
 
 .b-title
   font normal 14px 'Hind'
@@ -556,6 +546,27 @@
   font normal 13px 'Hind'
   color #fff
 
+.b-priority-set
+  position absolute
+  bottom 0
+  right 0
+  width 200px
+  padding 5px 7px 10px 7px
+  border-radius 2px
+  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
+  background #fff
+  transition all .2s
+  transform translate(100%, 120%)
+  opacity 0
+  &.open
+    transform translate(100%, 100%)
+    opacity 1
+  li i:hover
+    color #3d3d3d !important
+
+
+.priorities-list
+  @extends .tm-context-toolset
 
 
 

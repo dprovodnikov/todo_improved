@@ -10,8 +10,14 @@ export function thisDayNextWeek() {
   return new Date(curDate.setDate(curDate.getDate() + 7));
 }
 
+const weekdays = `Sunday Monday Tuesday Wednesday Thursday Friday Saturday`.split(/\s+/);
+
 export function weekday(date) {
-  return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()];
+  return weekdays[date.getDay()].slice(0, 3);
+}
+
+export function weekdayFull(date) {
+  return weekdays[date.getDay()];
 }
 
 export function daysInMonth(year, month) {

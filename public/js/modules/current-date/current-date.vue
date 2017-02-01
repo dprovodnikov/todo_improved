@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import { weekdayFull } from '../../utils/date-utils.js';
   
   export default {
     filters: {
@@ -25,8 +26,6 @@
         monthNames: `January February March April May
                      June July August September October
                      November December`.split(/\s+/),
-        weekdays:   `Sunday Monday Tuesday Wednesday Thursday
-                     Friday Saturday`.split(/\s+/)
       };
     },
     
@@ -38,7 +37,7 @@
         return this.monthNames[this.date.getMonth()];
       },
       currentDay: function() {
-        return this.weekdays[this.date.getDay()];
+        return weekdayFull(this.date);
       },
     }
   }
