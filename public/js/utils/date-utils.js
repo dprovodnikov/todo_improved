@@ -86,8 +86,7 @@ export function format(format, date, settings) {
     },
 
     formatDate = function(day) {
-      let cd = new Date();
-      return weekdays[new Date(cd.getFullYear(), cd.getMonth(), day).getDay()];
+      return weekdays[day];
     },
 
     // Format a name, short or long as requested
