@@ -494,16 +494,27 @@
     &:hover
       color #aaa
 
-.b-text
-  resize none
-  width 100%
-  min-height 20px
+.b-text-wrap
+  flexbox(true, false)
+
+.b-text,
+.b-date
+  width 70%
   outline none
   border 1px solid #ddd
   border-radius 1px
   padding 10px
   font normal 14px 'Hind'
   color #3d3d3d
+  height auto
+
+.b-date
+  width 30%
+  border-left none
+  color #7d7d7d
+  cursor pointer
+  user-select none
+  
 
 .builder-footer
   flexbox(false, true)
@@ -525,7 +536,7 @@
   i
     font-size 20px
     color #8d8d8d
-    margin-right 10px
+    margin-right 15px
     position relative
     cursor pointer
     transition all .1s

@@ -11,13 +11,19 @@
       
       <section class="builder-content">
         
-       <div id="b-text"
-         class="b-text"
-         contenteditable
-         v-editable-model="text"
-         v-placeholder="Sometimes the same is different">
+      <div class="b-text-wrap">
+        <div id="b-text"
+          class="b-text"
+          contenteditable
+          v-editable-model="text"
+          v-placeholder="Sometimes the same is different">
+        </div>
+        <div class="b-date">
+          <i class="fa fa-fw fa-calendar-o"></i>
+          {{new Date() | date 'dd M, w'}}
+        </div>
+      </div>
 
-       </div>
 
       </section>
 
@@ -33,10 +39,6 @@
             <span class="b-hint">Folders</span>
           </i>
 
-          <i class="fa fa-calendar-o">
-            <span class="b-hint">Deadlines</span>
-          </i>
-
         </div>
       </footer>
     </div>
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+  import { format } from '../../utils/date-utils.js';
   import clickOutsideDirective from '../../directives/click-outside.js';
   import placeholderDirective from '../../directives/placeholder.js';
   import editableModel from '../../directives/editable-model.js';
@@ -62,6 +65,12 @@
         text: '',
         overlay: $('#overlay'),
       };
+    },
+
+    filters: {
+      date: function(value, pattern) {
+        return format(pattern, new Date(value.toString()));
+      }
     },
 
     directives: {

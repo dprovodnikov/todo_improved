@@ -61,6 +61,7 @@ export function format(format, date, settings) {
     dayNames = '',
     monthNamesShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     monthNames = ['January','February','March','April','May','Jun','July','August','September','October','Novemver','December'],
+    weekdays = 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(/\s+/),
 
     // Check whether a format character is doubled
     lookAhead = function( match ) {
@@ -82,6 +83,11 @@ export function format(format, date, settings) {
         }
       }
       return num;
+    },
+
+    formatDate = function(day) {
+      let cd = new Date();
+      return weekdays[new Date(cd.getFullYear(), cd.getMonth(), day).getDay()];
     },
 
     // Format a name, short or long as requested
@@ -116,6 +122,9 @@ export function format(format, date, settings) {
             break;
           case "M":
             output += formatName( "M", date.getMonth(), monthNamesShort, monthNames );
+            break;
+          case "w":
+            output += formatDate(date.getDay());
             break;
           case "y":
             output += ( lookAhead( "y" ) ? date.getFullYear() :
