@@ -288,8 +288,10 @@
         this.eventBus.$on('changes-undo', task => {
           if(task != this.task) return false;
 
-          if(task.status != 'updated')
+          if(task.status != 'updated') {
             this.show = true;
+            this.affected = false;
+          }
           else
             this.undoChanges();
         });

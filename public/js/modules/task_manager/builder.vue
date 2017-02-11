@@ -1,7 +1,7 @@
 <template>
   <div v-click-outside>
 
-    <div class="builder-wrap" transition="builder" v-show="show">
+    <div class="builder-wrap" transition="builder" v-if="show">
 
       <div class="builder-topbar">
         <div v-show="stripe.show" transition="stripe" class="b-title-stripe">Set a deadline</div>
@@ -31,7 +31,7 @@
 
     data: function() {
       return {
-        show: true,
+        show: false,
         text: '',
         overlay: $('#overlay'),
 
