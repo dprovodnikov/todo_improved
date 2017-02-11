@@ -1,56 +1,14 @@
 <template>
   <div v-click-outside>
 
-    <div v-show="show" transition="builder" class="builder" >
-      <header class="builder-topbar">
-        <div class="b-title">Task builder</div>
-        <div class="b-topbar-controls">
-          <i class="fa fa-close" @click="hideBuilder"></i>
-        </div>
-      </header>
-      
-      <section class="builder-content">
-        
-      <div class="b-text-wrap">
-        <div id="b-text"
-          class="b-text"
-          contenteditable
-          v-editable-model="text"
-          v-placeholder="Sometimes the same is different">
-        </div>
-        <div class="b-date">
-          <i class="fa fa-fw fa-calendar-o"></i>
-          {{new Date() | date 'dd M, w'}}
-        </div>
+    <div class="builder-wrap" transition="builder" v-show="show">
+
+      <div class="builder-topbar">
+        <div v-show="stripe.show" transition="stripe" class="b-title-stripe">Set a deadline</div>
       </div>
 
+      <calendar :tight="true" :event-bus="eventBus" :init-args="{ date: new Date() }"></calendar>
 
-      </section>
-
-      <footer class="builder-footer">
-        <div class="b-save-btn">Save task</div>
-        <div class="b-footer-controls">
-          
-          <i class="fa fa-flag-o" @click="priorities.show = !priorities.show">
-            <span class="b-hint">Priority</span>
-            <div class="b-priority-set" :class="{'open': priorities.show}">
-              <div class="priorities-list">
-                <h2>Priorities</h2>
-                <ul>
-                  <li><i class="fa fa-flag tl-priority-0"></i></li>
-                  <li><i class="fa fa-flag tl-priority-1"></i></li>
-                  <li><i class="fa fa-flag tl-priority-2"></i></li>
-                </ul>
-              </div>
-            </div>
-          </i>
-
-          <i class="fa fa-folder-o">
-            <span class="b-hint">Folders</span>
-          </i>
-
-        </div>
-      </footer>
     </div>
 
     <button @click="showBuilder" class="add-button-global">
@@ -65,6 +23,7 @@
   import clickOutsideDirective from '../../directives/click-outside.js';
   import placeholderDirective from '../../directives/placeholder.js';
   import editableModel from '../../directives/editable-model.js';
+  import calendar from '../sidebar/calendar/calendar.vue';
   
   export default {
 
@@ -72,9 +31,14 @@
 
     data: function() {
       return {
-        show: false,
+        show: true,
         text: '',
         overlay: $('#overlay'),
+
+        stripe: {
+          title: 'Set a deadline',
+          show: false,
+        },
 
         priorities: {
           show: false,
@@ -88,6 +52,10 @@
       }
     },
 
+    components: {
+      'calendar': calendar,
+    },
+
     directives: {
       'click-outside': clickOutsideDirective,
       'editable-model': editableModel,
@@ -99,6 +67,8 @@
       showBuilder: function() {
         this.overlay.show();
         this.show = true;
+
+        setTimeout(() => this.stripe.show = true, 100);
       },
 
       hideBuilder: function() {
@@ -106,20 +76,20 @@
 
         this.overlay.hide();
         this.show = false;
+
+        this.stripe.show = false;
       },
 
       bindEvents: function() {
         this.$on('collapse-me', this.hideBuilder);
-      }
+      },
+
     },
 
     created: function() {
-
       this.bindEvents();
     },
 
-    ready: function() {
-    }
   }
 
 </script>

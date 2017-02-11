@@ -115,14 +115,23 @@
   left 200px
 
 // ===========//
-//   TOOLBAR  //
+//   BUILDER  //
 // ===========//
 .builder-transition
-  transition transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .3s
+  transition transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .1s
 
 .builder-enter,
 .builder-leave
-  transform translate(-50%, -20%)
+  transform translate(-50%, -60%)
   opacity 0
+
+.stripe-transition
+  transition transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .3s
+
+.stripe-enter,
+.stripe-leave
+  transform translateX(20%)
+  opacity 0
+  
 
   

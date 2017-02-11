@@ -1,9 +1,11 @@
 .calendar-wrap
   width 470px
-  height 100%
   background #fff
   padding 0 17px 20px 17px
   position relative
+
+.calendar-wrap.tight
+  width 400px
 
 /*******************************************
 * YEAR SLIDER
@@ -98,6 +100,9 @@
   flexbox(false, true)
   font-family 'Oxygen'
 
+.tight .month-line
+  height 1px
+
 .slider-circle 
   height 13px
   width 13px
@@ -107,7 +112,6 @@
   transition all .2s
   left 0
 
-
 .month-title 
   color $red
   text-transform uppercase
@@ -115,6 +119,8 @@
   margin-top 25px
   font 300 17px 'Oxygen'
 
+.tight .month-title
+  margin-top 15px
 
 /*******************************************
 * WEEKDAYS
@@ -128,6 +134,9 @@
   margin-bottom 10px
   color #7d7d7d
   font normal 15px 'Hind'
+
+.tight .weekdays-wrap div
+  margin-bottom 0
 
 .calendar-cells-wrap 
   flexbox(false, false)
@@ -148,6 +157,9 @@
   font 300 14px 'PT Sans'
   border-left 2px solid #fff
   border-right @border-left;
+
+.tight .cell
+  margin-bottom 0
 
 .cell:hover
   background #eee
