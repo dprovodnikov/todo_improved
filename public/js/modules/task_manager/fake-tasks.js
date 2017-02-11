@@ -8,7 +8,7 @@ export default [
     folder: {color: '#5ED2D3'}
   },
   {
-    text: 'We have actually a lot of work to do',
+    text: 'Sometimes the same is different, but mostly its the same',
     priority: 1,
     folder: 'folder',
     id: 'task-2',
@@ -16,7 +16,7 @@ export default [
     folder: {color: '#D75555'}
   },
   {
-    text: 'Make coffee, make a bed, go to work, beet people and so on',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, animi.',
     priority: 2,
     folder: 'folder',
     id: 'task-3',
@@ -25,7 +25,7 @@ export default [
 
   },
   {
-    text: 'Manage to accomplish all the tasks until the deadline is coming',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing.',
     priority: 1,
     folder: 'folder',
     id: 'task-4',
@@ -33,7 +33,7 @@ export default [
     folder: {color: '#5EB571'}
   },
   {
-    text: 'Some other motherfucking task to do, fuck',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, deserunt, nisi!',
     priority: 0,
     folder: 'folder',
     id: 'task-5',

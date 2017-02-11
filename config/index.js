@@ -1,6 +1,6 @@
 const config = {
   database: 'localhost/todo-improved',
-  port: 7000,
+  port: 8080,
   secret: 'verysecret'
 }
 

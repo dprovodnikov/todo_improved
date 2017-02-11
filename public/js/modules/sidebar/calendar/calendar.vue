@@ -1,6 +1,6 @@
 <template>
   
-  <div class="calendar-wrap">
+  <div class="calendar-wrap" :class="{ 'tight': tight }">
     <div class="year-slider">
       <div class="year-slider-left-control">
         <div class="fa fa-chevron-left"></div>
@@ -39,9 +39,9 @@
 
   import Calendar from './calendar.js';
 
-
   export default {
-    props: ['eventBus', 'initArgs'],
+    props: ['eventBus', 'initArgs', 'tight'],
+
     data: function() {
       return {};
     },
@@ -54,7 +54,7 @@
       let currentYear = new Date().getFullYear();
 
       new Calendar({
-        container: '.' + this.$el.parentNode.className,
+        container: this.$el.parentNode.className,
         yearFirst: currentYear - 3,
         yearLast: currentYear + 3,
         yearPrimary: currentYear,

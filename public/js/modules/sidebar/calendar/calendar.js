@@ -7,6 +7,8 @@ export default function(params) {
   /***********************************************
   * INIT
   ************************************************/
+  const root = $('.' + params.container.split(' ')[0])
+
   let increaseDay, decreaseDay;
 
   let curDate = new Date(),
@@ -55,7 +57,7 @@ export default function(params) {
   * primary year is acutally a current year, means a year which was chosen by user
   *****************************************************************************************/
   function initYearSlider(yearFirst, yearLast, yearPrimary) {
-    let yearsTape = $('.year-slider-tape');
+    let yearsTape = root.find('.year-slider-tape');
 
     /***********************************
     * Need to generate markup which contains years in range,
@@ -73,8 +75,8 @@ export default function(params) {
         yearsTape.append(` <div class="year year-denied">${i+1}</div> `);
     }
 
-    let tapeWrap = $('.year-slider-tape-wrap'),
-        primaryYearEl = $('.year-primary');
+    let tapeWrap = root.find('.year-slider-tape-wrap'),
+        primaryYearEl = root.find('.year-primary');
 
     /***********************************
     * Need to scroll the years tape to proper position,
@@ -92,8 +94,8 @@ export default function(params) {
     currentCalendar = generateYearCalendar(primaryYearEl.text());
     currentYear = primaryYearEl.text();
 
-    $('.year-slider-right-control').click(increaseYear);
-    $('.year-slider-left-control').click(decreaseYear)
+    root.find('.year-slider-right-control').click(increaseYear);
+    root.find('.year-slider-left-control').click(decreaseYear)
 
     /*************************************
     * Decrease year event
@@ -150,11 +152,11 @@ export default function(params) {
   * anyone you want to deal with
   *****************************************************************************************/
   function initMonthSlider(currentMonth) {
-    let monthsContainer = $('.month-numbers'),
-        monthLine = $('.month-line'),
+    let monthsContainer = root.find('.month-numbers'),
+        monthLine = root.find('.month-line'),
         sliderCircle = monthLine.find('.slider-circle'),
         currentMonthClass = 'month-current',
-        monthTitleEl = $('.month-title');
+        monthTitleEl = root.find('.month-title');
 
     for(let i = 1; i <= 12; i++)
       monthsContainer.append(` <div>${i}</div> `);
@@ -169,7 +171,7 @@ export default function(params) {
 
     /* Mark clicked month as active */
     monthsEl.click(function() {
-      switchMonth($(this).text()-1);
+      switchMonth(root.find(this).text()-1);
     });
 
     function switchMonth(number, options = {}) {
@@ -191,7 +193,7 @@ export default function(params) {
   }
 
   function renderCells(month, options) {
-    let cellsContainer = $('.calendar-cells-wrap'),
+    let cellsContainer = root.find('.calendar-cells-wrap'),
         cellsMarkup = '';
 
     /*****************************************************************************************
@@ -245,9 +247,9 @@ export default function(params) {
     *****************************************************************************************/
     let dp = params.datePrimary;
     if(dp && currentMonthNumber == dp.getMonth() && currentYear == dp.getFullYear()) {
-      $(`#cell-${dp.getDate()}`).addClass('cell-active');
+      root.find(`#cell-${dp.getDate()}`).addClass('cell-active');
     } else if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
-      $(`#cell-${curDate.getDate()}`).addClass('cell-today');
+      root.find(`#cell-${curDate.getDate()}`).addClass('cell-today');
     }
 
     if(!dp) {
@@ -263,7 +265,7 @@ export default function(params) {
 
     for(let [date, tasks] of Object.entries(data)) {
       date = new Date(date);
-      $(`#cell-${date.getDate()}`).append(`
+      root.find(`#cell-${date.getDate()}`).append(`
         <div class="calendar-cell-number">${tasks.length}</div>
       `);
     }
@@ -275,11 +277,16 @@ export default function(params) {
   * all cell event handlers
   *****************************************************************************************/
   function initEvents() {
-    let cells = $('.cell'),
+    let cells = root.find('.cell'),
     activeCellClass = 'cell-active';
 
     cells.click(function() {
-      switchDay( $(this).text(), {el: $(this)});
+      switchDay( root.find(this).text(), {el: root.find(this)});
+    });
+
+    cells.on('mousedown', e => {
+      cells.removeClass(activeCellClass);
+      root.find(e.target).addClass(activeCellClass)
     });
 
     function switchDay(day, options, doNothing) {
@@ -290,7 +297,7 @@ export default function(params) {
       if(options && options.el)
         el = options.el;
       else
-        el = $(`#cell-${day}`);
+        el = root.find(`#cell-${day}`);
 
       if( el.hasClass('cell-prev') ) {
         if(currentMonthNumber == 0){
@@ -323,7 +330,7 @@ export default function(params) {
           return doCallback();
       }
 
-      $('.cell').removeClass(activeCellClass);
+      root.find('.cell').removeClass(activeCellClass);
       el.addClass(activeCellClass);
 
       if(!doNothing) doCallback();
@@ -377,5 +384,5 @@ export default function(params) {
 
   } //init events
 
-  return $('.calendar-wrap');
+  return root.find('.calendar-wrap');
 };
