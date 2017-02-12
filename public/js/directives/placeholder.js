@@ -19,7 +19,7 @@ export default {
       let el = $(this.el);
 
       if(el.text().trim() == '')
-        el.append(markup);
+        el.html(markup);
     }
 
     $(this.el).on('focus', this.focus);

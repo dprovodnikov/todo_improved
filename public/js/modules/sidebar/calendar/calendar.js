@@ -284,11 +284,6 @@ export default function(params) {
       switchDay( root.find(this).text(), {el: root.find(this)});
     });
 
-    cells.on('mousedown', e => {
-      cells.removeClass(activeCellClass);
-      root.find(e.target).addClass(activeCellClass)
-    });
-
     function switchDay(day, options, doNothing) {
       currentDay = day;
 

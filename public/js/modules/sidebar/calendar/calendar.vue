@@ -1,6 +1,6 @@
 <template>
   
-  <div class="calendar-wrap" :class="{ 'tight': tight }">
+  <div class="calendar-wrap">
     <div class="year-slider">
       <div class="year-slider-left-control">
         <div class="fa fa-chevron-left"></div>
@@ -40,7 +40,7 @@
   import Calendar from './calendar.js';
 
   export default {
-    props: ['eventBus', 'initArgs', 'tight'],
+    props: ['eventBus', 'initArgs'],
 
     data: function() {
       return {};

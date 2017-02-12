@@ -445,8 +445,8 @@
 * BUILDER
 *********************************************/
 .builder-wrap
-  // flexbox(true, false)
   height 500px
+  width 444px
   background #fff
   padding 20px
   position absolute
@@ -457,24 +457,86 @@
   box-shadow 0 0 20px 1px rgba(0,0,0,.3)
   border-radius 5px
   border 2px solid #5d5d5d
+  overflow-y hidden
 
 .builder-topbar
   flexbox(false, true)
-  justify-content space-between 
+  justify-content space-between
   width 100%
   z-index 1
 
 .b-title-stripe
   position absolute
-  top 15px
-  left -15px
-  background $red
-  border-left 3px solid #fff
-  color #fff
-  padding 7px 12px
+  top 10px
+  left 0
+  border-left 6px solid $red
+  color darken($red, 10%)
+  padding 8px 12px
   font 500 14px 'Hind'
   text-transform uppercase
+  i
+    font-size 20px
 
+.b-form-wrap
+  padding 0 20px
+  background #fff
+  box-shadow 0 0 16px rgba(0, 0, 0, .7);
+  width 100%
+  position absolute
+  left 0
+  bottom 0
+  transition transform .2s
+
+.b-form-wrap.b-form-collapsed
+  transform translateY(90%)
+  cursor pointer
+
+.b-form-textfield
+  padding 10px 5px
+  overflow hidden
+  max-height 80px
+  border-bottom 1px solid $red
+  outline none
+  font normal 14px 'Hind'
+  color #3d3d3d
+  max-height 200px
+
+.b-form-footer
+  flexbox(false, true)
+  width 100%
+  justify-content flex-end
+  padding 20px 0
+
+.form-unit
+  position relative
+  font 500 13px 'Hind'
+
+.form-unit-top
+  flexbox(false, true)
+  padding-top 20px
+  width 100%
+  justify-content space-between
+
+.unit-description
+  color #3d3d3d
+  text-decoration underline
+
+.unit-counter
+  color $red
+
+.b-save-btn
+  font normal 14px 'Hind'
+  text-transform uppercase
+  color #fff
+  border-radius 2px
+  background $red
+  bottom 20px
+  right @bottom
+  padding 5px 13px
+  transition all .1s
+  cursor pointer
+  &:hover
+    background darken($red, 15%)
 
 
 

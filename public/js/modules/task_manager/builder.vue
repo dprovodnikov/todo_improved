@@ -4,10 +4,20 @@
     <div class="builder-wrap" transition="builder" v-if="show">
 
       <div class="builder-topbar">
-        <div v-show="stripe.show" transition="stripe" class="b-title-stripe">Set a deadline</div>
+        <div v-show="stripe.show" transition="stripe" class="b-title-stripe">
+          <i class="fa fa-fw fa-pencil"></i>
+          {{stripe.title}}
+        </div>
       </div>
+      
+      <calendar :class="{'disabled': calendarDisabled, 'tight': true}" :init-args="calendarArgs"></calendar>
 
-      <calendar :tight="true" :event-bus="eventBus" :init-args="{ date: new Date() }"></calendar>
+      <builder-form v-ref:form
+        transition="builder-form"
+        v-show="formVisible"
+        v-on:up="calendarDisabled = true"
+        v-on:down="calendarDisabled = false">
+      </builder-form>
 
     </div>
 
@@ -21,9 +31,8 @@
 <script>
   import { format } from '../../utils/date-utils.js';
   import clickOutsideDirective from '../../directives/click-outside.js';
-  import placeholderDirective from '../../directives/placeholder.js';
-  import editableModel from '../../directives/editable-model.js';
   import calendar from '../sidebar/calendar/calendar.vue';
+  import builderForm from './builder-form.vue';
   
   export default {
 
@@ -32,17 +41,17 @@
     data: function() {
       return {
         show: false,
-        text: '',
         overlay: $('#overlay'),
 
         stripe: {
-          title: 'Set a deadline',
+          title: 'Describe a new task',
           show: false,
         },
 
-        priorities: {
-          show: false,
-        },
+        calendarDisabled: false,
+        formVisible: false,
+
+        calendarArgs: {},
       };
     },
 
@@ -54,12 +63,11 @@
 
     components: {
       'calendar': calendar,
+      'builder-form': builderForm,
     },
 
     directives: {
       'click-outside': clickOutsideDirective,
-      'editable-model': editableModel,
-      'placeholder': placeholderDirective,
     },
 
     methods: {
@@ -72,12 +80,19 @@
       },
 
       hideBuilder: function() {
-        this.priorities.show = false;
-
         this.overlay.hide();
         this.show = false;
 
         this.stripe.show = false;
+
+        this.formVisible = false;
+      },
+
+      pickDate(date) {
+
+        this.formVisible = true;
+        setTimeout(() => this.$refs.form.slideUp(), 10);
+
       },
 
       bindEvents: function() {
@@ -88,6 +103,13 @@
 
     created: function() {
       this.bindEvents();
+
+      this.calendarArgs = {
+        date: new Date(),
+        onpick: this.pickDate,
+      };
+
+      this.showBuilder();
     },
 
   }

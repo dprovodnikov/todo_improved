@@ -1,6 +1,6 @@
 export default {
   
-  bind: function() {
+  update: function() {
 
     this.emit = (e) => {
       if(!$(this.el).find(e.target).length && e.button == 0)
