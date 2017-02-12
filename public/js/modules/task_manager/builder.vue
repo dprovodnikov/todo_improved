@@ -14,7 +14,7 @@
 
       <builder-form v-ref:form
         transition="builder-form"
-        v-show="formVisible"
+        v-show="true"
         v-on:up="calendarDisabled = true"
         v-on:down="calendarDisabled = false">
       </builder-form>

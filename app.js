@@ -19,7 +19,7 @@ import errorHandler from './middlewares/error-handler';
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, (err) => {
-  if(err) throw err;
+  if (err) throw err;
 
   console.log('mongoose connected');
 });
@@ -27,7 +27,7 @@ mongoose.connect(config.database, (err) => {
 const app = express();
 
 app.listen(config.port, (err) => {
-  if(err) throw err;
+  if (err) throw err;
 
   console.log(`Listening on http://localhost:${config.port}/`);
 });

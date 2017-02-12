@@ -488,8 +488,9 @@
   transition transform .2s
 
 .b-form-wrap.b-form-collapsed
-  transform translateY(90%)
+  transform translateY(100%)
   cursor pointer
+  box-shadow none
 
 .b-form-textfield
   padding 10px 5px
@@ -538,6 +539,26 @@
   &:hover
     background darken($red, 15%)
 
+
+.b-form-tip
+  position absolute
+  right 20px
+  height 40px
+  width @height
+  background $red
+  border-top-left-radius 2px
+  border-top-right-radius 2px
+  opacity 0
+  flexbox(true, true)
+  i
+    color #fff
+  &:hover
+    background darken($red, 10%)
+
+.b-form-collapsed .b-form-tip
+  transition all .2s .2s
+  transform translateY(-100%)
+  opacity 1
 
 
 

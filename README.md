@@ -1,5 +1,5 @@
 # Improved task manager
-An spa application designed to help people on managing daily tasks. It works like a plain todo list, but with some advanced functionality.
+An SPA application designed to help people on managing daily tasks. It works like a plain todo list, but with some advanced functionality.
 
 ## General view
 In general a task has it's text desсription, a priority and a folder. You can chose between 3 priority values: low, normal and high.
@@ -8,7 +8,7 @@ You can create folders to organize your tasks.
 ![ui](https://img-fotki.yandex.ru/get/194503/68361812.0/0_160dfd_43fa9ecf_orig)
 
 ## Statistics
-Statistics show how many tasks you have and haven't completed for the last period, and some other stuff like today's progress diagramm
+Statistics show how many tasks you have and have not completed for the last period, and some other stuff like today's progress diagramm
 
 ![stats](https://img-fotki.yandex.ru/get/198569/68361812.0/0_160dfe_9feb1d01_orig)
 
@@ -25,8 +25,9 @@ All the changes you've done are stored in the changes manager before you confirm
 - Vue.js
 - Snap.svg
 - jQuery
-- lodash
+- Lodash
 - Express.js
 - Mongoose.js
 - Webpack
+- Babel.js
 - Stylus

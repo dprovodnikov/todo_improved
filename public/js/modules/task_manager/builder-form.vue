@@ -1,5 +1,9 @@
 <template>
   <div class="b-form-wrap" @click="slideUp" :class="{'b-form-collapsed': isCollapsed}" v-click-outside> 
+
+    <div class="b-form-tip">
+      <i class="fa fa-pencil"></i>
+    </div>
     
     <div class="form-unit">
       <div class="form-unit-top">
@@ -38,7 +42,7 @@
         max: 130,
         description: '',
 
-        isCollapsed: false,
+        isCollapsed: true,
       };
     },
 

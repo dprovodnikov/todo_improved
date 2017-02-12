@@ -15,13 +15,7 @@ export function getCompleted(req, res, next) {
       return res.json(tasks);
 
     })
-    .catch( ({ message }) => {
-      return next({
-        status: 400,
-        message: message
-      });
-    });
-
+    .catch(next);
 }
 
 export function getOverdue(req, res, next) {
@@ -45,12 +39,7 @@ export function getOverdue(req, res, next) {
       return res.json(tasks);
 
     })
-    .catch( ({ message }) => {
-      return next({
-        status: 400,
-        message: message
-      });
-    });
+    .catch(next);
 
 }
 
@@ -69,12 +58,7 @@ export function getCurrent(req, res, next) {
       return res.json(tasks);
 
     })
-    .catch( ({ message }) => {
-      return next({
-        status: 400,
-        message: message
-      });
-    });
+    .catch(next);
 }
 
 export function create(req, res, next) {
@@ -95,12 +79,7 @@ export function create(req, res, next) {
       res.json(task);
 
     })
-    .catch(({ message }) => {
-      next({
-        status: 400,
-        message
-      });
-    })
+    .catch(next)
 }
 
 export function remove(req, res, next) {
@@ -112,12 +91,7 @@ export function remove(req, res, next) {
 
       return res.json({ affected });
     })
-    .catch(({ message }) => {
-      next({
-        status: 500,
-        message
-      });
-    })
+    .catch(next)
 }
 
 export function complete(req, res, next) {
@@ -131,12 +105,7 @@ export function complete(req, res, next) {
 
       return res.json({ affected });
     })
-    .catch(({ message }) => {
-      next({
-        status: 500,
-        message
-      });
-    })
+    .catch(next)
 }
 
 

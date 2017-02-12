@@ -17,12 +17,7 @@ export function get(req, res, next) {
       res.json(events);
 
     })
-    .catch(({message}) => {
-      next({
-        status: 500,
-        message
-      });
-    })
+    .catch(next);
 }
 
 export function create(req, res, next) {
@@ -44,12 +39,7 @@ export function create(req, res, next) {
 
       res.json(event);
     })
-    .catch(({message}) => {
-      next({
-        status: 500,
-        message
-      })
-    })
+    .catch(next)
 
 }
 
@@ -63,13 +53,6 @@ export function remove(req, res, next) {
 
       res.json({ affected });
     })
-    .catch(({message}) => {
-      next({
-        status: 500,
-        message
-      });
-    })
+    .catch(next)
 
 }
-
-export function update(req, res, next) {}
