@@ -14,7 +14,6 @@
 
       <builder-form v-ref:form
         transition="builder-form"
-        v-show="true"
         v-on:up="calendarDisabled = true"
         v-on:down="calendarDisabled = false">
       </builder-form>
@@ -49,8 +48,6 @@
         },
 
         calendarDisabled: false,
-        formVisible: false,
-
         calendarArgs: {},
       };
     },
@@ -84,15 +81,10 @@
         this.show = false;
 
         this.stripe.show = false;
-
-        this.formVisible = false;
       },
 
       pickDate(date) {
-
-        this.formVisible = true;
         setTimeout(() => this.$refs.form.slideUp(), 10);
-
       },
 
       bindEvents: function() {
