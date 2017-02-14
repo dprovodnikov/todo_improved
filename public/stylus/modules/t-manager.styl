@@ -505,7 +505,7 @@
 .b-form-footer
   flexbox(false, true)
   width 100%
-  justify-content flex-end
+  justify-content space-between
   padding 20px 0
 
 .form-unit
@@ -526,6 +526,8 @@
   color $red
 
 .b-save-btn
+  border none
+  outline none
   font normal 14px 'Hind'
   text-transform uppercase
   color #fff
@@ -573,18 +575,55 @@
   to
     transform translateY(-100%)
     opacity 1
-    
 
+.b-form-controls
+  flexbox(true, false)
+  max-width 250px
+  i
+    color $red
+    font-size 18px
+    margin 0 5px
+    position relative
+    cursor pointer
+    .hover-hint
+      hint()
+      top -200%
+      left 0
+      transform translateY(-5%)
+      font normal 13px 'Hind'
+    &:hover .hover-hint
+      transform translateY(0)
+      opacity .9
 
+.b-textfield-wrap
+  position relative
 
-
-
-
-
-
-
-
-
+.b-form-dropdown
+  width 100%
+  position absolute
+  background #eee
+  top 0; left 0
+  transform translateY(-100%)
+  box-shadow 0 0 4px 0 rgba(0, 0, 0, .4);
+  opacity 1
+  li
+    list-style none
+    width 100%
+    padding 10px
+    background #fff
+    margin 1px 0
+    color #5c5d5d
+    font normal 14px 'Hind'
+    transition all .1s
+    cursor pointer
+    &:last-of-type,
+    &:first-of-type
+      margin 0
+    i
+      font-size 18px
+      margin-right 10px
+    &:hover
+      background #eee
 
 
 

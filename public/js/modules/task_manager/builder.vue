@@ -6,16 +6,19 @@
       <div class="builder-topbar">
         <div v-show="stripe.show" transition="stripe" class="b-title-stripe">
           <i class="fa fa-fw fa-pencil"></i>
-          {{stripe.title}}
+          {{title}}
         </div>
       </div>
       
-      <calendar :class="{'disabled': calendarDisabled, 'tight': true}" :init-args="calendarArgs"></calendar>
+      <calendar :init-args="calendar.args"
+        :class="{'disabled': calendar.disabled, 'tight': true}">
+      </calendar>
 
       <builder-form v-ref:form
         transition="builder-form"
-        v-on:up="calendarDisabled = true"
-        v-on:down="calendarDisabled = false">
+        v-on:up="calendar.disabled = true"
+        v-on:down="calendar.disabled = false"
+        v-on:save="save">
       </builder-form>
 
     </div>
@@ -43,12 +46,13 @@
         overlay: $('#overlay'),
 
         stripe: {
-          title: 'Describe a new task',
           show: false,
         },
 
-        calendarDisabled: false,
-        calendarArgs: {},
+        calendar: {
+          disabled: false,
+          args: {},
+        },
       };
     },
 
@@ -83,6 +87,11 @@
         this.stripe.show = false;
       },
 
+      save: function() {
+        // do save
+        this.hideBuilder();
+      },
+
       pickDate(date) {
         setTimeout(() => this.$refs.form.slideUp(), 10);
       },
@@ -93,15 +102,22 @@
 
     },
 
+    computed: {
+      title: function() {
+        return this.calendar.disabled
+          ? 'Describe the task'
+          : 'Set a deadline'
+      }
+    },
+
     created: function() {
       this.bindEvents();
 
-      this.calendarArgs = {
+      this.calendar.args = {
         date: new Date(),
         onpick: this.pickDate,
       };
 
-      this.showBuilder();
     },
 
   }

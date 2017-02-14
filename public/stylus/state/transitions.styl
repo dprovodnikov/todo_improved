@@ -139,4 +139,15 @@
 .builder-form-leave
   transform translateY(100%)
 
-  
+.dropdown-transition
+  transition all 150ms
+.dropdown-transition li
+  transition all 250ms 
+
+.dropdown-enter,
+.dropdown-leave
+  transform translateY(-105%)
+  opacity 0
+.dropdown-enter li,
+.dropdown-leave li
+  margin 15px 0
