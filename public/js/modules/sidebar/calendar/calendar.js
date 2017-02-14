@@ -284,6 +284,8 @@ export default function(params) {
       switchDay( root.find(this).text(), {el: root.find(this)});
     });
 
+    cells.filter('.cell-prev, .cell-next').click(e => e.stopPropagation());
+
     function switchDay(day, options, doNothing) {
       currentDay = day;
 
