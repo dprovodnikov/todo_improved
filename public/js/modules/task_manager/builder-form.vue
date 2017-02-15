@@ -12,7 +12,7 @@
       </div>
       <div class="b-textfield-wrap">
 
-        <div v-show="dropdown.show" transition="dropdown" class="b-form-dropdown">
+        <div v-show="folders.dropdown" transition="dropdown" class="b-form-dropdown">
           <ul>
             <li v-for="folder in folders.list" @click="setFolder(folder.id)">
               <i class="fa fa-fw fa-folder" style="color: {{folder.color}};"></i>
@@ -31,16 +31,30 @@
     </div>
 
     <div class="b-form-footer">
+
+
       <div class="b-form-controls">
-        <i class="fa fa-fw fa-flag-o">
-          <span class="b-hint hover-hint">Set priority</span>
+
+        <div class="b-priority-list" transition="dropdown" v-show="priorities.dropdown">
+
+          <i class="fa fa-flag tl-priority-{{val}}"
+             v-for="val of priorities.list"
+             @click="setPriority(val)">
+          </i>
+
+        </div>
+
+        <i class="fa fa-fw fa-flag{{ priorities.current == null ? '-o' : '' }} tl-priority-{{priorities.current}}"
+           @click="priorities.dropdown = !priorities.dropdown">
         </i>
+
         <i class="fa fa-fw fa-folder{{ folders.current ? '' : '-o' }}"
-           @click="dropdown.show = !dropdown.show"
+           @click="folders.dropdown = !folders.dropdown"
            style="color: {{folders.current.color}};">
 
           <span class="b-hint hover-hint">Set folder</span>
         </i>
+
       </div>
 
       <button @click="save()" class="b-save-btn">Save task</button>
@@ -68,11 +82,14 @@
         max: 130,
         description: '',
 
-        dropdown: {
-          show: false,
+        priorities: {
+          dropdown: false, // show / hide
+          current: null,
+          list: [0, 1, 2], // allowed values
         },
 
         folders: {
+          dropdown: false, // show / hide
           current: null,
           list: [
            { id: 1, hint: 'Films', color: 'lightgreen' },
@@ -92,7 +109,13 @@
         let folder = this.folders.list.filter(e => e.id == id)[0];
         this.folders.current = folder;
 
-        this.dropdown.show = false;
+        this.folders.dropdown = false;
+      },
+
+      setPriority: function(value) {
+        this.priorities.current = value;
+
+        this.priorities.dropdown = false;
       },
 
       slideDown: function() {
@@ -122,6 +145,8 @@
 
     ready: function() {
       this.bindEvents();
+
+      this.slideUp();
     }
   }
 </script>

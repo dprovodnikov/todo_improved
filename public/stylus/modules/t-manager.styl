@@ -579,6 +579,7 @@
 .b-form-controls
   flexbox(true, false)
   max-width 250px
+  position relative
   i
     color $red
     font-size 18px
@@ -625,11 +626,17 @@
     &:hover
       background #eee
 
-
-
-
-
-
-
-
+.b-priority-list
+  flexbox(true, true)
+  flex-wrap nowrap
+  background #fff
+  padding 9px
+  position absolute
+  top 0; right 0
+  transform translate(35%, -150%)
+  box-shadow 0 0 3px 0 rgba(0, 0, 0, .5);
+  border-radius 3px
+  i
+    margin 0 5px
+    font-size 20px
 
