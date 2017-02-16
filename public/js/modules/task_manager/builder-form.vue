@@ -12,7 +12,7 @@
       </div>
       <div class="b-textfield-wrap">
 
-        <div v-show="folders.dropdown" transition="dropdown" class="b-form-dropdown">
+        <div v-show="folders.dropdown" v-click-outside="folders-dropdown" transition="dropdown" class="b-form-dropdown">
           <ul>
             <li v-for="folder in folders.list" @click="setFolder(folder.id)">
               <i class="fa fa-fw fa-folder" style="color: {{folder.color}};"></i>
@@ -33,18 +33,18 @@
     <div class="b-form-footer">
       <div class="b-form-controls">
 
-        <div class="b-priority-list" transition="dropdown" v-show="priorities.dropdown">
+        <div v-show="priorities.dropdown" v-click-outside="priorities-dropdown" class="b-priority-list" transition="dropdown">
           <i class="fa fa-flag tl-priority-{{val}}"
              v-for="val of priorities.list"
              @click="setPriority(val)">
           </i>
         </div>
 
-        <i class="fa fa-fw fa-flag{{ priorities.current == null ? '-o' : '' }} tl-priority-{{priorities.current}}"
+        <i data-except="priorities-dropdown" class="fa fa-fw fa-flag{{ priorities.current == null ? '-o' : '' }} tl-priority-{{priorities.current}}"
            @click="togglePrioritiesDropdown()">
         </i>
 
-        <i class="fa fa-fw fa-folder{{ folders.current ? '' : '-o' }}"
+        <i data-except="folders-dropdown" class="fa fa-fw fa-folder{{ folders.current ? '' : '-o' }}"
            @click="toggleFoldersDropdown()"
            style="color: {{folders.current.color}};">
           <span class="b-hint hover-hint">Set folder</span>
@@ -114,7 +114,6 @@
       },
 
       togglePrioritiesDropdown() {
-        this.hideFoldersDropdown();
         this.priorities.dropdown = !this.priorities.dropdown;
       },
 
@@ -123,7 +122,6 @@
       },
 
       toggleFoldersDropdown() {
-        this.hidePrioritiesDropdown();
         this.folders.dropdown = !this.folders.dropdown;
       },
 
@@ -157,6 +155,8 @@
 
       bindEvents: function() {
         this.$on('collapse-me', () => this.slideDown());
+        this.$on('folders-dropdown', () => this.hideFoldersDropdown());
+        this.$on('priorities-dropdown', () => this.hidePrioritiesDropdown());
       },
     },
 
