@@ -9,10 +9,20 @@
           {{title}}
         </div>
       </div>
+
+      <div class="b-date-wrap">
+  
+        <date-widget v-show="calendar.disabled"
+          class="opaque"
+          transition="date-widget"
+          :default-date="date">
+        </date-widget>
+      </div>
       
       <calendar :init-args="calendar.args"
         :class="{'disabled': calendar.disabled, 'tight': true}">
       </calendar>
+
 
       <builder-form v-ref:form
         transition="builder-form"
@@ -36,6 +46,7 @@
   import clickOutsideDirective from '../../directives/click-outside.js';
   import calendar from '../sidebar/calendar/calendar.vue';
   import builderForm from './builder-form.vue';
+  import dateWidget from '../date-widget/date-widget.vue';
   
   export default {
 
@@ -68,6 +79,7 @@
     components: {
       'calendar': calendar,
       'builder-form': builderForm,
+      'date-widget': dateWidget,
     },
 
     directives: {

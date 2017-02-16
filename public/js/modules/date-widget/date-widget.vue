@@ -14,8 +14,10 @@
   import { weekdayFull } from '../../utils/date-utils.js';
   
   export default {
+    props: ['defaultDate'],
+
     filters: {
-      'zero': function (value) {
+      'zero': function(value) {
         return value.toString().length > 1 ? value : `0${value}`;
       }
     },
@@ -31,13 +33,19 @@
     
     computed: {
       currentDate: function() {
-        return this.date.getDate();
+        if (this.defaultDate)
+          return this.defaultDate.getDate();
+        else
+          return this.date.getDate();
       },
       currentMonth: function() {
-        return this.monthNames[this.date.getMonth()];
+        if (this.defaultDate)
+          return this.monthNames[this.defaultDate.getMonth()];
+        else
+          return this.monthNames[this.date.getMonth()];
       },
       currentDay: function() {
-        return weekdayFull(this.date);
+        return weekdayFull(this.defaultDate || this.date);
       },
     }
   }

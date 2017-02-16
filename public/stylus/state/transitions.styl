@@ -151,3 +151,10 @@
 .dropdown-enter li,
 .dropdown-leave li
   margin 15px 0
+
+.date-widget-transition
+  transition transform .3s ease-out, opacity .1s
+.date-widget-enter,
+.date-widget-leave
+  transform translateY(-100%)
+  opacity 0 !important

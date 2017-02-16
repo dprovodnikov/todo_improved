@@ -6,7 +6,7 @@ import taskManager from './modules/task_manager/taskmanager.vue';
 import toolbar from './modules/task_manager/toolbar.vue';
 import changesManager from './modules/changes_manager/changes_manager.vue';
 import sidebar from './modules/sidebar/sidebar.vue';
-import currentDate from './modules/current-date/current-date.vue';
+import dateWidget from './modules/date-widget/date-widget.vue';
 import notificationPopup from './modules/sidebar/events/popup.vue';
 
 /*
@@ -26,7 +26,7 @@ const app = new Vue({
     'toolbar': toolbar,
     'changes-manager': changesManager,
     'sidebar': sidebar,
-    'current-date': currentDate,
+    'date-widget': dateWidget,
     'notification-popup': notificationPopup
   },
 });
