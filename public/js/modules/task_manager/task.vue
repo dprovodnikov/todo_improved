@@ -17,7 +17,7 @@
     <div class="tl-task-editor" v-show="updating">
     <i class="fa fa-close tl-te-cancel" @click="close()"></i>
 
-      <div class="tl-te-text" v-editable-model="newText" contenteditable>{{task.text}}</div>
+      <div class="tl-te-text" v-editable-model="newText" contenteditable></div>
 
       <div class="tl-te-toolbar">
 
@@ -98,7 +98,7 @@
         updating: false, // means the editor is open and changes are being done now
         updated: false, // means "updated" but not confirmed yet
 
-        newText: '',
+        newText: this.task.text,
         newPriority: this.task.priority,
         newFolder: this.task.folder,
         newDate: this.task.date,

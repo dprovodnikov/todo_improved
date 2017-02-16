@@ -31,6 +31,10 @@ export default {
     el.on('drop paste', e => false);
   },
 
+  update: function() {
+    $(this.el).text(this.vm[this.expression]);
+  },
+
   unbind: function() {
     $(this.el).off();
   },
