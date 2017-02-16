@@ -18,6 +18,7 @@
         transition="builder-form"
         v-on:up="calendar.disabled = true"
         v-on:down="calendar.disabled = false"
+        v-bind:deadline="date"
         v-on:save="save">
       </builder-form>
 
@@ -45,6 +46,8 @@
         show: false,
         overlay: $('#overlay'),
 
+        date: new Date(),
+
         stripe: {
           show: false,
         },
@@ -59,7 +62,7 @@
     filters: {
       date: function(value, pattern) {
         return format(pattern, new Date(value.toString()));
-      }
+      },
     },
 
     components: {
@@ -87,13 +90,14 @@
         this.stripe.show = false;
       },
 
-      save: function() {
-        // do save
+      save: function(task) {
+        this.$emit('task-composed', task);
         this.hideBuilder();
       },
 
       pickDate(date) {
-        setTimeout(() => this.$refs.form.slideUp(), 10);
+        this.date = date.instance;
+        setTimeout(() => this.$refs.form.slideUp(date.instance), 10);
       },
 
       bindEvents: function() {
@@ -117,8 +121,6 @@
         date: new Date(),
         onpick: this.pickDate,
       };
-
-      this.showBuilder();
 
     },
 

@@ -14,7 +14,7 @@
   
   <context-menu :event-bus="eventBus"></context-menu>
 
-  <builder :event-bus="eventBus"></builder>
+  <builder @task-composed="saveTask" :event-bus="eventBus"></builder>
 
 
 </template>
@@ -37,7 +37,7 @@
       'context-menu': contextMenu,
       'builder': builder,
     },
-
+    
     directives: {
       'click-outside': clickOutsideDirective
     },
@@ -59,11 +59,16 @@
         this.key = key;
       },
 
+      saveTask: function(task) {
+        // TODO: send an ajax query
+        this.tasks.push(task);
+      },
+
       bindEvents: function() {
         this.$on('collapse-me', () => {
           this.eventBus.$emit('task-unfocus');
         });
-      }
+      },
     },
 
     computed: {

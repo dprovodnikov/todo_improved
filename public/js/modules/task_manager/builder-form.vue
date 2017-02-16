@@ -1,5 +1,5 @@
 <template>
-  <div class="b-form-wrap" @click="slideUp" :class="{'b-form-collapsed': isCollapsed}" v-click-outside> 
+  <div class="b-form-wrap" @click="slideUp()" :class="{'b-form-collapsed': isCollapsed}" v-click-outside> 
 
     <div class="b-form-tip">
       <i class="fa fa-pencil"></i>
@@ -31,17 +31,13 @@
     </div>
 
     <div class="b-form-footer">
-
-
       <div class="b-form-controls">
 
         <div class="b-priority-list" transition="dropdown" v-show="priorities.dropdown">
-
           <i class="fa fa-flag tl-priority-{{val}}"
              v-for="val of priorities.list"
              @click="setPriority(val)">
           </i>
-
         </div>
 
         <i class="fa fa-fw fa-flag{{ priorities.current == null ? '-o' : '' }} tl-priority-{{priorities.current}}"
@@ -51,16 +47,13 @@
         <i class="fa fa-fw fa-folder{{ folders.current ? '' : '-o' }}"
            @click="toggleFoldersDropdown()"
            style="color: {{folders.current.color}};">
-
           <span class="b-hint hover-hint">Set folder</span>
         </i>
 
       </div>
 
       <button @click="save()" class="b-save-btn">Save task</button>
-
     </div>
-
   </div>
 </template>
 
@@ -71,6 +64,8 @@
   import editableModel from '../../directives/editable-model.js';
 
   export default {
+    props: ['deadline'],
+
     directives: {
       'editable-model': editableModel,
       'placeholder': placeholderDirective,
@@ -147,13 +142,17 @@
       },
 
       save: function() {
-        // collect a task
-        let task = {};
+
+        let task = {
+          text: this.description,
+          priority: this.priorities.current,
+          folder: this.folders.current,
+          date: this.deadline,
+        };
+
+        this.$emit('save', task);
 
         setTimeout(() => this.slideDown(), 0);
-
-        // throw it up
-        this.$emit('save', task);
       },
 
       bindEvents: function() {
@@ -163,8 +162,6 @@
 
     ready: function() {
       this.bindEvents();
-
-      this.slideUp();
     }
   }
 </script>
