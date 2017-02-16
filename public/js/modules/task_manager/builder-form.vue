@@ -45,11 +45,11 @@
         </div>
 
         <i class="fa fa-fw fa-flag{{ priorities.current == null ? '-o' : '' }} tl-priority-{{priorities.current}}"
-           @click="priorities.dropdown = !priorities.dropdown">
+           @click="togglePrioritiesDropdown()">
         </i>
 
         <i class="fa fa-fw fa-folder{{ folders.current ? '' : '-o' }}"
-           @click="folders.dropdown = !folders.dropdown"
+           @click="toggleFoldersDropdown()"
            style="color: {{folders.current.color}};">
 
           <span class="b-hint hover-hint">Set folder</span>
@@ -109,13 +109,31 @@
         let folder = this.folders.list.filter(e => e.id == id)[0];
         this.folders.current = folder;
 
-        this.folders.dropdown = false;
+        this.hideFoldersDropdown();
       },
 
       setPriority: function(value) {
         this.priorities.current = value;
 
+        this.hidePrioritiesDropdown();
+      },
+
+      togglePrioritiesDropdown() {
+        this.hideFoldersDropdown();
+        this.priorities.dropdown = !this.priorities.dropdown;
+      },
+
+      hidePrioritiesDropdown() {
         this.priorities.dropdown = false;
+      },
+
+      toggleFoldersDropdown() {
+        this.hidePrioritiesDropdown();
+        this.folders.dropdown = !this.folders.dropdown;
+      },
+
+      hideFoldersDropdown() {
+        this.folders.dropdown = false;
       },
 
       slideDown: function() {
