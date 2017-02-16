@@ -1,3 +1,5 @@
+import { caretToEnd } from '../utils/caret-utils.js';
+
 export default {
   bind: function() {
     let model = this.expression;
@@ -20,7 +22,7 @@ export default {
 
     this.watch = (e) => {
 
-      let textValue = $(this.el).text();
+      let textValue = el.text();
 
       this.vm[model] = textValue;
 
@@ -32,7 +34,9 @@ export default {
   },
 
   update: function() {
-    $(this.el).text(this.vm[this.expression]);
+    $(this.el).html(this.vm[this.expression]);
+
+    caretToEnd(this.el);
   },
 
   unbind: function() {
