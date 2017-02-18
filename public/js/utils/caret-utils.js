@@ -1,4 +1,4 @@
-export function caretToEnd(el) {
+export function toEnd(el) {
   let range, selection;
   if (document.createRange) {
     range = document.createRange();

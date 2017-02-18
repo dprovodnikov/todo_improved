@@ -1,4 +1,4 @@
-import { caretToEnd } from '../utils/caret-utils.js';
+import * as Caret from '../utils/caret-utils.js';
 
 export default {
   bind: function() {

@@ -1,4 +1,4 @@
-import { caretToEnd } from '../utils/caret-utils.js';
+import * as Caret from '../utils/caret-utils.js';
 
 export default {
 
@@ -24,11 +24,11 @@ export default {
       symb = this.arg;
 
       text = text.replace(/#\w*/i, () => {
-        return `<span class="folder-label">${hint}</span>`;
+        return `<span contenteditable="false" class="folder-label">${hint}</span>`;
       });
 
-      el.html(text + '&nbsp');
-      caretToEnd(el.get(0));
+      el.html(text + '&nbsp;');
+      Caret.toEnd(el.get(0));
     };
 
     this.watch = (event) => {
@@ -72,7 +72,7 @@ export default {
         html = html.slice(0, -4);
       }
 
-      if (html.slice(-6, html.length) == '&nbsp;' || html.slice(-2, html.length) == '> ') {
+      if (html.endsWith('</span>&nbsp;') || html.endsWith('</span> ')) {
         el.find('span').remove();
         folders.current = null;
       }
@@ -92,9 +92,7 @@ export default {
       let text = $(this.el).text();
       this.replaceTo(folder.hint);
     } else {
-      // check if there is a label already
       $(this.el).find('.folder-label').text(folder.hint);
-
     }
 
   },

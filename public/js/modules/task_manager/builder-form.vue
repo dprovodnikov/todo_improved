@@ -94,7 +94,7 @@
            { id: 2, hint: 'Friends', color: 'lightblue' },
            { id: 3, hint: 'Family', color: 'orange' },
            { id: 4, hint: 'Job', color: 'grey' },
-           { id: 5, hint: 'Hobbies of harry', color: '#3d3d3d' },
+           { id: 5, hint: 'Hobby', color: '#3d3d3d' },
           ],
         },
 
