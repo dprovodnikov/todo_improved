@@ -30,6 +30,8 @@ export default {
       el.html(text + '&nbsp;');
       el.trigger('input'); // causes the model update, which happens only on an input event;
       Caret.toEnd(this.el);
+
+      folders.search = ''; // reset the search query
     };
 
     this.watch = (event) => {
@@ -41,6 +43,8 @@ export default {
         folders.dropdown = true;
 
         this.isMatched = true;
+
+        folders.search = match[1]; // set a search query
 
         if (doesFolderExist(match[1])) {
 
@@ -78,7 +82,7 @@ export default {
         folders.current = null;
 
         el.html((i, val) => val.replace(/\b&nbsp;/ig, ' '));
-        
+
         Caret.toEnd(this.el);
       }
 

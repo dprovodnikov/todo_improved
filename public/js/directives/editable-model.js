@@ -27,7 +27,7 @@ export default {
 
       let textValue = cleanEl.text().replace(/\s+/, ' ');
 
-      this.vm[model] = textValue;
+      this.vm[model] = textValue.trim();
 
       return textValue.length != max;
     }

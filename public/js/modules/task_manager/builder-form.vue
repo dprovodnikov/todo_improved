@@ -14,7 +14,7 @@
 
         <div v-show="folders.dropdown" v-click-outside="folders-dropdown" transition="dropdown" class="b-form-dropdown">
           <ul>
-            <li v-for="folder in folders.list" @click="setFolder(folder.id)">
+            <li v-for="folder in folders.list | filterBy folders.search " @click="setFolder(folder.id)">
               <i class="fa fa-fw fa-folder" style="color: {{folder.color}};"></i>
               <span>{{folder.hint}}</span>
             </li>
@@ -89,6 +89,7 @@
         folders: {
           dropdown: false, // show / hide
           current: null,
+          search: '',
           list: [
            { id: 1, hint: 'Films', color: 'lightgreen' },
            { id: 2, hint: 'Friends', color: 'lightblue' },
