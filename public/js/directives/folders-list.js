@@ -56,7 +56,11 @@ export default {
       let el = $(this.el),
           html = el.html();
 
-      if (html.slice(-6, html.length) == '&nbsp;') {
+      if (html.endsWith('<br>')) {
+        html = html.slice(0, -4);
+      }
+
+      if (html.slice(-6, html.length) == '&nbsp;' || html.slice(-2, html.length) == '> ') {
         el.find('span').remove();
         folders.current = null;
       }
