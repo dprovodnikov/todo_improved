@@ -6,7 +6,9 @@ export default {
 
     let markup = `<div class="${placeholderClass}">${this.expression}</div>`
 
-    $(this.el).append(markup);
+    if ($(this.el).text().trim().length == 0) {
+      $(this.el).append(markup);
+    }
 
     this.focus = (e) => {
       let el = $(this.el);

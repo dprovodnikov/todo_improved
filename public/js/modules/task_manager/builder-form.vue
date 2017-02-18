@@ -24,6 +24,7 @@
         <div contenteditable
              class="b-form-textfield"
              v-editable-model:max="description"
+             v-folders-list:#="folders.current"
              v-placeholder="Example: Do some house cleaning every saturday morning">
         </div>
 
@@ -62,6 +63,7 @@
   import clickOutsideDirective from '../../directives/click-outside.js';
   import placeholderDirective from '../../directives/placeholder.js';
   import editableModel from '../../directives/editable-model.js';
+  import foldersList from '../../directives/folders-list.js';
 
   export default {
     props: ['deadline'],
@@ -70,6 +72,7 @@
       'editable-model': editableModel,
       'placeholder': placeholderDirective,
       'click-outside': clickOutsideDirective,
+      'folders-list': foldersList,
     },
 
     data: function() {
@@ -103,31 +106,21 @@
       setFolder: function(id) {
         let folder = this.folders.list.filter(e => e.id == id)[0];
         this.folders.current = folder;
-
         this.hideFoldersDropdown();
       },
 
       setPriority: function(value) {
         this.priorities.current = value;
-
         this.hidePrioritiesDropdown();
       },
 
-      togglePrioritiesDropdown() {
-        this.priorities.dropdown = !this.priorities.dropdown;
-      },
+      togglePrioritiesDropdown() { this.priorities.dropdown = !this.priorities.dropdown; },
 
-      hidePrioritiesDropdown() {
-        this.priorities.dropdown = false;
-      },
+      hidePrioritiesDropdown() { this.priorities.dropdown = false; },
 
-      toggleFoldersDropdown() {
-        this.folders.dropdown = !this.folders.dropdown;
-      },
+      toggleFoldersDropdown() { this.folders.dropdown = !this.folders.dropdown; },
 
-      hideFoldersDropdown() {
-        this.folders.dropdown = false;
-      },
+      hideFoldersDropdown() { this.folders.dropdown = false; },
 
       slideDown: function() {
         this.isCollapsed = true;
@@ -160,8 +153,6 @@
       },
     },
 
-    ready: function() {
-      this.bindEvents();
-    }
+    ready: function() { this.bindEvents(); this.slideUp(); }
   }
 </script>

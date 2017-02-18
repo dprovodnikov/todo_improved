@@ -21,8 +21,11 @@ export default {
 
 
     this.watch = (e) => {
+      let cleanEl = el.clone();
 
-      let textValue = el.text();
+      cleanEl.find('span').remove();
+
+      let textValue = cleanEl.text().replace(/\s+/, ' ');
 
       this.vm[model] = textValue;
 
@@ -33,11 +36,10 @@ export default {
     el.on('drop paste', e => false);
   },
 
-  update: function() {
-    $(this.el).html(this.vm[this.expression]);
-
-    caretToEnd(this.el);
-  },
+  // update: function() {
+  //   $(this.el).html(this.vm[this.expression]);
+  //   caretToEnd(this.el);
+  // },
 
   unbind: function() {
     $(this.el).off();
