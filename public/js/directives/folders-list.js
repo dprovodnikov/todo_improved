@@ -28,7 +28,8 @@ export default {
       });
 
       el.html(text + '&nbsp;');
-      Caret.toEnd(el.get(0));
+      el.trigger('input'); // causes the model update, which happens only on an input event;
+      Caret.toEnd(this.el);
     };
 
     this.watch = (event) => {
@@ -75,6 +76,10 @@ export default {
       if (html.endsWith('</span>&nbsp;') || html.endsWith('</span> ')) {
         el.find('span').remove();
         folders.current = null;
+
+        el.html((i, val) => val.replace(/\b&nbsp;/ig, ' '));
+        
+        Caret.toEnd(this.el);
       }
 
     };
