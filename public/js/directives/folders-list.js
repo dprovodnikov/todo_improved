@@ -91,6 +91,10 @@ export default {
     if (this.isMatched) {
       let text = $(this.el).text();
       this.replaceTo(folder.hint);
+    } else {
+      // check if there is a label already
+      $(this.el).find('.folder-label').text(folder.hint);
+
     }
 
   },
