@@ -55,7 +55,7 @@ app.use('/folders', folderRouter);
 app.use('/events', eventRouter);
 
 app.get('/', (req, res) => {
-  res.render(req.user ? 'app' : 'landing');
+  res.render(req.session.userId ? 'app' : 'landing');
 })
 
 app.use(errorHandler);
