@@ -4,11 +4,14 @@ const join = require('path').join;
 module.exports = {
   context: join(__dirname, '/public'),
 
-  entry: './js/main.js',
+  entry: {
+    app: './js/main.js',
+    landing: './js/landing.js',
+  },
 
   output: {
     path: './public/build/',
-    filename: 'build.js'
+    filename: '[name].bundle.js'
   },
 
   watch: true,
@@ -44,7 +47,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('./build.css', {
+    new ExtractTextPlugin('./[name].bundle.css', {
       allChunks: true,
     }),
   ],

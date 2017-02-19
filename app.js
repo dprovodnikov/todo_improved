@@ -36,6 +36,11 @@ app.use(express.static(join(__dirname, '/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// view engine setup
+app.set('views', join(__dirname, '/public'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -49,7 +54,9 @@ app.use('/tasks', taskRouter);
 app.use('/folders', folderRouter);
 app.use('/events', eventRouter);
 
-app.get('/', (req, res) => res.render('index') );
+app.get('/', (req, res) => {
+  res.render(req.user ? 'app' : 'landing');
+})
 
 app.use(errorHandler);
 

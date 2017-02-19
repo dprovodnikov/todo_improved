@@ -69,6 +69,7 @@ export default {
       if (text.match(/#\w*\s/i)) {
         folders.dropdown = false;
         this.isMatched = false;
+        folders.search = ''; // reset the search query
       }
 
     };

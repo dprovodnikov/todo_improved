@@ -1,5 +1,5 @@
 //Styles
-import styles from '../stylus/main.styl'
+import styles from '../stylus/app/main.styl'
 
 // Vues
 import taskManager from './modules/task_manager/taskmanager.vue';
