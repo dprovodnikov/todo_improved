@@ -73,17 +73,21 @@ export default {
       let el = $(this.el),
           html = el.html();
 
-      if (html.endsWith('<br>')) {
+      if (html.endsWith('<br>')) { // firefox usually adds <br> in the end
         html = html.slice(0, -4);
       }
 
       if (html.endsWith('</span>&nbsp;') || html.endsWith('</span> ')) {
-        el.find('span').remove();
+
+        el.html((i, innerMarkup) => {
+          return innerMarkup
+            .replace(/<span.*>(.*)<\/span>&nbsp;/ig, (m, g) => `#${g}`)
+            .replace(/\b&nbsp;/ig, ' ');
+        });
+
         folders.current = null;
-
-        el.html((i, val) => val.replace(/\b&nbsp;/ig, ' '));
-
         Caret.toEnd(this.el);
+        return false;
       }
 
     };
