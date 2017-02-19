@@ -8,10 +8,7 @@ export default {
     const el = $(this.el);
 
     const doesFolderExist = (name) => {
-      for (let f of this.vm.folders.list) {
-        if (f.hint == name) return true;
-      }
-      return false;
+      return !this.vm.folders.list.every(e => e.hint != name);
     }
 
     const { folders } = this.vm;
@@ -19,11 +16,19 @@ export default {
     this.replaceTo = (hint) => {
       let el, text, symb, match;
 
+
       el = $(this.el);
+
+      el.html((i, innerMarkup) => {
+        return innerMarkup
+          .replace(/<br\/?>/ig, '')
+          .replace(/<span.*>(.*)<\/span>(&nbsp;)?/ig, '')
+      });
+
       text = el.text();
       symb = this.arg;
 
-      text = text.replace(/#\w*/i, () => {
+      text = text.replace(/#\w*$/i, () => {
         return `<span contenteditable="false" class="folder-label">${hint}</span>`;
       });
 
@@ -87,7 +92,6 @@ export default {
 
         folders.current = null;
         Caret.toEnd(this.el);
-        return false;
       }
 
     };
