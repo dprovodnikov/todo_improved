@@ -7,6 +7,8 @@ export default {
 
     const el = $(this.el);
 
+    this.metaSymb = this.arg;
+
     const doesFolderExist = (name) => {
       return !this.vm.folders.list.every(e => e.hint != name);
     }
@@ -14,8 +16,7 @@ export default {
     const { folders } = this.vm;
 
     this.replaceTo = (hint) => {
-      let el, text, symb, match;
-
+      let el, text, match;
 
       el = $(this.el);
 
@@ -26,9 +27,8 @@ export default {
       });
 
       text = el.text();
-      symb = this.arg;
 
-      text = text.replace(/#\w*$/i, () => {
+      text = text.replace(new RegExp(`${this.metaSymb}\\w*`, 'i'), () => {
         return `<span contenteditable="false" class="folder-label">${hint}</span>`;
       });
 
@@ -42,7 +42,7 @@ export default {
     this.watch = (event) => {
       let text = el.text();
 
-      let match = text.match(/#(\w*)$/i);
+      let match = text.match(new RegExp(`${this.metaSymb}(\\w*)`, 'i'));
 
       if (match) {
         folders.dropdown = true;
@@ -52,12 +52,9 @@ export default {
         folders.search = match[1]; // set a search query
 
         if (doesFolderExist(match[1])) {
-
           this.replaceTo(match[1]);
-
           folders.current = folders.list.filter(item => item.hint == match[1])[0];
           folders.dropdown = false;
-
           this.isMatched = false;
         }
 
@@ -66,7 +63,7 @@ export default {
         this.isMatched = false;
       }
 
-      if (text.match(/#\w*\s/i)) {
+      if (text.match( new RegExp(`${this.metaSymb}\\w*\\s`, 'i'))) {
         folders.dropdown = false;
         this.isMatched = false;
         folders.search = ''; // reset the search query
@@ -74,8 +71,50 @@ export default {
 
     };
 
-    this.removeIfLabel = (event) => {
-      if (event.keyCode != 8) return true;
+    this.handleKeyDown = (event) => {
+      if (event.keyCode == 8) return this.removeIfLabel();
+
+      if (event.keyCode == 27) {
+        folders.focused = null;
+        folders.dropdown = false;
+        folders.search = '';
+        return false;
+      }
+
+      if (!folders.dropdown) return true;
+
+      if (event.keyCode == 38) {
+
+        if (folders.focused == null) {
+          folders.focused = folders.list.length - 1
+        }
+
+        folders.focused = (folders.focused) == 0
+          ? folders.list.length - 1
+          : folders.focused - 1
+
+        return false;
+
+      } else if (event.keyCode == 40) {
+
+        if (folders.focused == null) {
+          return folders.focused = 0; 
+        }
+
+        folders.focused = (folders.focused) < (folders.list.length - 1)
+          ? folders.focused + 1
+          : 0
+
+        return false;
+
+      } else if (event.keyCode == 13) {
+        this.vm.setFolder(folders.list[folders.focused].id);
+        return false;
+      }
+
+    };
+
+    this.removeIfLabel = () => {
       let el = $(this.el),
           html = el.html();
 
@@ -87,7 +126,7 @@ export default {
 
         el.html((i, innerMarkup) => {
           return innerMarkup
-            .replace(/<span.*>(.*)<\/span>&nbsp;/ig, (m, g) => `#${g}`)
+            .replace(/<span.*>(.*)<\/span>&nbsp;/ig, (m, g) => `${this.metaSymb}${g}`)
             .replace(/\b&nbsp;/ig, ' ');
         });
 
@@ -98,7 +137,7 @@ export default {
     };
 
     $(this.el).on('input', this.watch);
-    $(this.el).on('keydown', this.removeIfLabel);
+    $(this.el).on('keydown', this.handleKeyDown);
   },
 
   update: function(folder) {
@@ -117,7 +156,7 @@ export default {
 
   unbind: function() {
     $(this.el).off('input', this.watch);
-    $(this.el).off('keydown', this.removeIfLabel);
+    $(this.el).off('keydown', this.handleKeyDown);
   },
 
 };

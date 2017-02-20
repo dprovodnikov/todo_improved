@@ -12,9 +12,14 @@
       </div>
       <div class="b-textfield-wrap">
 
-        <div v-show="folders.dropdown" v-click-outside="folders-dropdown" transition="dropdown" class="b-form-dropdown">
+        <div v-show="folders.dropdown"
+             v-click-outside="folders-dropdown"
+             transition="dropdown"
+             class="b-form-dropdown">
           <ul>
-            <li v-for="folder in folders.list | filterBy folders.search" @click="setFolder(folder.id)">
+            <li v-for="folder in folders.list | filterBy folders.search"
+                v-on:click="setFolder(folder.id)"
+                v-bind:class="{ 'b-form-folder-focused': folders.focused == $index }">
               <i class="fa fa-fw fa-folder" style="color: {{folder.color}};"></i>
               <span>{{folder.hint}}</span>
             </li>
@@ -90,6 +95,7 @@
           dropdown: false, // show / hide
           current: null,
           search: '',
+          focused: null,
           list: [
            { id: 1, hint: 'Films', color: 'lightgreen' },
            { id: 2, hint: 'Friends', color: 'lightblue' },
@@ -107,6 +113,7 @@
       setFolder: function(id) {
         let folder = this.folders.list.filter(e => e.id == id)[0];
         this.folders.current = folder;
+        this.folders.focused = null;
         this.hideFoldersDropdown();
       },
 
