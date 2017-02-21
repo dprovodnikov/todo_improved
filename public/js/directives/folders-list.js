@@ -26,7 +26,7 @@ export default {
           .replace(/<span.*>(.*)<\/span>(&nbsp;)?/ig, '')
       });
 
-      text = el.text();
+      text = el.html();
 
       text = text.replace(new RegExp(`${this.metaSymb}\\w*`, 'i'), () => {
         return `<span contenteditable="false" class="folder-label">${hint}</span>`;

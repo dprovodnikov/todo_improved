@@ -30,6 +30,7 @@
              class="b-form-textfield"
              v-editable-model:max="description"
              v-folders-list:#="folders.current"
+             v-priority:$="priorities.current"
              v-placeholder="Example: Do some house cleaning every saturday morning">
         </div>
 
@@ -69,6 +70,7 @@
   import placeholderDirective from '../../directives/placeholder.js';
   import editableModel from '../../directives/editable-model.js';
   import foldersList from '../../directives/folders-list.js';
+  import priorityKey from '../../directives/priority-key.js';
 
   export default {
     props: ['deadline'],
@@ -78,6 +80,7 @@
       'placeholder': placeholderDirective,
       'click-outside': clickOutsideDirective,
       'folders-list': foldersList,
+      'priority': priorityKey
     },
 
     data: function() {

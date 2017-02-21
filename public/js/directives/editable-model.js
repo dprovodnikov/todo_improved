@@ -23,7 +23,7 @@ export default {
     this.watch = (e) => {
       let cleanEl = el.clone();
 
-      cleanEl.find('span').remove();
+      cleanEl.find('span, p').remove();
 
       let textValue = cleanEl.text().replace(/\s+/, ' ');
 
@@ -35,11 +35,6 @@ export default {
     el.on('input keypress', this.watch);
     el.on('drop paste', e => false);
   },
-
-  // update: function() {
-  //   $(this.el).html(this.vm[this.expression]);
-  //   caretToEnd(this.el);
-  // },
 
   unbind: function() {
     $(this.el).off();
