@@ -19,10 +19,11 @@ export default {
 
       el.html((i, old) => {
         return old.replace(regExp, () => {
-          return `<p contenteditable="false" class="form-priority-${value} form-priority">${value}</p>&nbsp;`;
+          return `<p contenteditable="false" class="form-priority-${value} form-priority">${value}</p>&nbsp;&nbsp;`;
         });
       });
 
+      el.trigger('input');
       Caret.toEnd(this.el);
     };
 

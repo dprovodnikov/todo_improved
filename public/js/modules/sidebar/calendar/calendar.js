@@ -10,9 +10,14 @@ export default function(params) {
   const root = $('.' + params.container.split(' ')[0])
 
   let increaseDay, decreaseDay;
+  let dp = params.datePrimary;
 
   let curDate = new Date(),
-  yearFirst = params.yearFirst || curDate.getFullYear() - 2,
+
+  yearFirst = dp
+    ? dp.getFullYear()
+    : params.yearFirst || curDate.getFullYear() - 2,
+
   yearLast = params.yearLast || curDate.getFullYear(),
   yearPrimary = params.yearPrimary || curDate.getFullYear() - 2,
   onclick = params.onclick,
@@ -23,6 +28,7 @@ export default function(params) {
 
   this.increaseDay = increaseDay;
   this.decreaseDay = decreaseDay;
+
 
   /*****************************************************************************************
   * The function generates information about the year, which was given in params.
@@ -158,8 +164,9 @@ export default function(params) {
         currentMonthClass = 'month-current',
         monthTitleEl = root.find('.month-title');
 
-    for(let i = 1; i <= 12; i++)
+    for (let i = 1; i <= 12; i++) {
       monthsContainer.append(` <div>${i}</div> `);
+    }
 
     /************************************************
     * In order to move slider circle next to active month number
@@ -201,16 +208,13 @@ export default function(params) {
     *****************************************************************************************/
     let missingCellsCount = 7 - (7 - currentCalendar[month].firstDay), prevMonthDaysCount;
 
-    /* if the current month is the first in year, than the previous month is the last in the year */
-    if(month == 0)
-      prevMonthDaysCount = currentCalendar[11].days;
-    else
-      prevMonthDaysCount = currentCalendar[month-1].days;
+    /* if the current month is first in the year, than the previous month is the last in the year */
+    prevMonthDaysCount = currentCalendar[ month ? month-1 : 11 ].days;
 
     /* only for a better appearance */
-    if(missingCellsCount == 0) missingCellsCount = 7;
+    if (missingCellsCount == 0) missingCellsCount = 7;
 
-    for(let i = prevMonthDaysCount + 1 - missingCellsCount; i <= prevMonthDaysCount; i++)
+    for (let i = prevMonthDaysCount + 1 - missingCellsCount; i <= prevMonthDaysCount; i++)
       cellsMarkup += `<div class="cell cell-out cell-prev">${i}</div>`
 
     /*****************************************************************************************
@@ -218,8 +222,8 @@ export default function(params) {
     *****************************************************************************************/
     let currentMonthDaysCount = currentCalendar[month].days;
 
-    for(let i = 1; i <= currentMonthDaysCount; i++) {
-      if(options && options.cellToActivate && i == options.cellToActivate)
+    for (let i = 1; i <= currentMonthDaysCount; i++) {
+      if (options && options.cellToActivate && i == options.cellToActivate)
         cellsMarkup += 
         `<div id="cell-${i}" class="cell ${options.activeCellClass}">${i}</div>`
       else
@@ -233,9 +237,9 @@ export default function(params) {
     missingCellsCount = 7 - (currentCalendar[month].lastDay + 1);
 
     /* only for a better appearance */
-    if(missingCellsCount == 0) missingCellsCount = 7;
+    if (missingCellsCount == 0) missingCellsCount = 7;
 
-    for(let i = 1; i <= missingCellsCount; i++)
+    for (let i = 1; i <= missingCellsCount; i++)
       cellsMarkup += `<div class="cell cell-out cell-next">${i}</div>`
 
     cellsContainer.html(cellsMarkup);
@@ -246,15 +250,13 @@ export default function(params) {
     * Find today`s cell
     *****************************************************************************************/
     let dp = params.datePrimary;
-    if(dp && currentMonthNumber == dp.getMonth() && currentYear == dp.getFullYear()) {
+    if (dp && currentMonthNumber == dp.getMonth() && currentYear == dp.getFullYear()) {
       root.find(`#cell-${dp.getDate()}`).addClass('cell-active');
-    } else if(currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
+    } else if (currentMonthNumber == curDate.getMonth() && currentYear == curDate.getFullYear()) {
       root.find(`#cell-${curDate.getDate()}`).addClass('cell-today');
     }
 
-    if(!dp) {
-      addHints();
-    }
+    dp ? disablePastDates() : addHints();
 
   }
 
@@ -270,6 +272,33 @@ export default function(params) {
       `);
     }
 
+  }
+
+  function disablePastDates() {
+    // for month slider
+    root.find('.month-numbers div').each(function() {
+      let month = $(this).text();
+      if (month < dp.getMonth() + 1 && currentYear == dp.getFullYear()) {
+        $(this).addClass('unavailable');
+      } else {
+        $(this).removeClass('unavailable');
+      }
+    });
+
+    if (currentMonthNumber < dp.getMonth() && currentYear == dp.getFullYear()) {
+      monthSlider.switchMonth(dp.getMonth());
+    }
+
+    // for cells
+    root.find('.cell').each(function() {
+      let el = $(this);
+      if (el.text() < dp.getDate() && !el.hasClass('cell-next') || el.hasClass('cell-prev')) {
+        if (currentYear == dp.getFullYear() && currentMonthNumber == dp.getMonth())
+          $(this).addClass('unavailable');
+      } else {
+        $(this).removeClass('unavailable');
+      }
+    });
   }
 
   /*****************************************************************************************

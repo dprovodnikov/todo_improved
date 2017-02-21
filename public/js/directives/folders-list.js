@@ -32,7 +32,7 @@ export default {
         return `<span contenteditable="false" class="folder-label">${hint}</span>`;
       });
 
-      el.html(text + '&nbsp;');
+      el.html(text + '&nbsp;&nbsp;');
       el.trigger('input'); // causes the model update, which happens only on an input event;
       Caret.toEnd(this.el);
 
