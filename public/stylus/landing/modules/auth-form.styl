@@ -1,0 +1,65 @@
+
+.auth-form
+  display flex
+  height 400px
+  width 'calc(%s * 2.25)' % @height
+  box-shadow 3px 3px 40px 4px rgba(0, 0, 0, .2);
+  border-radius 2px
+  &__right
+    width 50%
+    height 100%
+    display flex
+    justify-content center
+    align-items center
+    background url(../../../img/p.png)
+    background-size cover
+  &__left
+    width 50%
+    height 100%
+    background #fff
+    display flex
+    justify-content center
+    align-items center
+  &__logo
+    height 60%
+  &__label
+    position absolute
+    top 0; left 0
+    font 500 14px 'Hind'
+    color #9d9d9d;
+    &--active
+      transform translateY(-80%)
+      font-size 12px
+      color $red
+      pointer-events none
+  &__button
+    position relative
+    left 50%
+    transform translateX(-50%)
+    outline none
+    border none
+    background $red
+    color #fff
+    padding 5px 0
+    width 40%
+    border-radius 4px
+    font normal 14px 'Hind'
+    text-transform uppercase
+
+  fieldset
+    position relative
+    margin 30px
+    & > *
+      display block
+    input
+      outline none
+      border none
+      border-bottom 2px solid #ccc
+      padding 5px 5px
+      font 300 13px 'Hind'
+      width 230px
+      color #3d3d3d
+      &:focus
+        border-bottom-color $red
+
+    

@@ -6,7 +6,31 @@
   <link rel="stylesheet" href="build/landing.bundle.css">
 </head>
 <body>
-  <h2>Landing page</h2>
+
+  <div class="auth-form">
+    <div class="auth-form__left">
+      <form class="auth-form__form">
+        
+        <fieldset>
+          <input name="username" type="text">
+          <label class="auth-form__label">Username</label>
+        </fieldset>
+
+        <fieldset>
+          <input name="password" type="password">
+          <label class="auth-form__label">Password</label>
+        </fieldset>
+
+        
+        <button class="auth-form__button">Login</button>
+
+      </form>
+    </div>
+    <div class="auth-form__right">
+      <img class="auth-form__logo" src="./img/logo.png" alt="logo"></img>
+    </div>
+  </div>
+
   <script src="build/landing.bundle.js"></script>
 </body>
 </html>
