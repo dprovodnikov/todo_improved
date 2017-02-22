@@ -1,65 +1,136 @@
-
 .auth-form
-  display flex
-  height 400px
-  width 'calc(%s * 2.25)' % @height
-  box-shadow 3px 3px 40px 4px rgba(0, 0, 0, .2);
-  border-radius 2px
-  &__right
-    width 50%
+  height 300px
+  width 750px
+  position relative
+  &__track
+    width 100%
     height 100%
-    display flex
-    justify-content center
-    align-items center
-    background url(../../../img/p.png)
-    background-size cover
-  &__left
+    background rgba(0, 0, 0, .6);
+    border-radius 2px
+  &__box
+    height 120%
     width 50%
-    height 100%
     background #fff
-    display flex
-    justify-content center
-    align-items center
-  &__logo
-    height 60%
-  &__label
     position absolute
-    top 0; left 0
-    font 500 14px 'Hind'
-    color #9d9d9d;
-    &--active
-      transform translateY(-80%)
-      font-size 12px
-      color $red
-      pointer-events none
-  &__button
-    position relative
-    left 50%
-    transform translateX(-50%)
-    outline none
-    border none
-    background $red
-    color #fff
-    padding 5px 0
-    width 40%
-    border-radius 4px
-    font normal 14px 'Hind'
-    text-transform uppercase
+    top -10%; left 5%
+    box-shadow 0 0 7px 2px rgba(0, 0, 0, .3)
+    border-radius 2px
 
+.form-instance
+  width 50%
+  padding 45px
+  position absolute
+  top 50%
+  transform translateY(-50%)
+  z-index 1
+  height 200px
+  display flex
+  justify-content center
+  align-items center
   fieldset
-    position relative
-    margin 30px
-    & > *
-      display block
-    input
-      outline none
-      border none
-      border-bottom 2px solid #ccc
-      padding 5px 5px
-      font 300 13px 'Hind'
-      width 230px
-      color #3d3d3d
-      &:focus
-        border-bottom-color $red
+    margin-top 20px
+  input
+    margin 7px 0
+    padding 5px 3px
+    border none
+    border-bottom 1px solid #c4c4c4
+    width 100%
+    font normal 14px 'Hind'
+    outline none
+    background transparent
+    color #3d3d3d
+    &:focus
+      border-color $red
+  &__title
+    font normal 22px 'Hind'
+    color $red
+    text-transform uppercase
+  &__footer
+    display flex
+    align-items center
+    justify-content space-between
+    margin-top 25px
+  &__link
+    display block
+    color #c4c4c4
+    font normal 14px 'Hind'
+    text-decoration none
+    height 100%
+    transition color .1s
+    user-select none
+    &:hover
+      color $red
+  &--left-aligned
+    left 5%
+  &--right-aligned
+    right 5%
 
-    
+.form-hint
+  position absolute
+  width 38%
+  top 50%
+  transform translateY(-50%)
+  &__h
+    width 90%
+    font normal 28px 'Hind'
+    line-height 1.1
+    color #eee
+  &__text
+    margin-top 5px
+    font normal 12px 'Hind'
+    color #eee
+    line-height 1
+  &__footer
+    margin-top 25px
+  &--left-aligned
+    left 5%
+  &--right-aligned
+    right 2%
+
+.form-button
+  outline none
+  border 2px solid #eee
+  border-radius 4px
+  width 120px
+  padding 3px 0
+  background transparent
+  color #eee
+  font 500 14px 'Hind'
+  text-transform uppercase
+  transition all .2s
+  &:hover
+    cursor pointer
+    background #eee
+    color #3d3d3d
+  &--filled
+    background $red
+    border-color @background
+    color #fff
+    &:hover
+      background darken($red, 10%)
+      border-color @background
+      color #fff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
