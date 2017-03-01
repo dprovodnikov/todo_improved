@@ -2,11 +2,11 @@ import User from '../models/user';
 import bcrypt from 'bcrypt-as-promised';
 
 export function signIn(req, res, next) {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
   let user;
 
-  User.findOne({ username })
+  User.findOne({ email })
     .then(_user => {
 
       if(!_user) {
@@ -38,9 +38,16 @@ export function signIn(req, res, next) {
 }
 
 export function signUp(req, res, next) {
-  let credentials = req.body;
+  const { fullName = '', email = '', password = '' } = req.body;
 
-  User.create(credentials)
+  if (!fullName.trim() || !email.trim() || !password.trim()) {
+    return next({
+      status: 400,
+      message: 'Bad credentials',
+    });
+  }
+
+  User.create({ fullName, email, password })
     .then(user => {
       return res.json(user);
     })

@@ -41,7 +41,8 @@ module.exports = {
   },
 
   externals: {
-    '_': '_' //lodash
+    '_': '_', // lodash
+    'jquery': '$' // jquery
   },
 
   plugins: [

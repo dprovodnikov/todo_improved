@@ -49,6 +49,8 @@
 </template>
 
 <script>
+  import * as UserService from '../../services/user-service';
+
   export default {
     data: function() {
       return {
@@ -79,9 +81,26 @@
         const { fullName, password, email } = this;
 
         if (this.mode) {
-          console.log(`registration: ${fullName}, ${password}, ${email}`)
+
+          UserService.signUp({ fullName, password, email })
+            .then(user => {
+              alert(`user ${user.email} signed up successfully`);
+              this.toggleMode();
+            })
+            .catch(err => {
+              alert(err.message || 'Something went wrong');
+            })
+
         } else {
-          console.log(`authorization: ${email}, ${password}`)
+
+          UserService.signIn({ email, password })
+            .then(user => {
+              location.reload();
+            })
+            .catch(err => {
+              alert(err.message || 'Something went wrong');
+            });
+
         }
 
       },

@@ -3,10 +3,16 @@ import bcrypt from 'bcrypt-as-promised';
 
 let userSchema = new Schema({
 
-  username: {
+  fullName: {
     type: String,
     unique: true,
     required: true,
+  },
+  
+  email: {
+    type: String,
+    unique: true,
+    required: true
   },
 
   password: {

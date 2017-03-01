@@ -134,7 +134,6 @@
         onpick: this.pickDate,
       };
 
-      this.showBuilder();
     },
 
   }

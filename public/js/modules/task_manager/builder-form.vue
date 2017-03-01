@@ -164,6 +164,6 @@
       },
     },
 
-    ready: function() { this.bindEvents(); this.slideUp(); }
+    ready: function() { this.bindEvents() }
   }
 </script>
