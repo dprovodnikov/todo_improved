@@ -1,43 +1,53 @@
 import User from '../models/user';
+import bcrypt from 'bcrypt-as-promised';
 
 export function signIn(req, res, next) {
   let { username, password } = req.body;
 
-  User.findOne({ username: username })
-    .then( (user) => {
+  let user;
 
-      if(!user) {
-        return next({
+  User.findOne({ username })
+    .then(_user => {
+
+      if(!_user) {
+        next({
           status: 400,
           message: 'User not found'
         });
-      }
-
-      if(user.checkPassword(password)) {
-        req.session.userId = user._id;
-        res.json(user);
       } else {
+        user = _user;
+        return _user.checkPassword(password)
+      }
+    })
+    .then(() => {
+      if (user) {
+        req.session.userId = user._id;
+        res.json({ user });
+      }
+    })
+    .catch(err => {
+      if (err instanceof bcrypt.MISMATCH_ERROR) {
         next({
           status: 400,
-          message: 'Bad credentials'
+          message: 'Invalid password'
         });
+      } else {
+        next(err);
       }
-
-    })
-    .catch( (err) => next(err));
+    });
 }
 
 export function signUp(req, res, next) {
   let credentials = req.body;
 
   User.create(credentials)
-    .then( (user) => {
+    .then(user => {
       return res.json(user);
     })
     .catch(({ message }) => {
       next({
         status: 400,
-        message: message,
+        message
       })
     });
 }
