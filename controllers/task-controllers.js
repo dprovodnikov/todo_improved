@@ -1,9 +1,10 @@
 import Task from '../models/task';
 
 export function getCompleted(req, res, next) {
+  const { userId } = res.session;
 
-  Task.find({ completed: true, userId: req.session.userId })
-    .then( (tasks) => {
+  Task.find({ completed: true, userId })
+    .then(tasks => {
 
       if(!tasks) {
         return next({
@@ -12,22 +13,22 @@ export function getCompleted(req, res, next) {
         });
       }
 
-      return res.json(tasks);
-
+      return res.json({ tasks });
     })
     .catch(next);
 }
 
 export function getOverdue(req, res, next) {
+  const { userId } = req.session;
 
-  let query = {
+  const query = {
     completed: false,
     date: { $lt: new Date() },
-    userId: req.session.userId,
+    userId,
   };
 
   Task.find(query)
-    .then( (tasks) => {
+    .then(tasks => {
 
       if(!tasks) {
         return next({
@@ -36,7 +37,7 @@ export function getOverdue(req, res, next) {
         });
       }
 
-      return res.json(tasks);
+      return res.json({ tasks });
 
     })
     .catch(next);
@@ -44,9 +45,10 @@ export function getOverdue(req, res, next) {
 }
 
 export function getCurrent(req, res, next) {
+  const { userId } = res.session;
 
-  Task.find({ completed: false, userId: req.session.userId })
-    .then( (tasks) => {
+  Task.find({ completed: false, userId })
+    .then(tasks => {
 
       if(!tasks) {
         return next({
@@ -55,19 +57,19 @@ export function getCurrent(req, res, next) {
         });
       }
 
-      return res.json(tasks);
+      return res.json({ tasks });
 
     })
     .catch(next);
 }
 
 export function create(req, res, next) {
-  let taskData = req.body;
+  const credentials = req.body;
 
-  taskData.userId = req.session.userId;
+  credentials.userId = req.session.userId;
 
-  Task.create(taskData)
-    .then( (task) => {
+  Task.create(credentials)
+    .then(task => {
 
       if(!task) {
         return next({
@@ -76,33 +78,28 @@ export function create(req, res, next) {
         });
       }
 
-      res.json(task);
-
+      res.json({ task });
     })
     .catch(next)
 }
 
 export function remove(req, res, next) {
-  let { _id } = req.body;
-  let { userId } = req.session;
+  const { _id } = req.body;
+  const { userId } = req.session;
 
   Task.remove({ _id, userId })
-    .then( (affected) => {
-
+    .then(affected => {
       return res.json({ affected });
     })
     .catch(next)
 }
 
 export function complete(req, res, next) {
-  let { userId } = req.session;
-  let { _id } = req.body;
-
-  console.log(req.user);
+  const { userId } = req.session;
+  const { _id } = req.body;
 
   Task.update({ _id, userId }, { completed: true })
-    .then( (affected) => {
-
+    .then(affected => {
       return res.json({ affected });
     })
     .catch(next)
