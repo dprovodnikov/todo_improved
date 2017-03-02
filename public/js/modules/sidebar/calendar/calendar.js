@@ -275,25 +275,26 @@ export default function(params) {
   }
 
   function disablePastDates() {
+    const curDate = new Date();
     // for month slider
     root.find('.month-numbers div').each(function() {
       let month = $(this).text();
-      if (month < dp.getMonth() + 1 && currentYear == dp.getFullYear()) {
+      if (month < curDate.getMonth() + 1 && currentYear == curDate.getFullYear()) {
         $(this).addClass('unavailable');
       } else {
         $(this).removeClass('unavailable');
       }
     });
 
-    if (currentMonthNumber < dp.getMonth() && currentYear == dp.getFullYear()) {
-      monthSlider.switchMonth(dp.getMonth());
+    if (currentMonthNumber < curDate.getMonth() && currentYear == curDate.getFullYear()) {
+      monthSlider.switchMonth(curDate.getMonth());
     }
 
     // for cells
     root.find('.cell').each(function() {
       let el = $(this);
-      if (el.text() < dp.getDate() && !el.hasClass('cell-next') || el.hasClass('cell-prev')) {
-        if (currentYear == dp.getFullYear() && currentMonthNumber == dp.getMonth())
+      if (el.text() < curDate.getDate() && !el.hasClass('cell-next') || el.hasClass('cell-prev')) {
+        if (currentYear == curDate.getFullYear() && currentMonthNumber == curDate.getMonth())
           $(this).addClass('unavailable');
       } else {
         $(this).removeClass('unavailable');
