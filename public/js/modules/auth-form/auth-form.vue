@@ -54,10 +54,10 @@
   export default {
     data: function() {
       return {
-        mode: true,
+        mode: false,
         fullName: '',
-        password: '',
-        email: '',
+        password: 'somesome',
+        email: 'wireden@yandex.ru',
       }
     },
 

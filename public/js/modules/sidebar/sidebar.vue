@@ -48,6 +48,7 @@
   import charts from './chart/charts.vue';
   import folders from './folders/folders.vue';
   import eventHistory from './events/history.vue';
+  import { logout } from '../../services/user-service.js';
 
   export default {
     components: {
@@ -117,8 +118,12 @@
 
     methods: {
       openPanel: function(id) {
+        if (id === 'exit') {
+          logout().then(() => location.reload());
+        }
+
         this.buttons.forEach(button => {
-          if(id == button.id) {
+          if (id == button.id) {
             button.active = !button.active;
             button.panel.show = !button.panel.show;
             this.activeButton = button;
@@ -130,7 +135,7 @@
       },
 
       closePanel: function() {
-        if(this.activeButton) {
+        if (this.activeButton) {
           this.activeButton.active = false;
           this.activeButton.panel.show = false;
 

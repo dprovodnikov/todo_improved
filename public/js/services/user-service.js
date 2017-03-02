@@ -14,6 +14,5 @@ export function getUser() {
 }
 
 export function logout() {
-  // logout
-  console.log('logging out...');
+  return $.get('/user/logout');
 }

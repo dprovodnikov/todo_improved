@@ -58,3 +58,33 @@ export function signUp(req, res, next) {
       })
     });
 }
+
+export function logout(req, res, next) {
+  if (req.session) {
+    req.session.destroy();
+  }
+
+  res.end();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
