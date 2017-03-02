@@ -12,7 +12,7 @@ export function getCompleted() {
   return $.get('/tasks/completed');
 }
 
-export function save(credentials) {
+export function create(credentials) {
   return $.post('/tasks/save', credentials);
 }
 

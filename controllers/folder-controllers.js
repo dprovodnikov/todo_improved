@@ -1,7 +1,7 @@
 import Folder from '../models/folder';
 
 export function getAll(req, res, next) {
-  let { userId } = req.session;
+  const { userId } = req.session;
 
   Folder.find({ userId })
     .then(folders => {
@@ -13,7 +13,7 @@ export function getAll(req, res, next) {
         })
       }
 
-      res.json(folders)
+      res.json({ folders })
 
     })
     .catch(({message}) => {
@@ -25,14 +25,12 @@ export function getAll(req, res, next) {
 }
 
 export function create(req, res, next) {
+  const credentials = req.body;
 
-  let credentials = req.body;
-  let { userId } = req.session;
-
-  credentials.userId = userId;
+  credentials.userId = req.session.userId;
 
   Folder.create(credentials)
-    .then( (folder) => {
+    .then(folder => {
 
       if(!folder) {
         return next({
@@ -41,37 +39,29 @@ export function create(req, res, next) {
         })
       }
 
-      res.json(folder);
-
+      res.json({ folder });
     })
-    .catch(({ message }) => {
-      next({
-        status: 500,
-        message
-      })
-    });
-
+    .catch(next)
 }
 
 export function remove(req, res, next) {
-
-  let { userId } = req.session;
-  let { _id } = req.body;
+  const { userId } = req.session;
+  const { _id } = req.body;
 
   Folder.remove({ userId, _id })
     .then(affected => {
-
       return res.json({ affected });
     })
-    .catch(({message}) => {
-      next({
-        status: 500,
-        message
-      })
-    })
-
+    .catch(next);
 }
 
 export function update(req, res, next) {
-  res.json('update')
+  const { userId } = req.session;
+  const credentials = req.body;
+
+  Folder.update(credentials)
+    .then(folder => {
+      return res.json({ folder })
+    })
+    .catch(next);
 }
