@@ -27,6 +27,7 @@
   import builder from './builder.vue';
   import clickOutsideDirective from '../../directives/click-outside.js';
   import _ from '_';
+  import * as TaskService from '../../services/task-service.js';
 
   export default {
     props: ['eventBus'],
@@ -52,7 +53,13 @@
 
     methods: {
       removeTask: function(task) {
-        this.tasks.$remove(task);
+        TaskService.remove(task.id)
+          .then(() => {
+            this.tasks.$remove(task);
+          })
+          .catch(err => {
+            if (err) throw err;
+          });
       },
 
       changeKey: function(key) {
@@ -60,8 +67,13 @@
       },
 
       saveTask: function(task) {
-        // TODO: send an ajax query
-        this.tasks.push(task);
+        TaskService.create(task)
+          .then(() => {
+            this.tasks.push(task);
+          })
+          .catch(err => {
+            if (err) throw err;
+          });
       },
 
       bindEvents: function() {

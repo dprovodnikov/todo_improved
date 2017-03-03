@@ -1,4 +1,4 @@
-import $ form 'jquery';
+import $ from 'jquery';
 
 export function getCurrent() {
   return $.get('/tasks/current');
@@ -13,7 +13,7 @@ export function getCompleted() {
 }
 
 export function create(credentials) {
-  return $.post('/tasks/save', credentials);
+  return $.post('/tasks/create', credentials);
 }
 
 export function update(credentials) {

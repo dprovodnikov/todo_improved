@@ -1,4 +1,5 @@
 import Task from '../models/task';
+import Folder from '../models/folder';
 
 export function getCompleted(req, res, next) {
   const { userId } = res.session;
@@ -64,11 +65,29 @@ export function getCurrent(req, res, next) {
 }
 
 export function create(req, res, next) {
-  const credentials = req.body;
+  const { text, priority, date, folder } = req.body;
+  const { userId } = req.session;
 
-  credentials.userId = req.session.userId;
+  if (!folder || !folder.id) {
+    return next({
+      status: 400,
+      message: 'Invalid folder'
+    })
+  }
 
-  Task.create(credentials)
+  Folder.findOne({ _id: folder.id, userId })
+    .then(folder => {
+      if (!folder || !folder._id) {
+        throw {
+          status: 400,
+          message: 'Folder not found'
+        }
+      }
+
+      const { _id:folderId } = folder;
+
+      return Task.create({ text, priority, date, folderId, userId });
+    })
     .then(task => {
 
       if(!task) {
@@ -80,12 +99,25 @@ export function create(req, res, next) {
 
       res.json({ task });
     })
-    .catch(next)
+    .catch(err => {
+      if (err.name === 'CastError') {
+        next({ status: 400, message: 'Invalid identificator' });
+      } else {
+        next(err);
+      }
+    })
 }
 
 export function remove(req, res, next) {
   const { _id } = req.body;
   const { userId } = req.session;
+
+  if (!_id) {
+    return next({
+      status: 400,
+      message: 'Invalid identificator'
+    })
+  }
 
   Task.remove({ _id, userId })
     .then(affected => {

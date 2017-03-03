@@ -3,15 +3,15 @@ import mongoose, { Schema } from 'mongoose';
 const taskSchema = new Schema({
   text: {
     type: String,
-    require: true
+    require: true,
   },
   completed: {
     type: Boolean,
-    default: false
+    default: false,
   },
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   date: {
     type: Date,
@@ -19,7 +19,11 @@ const taskSchema = new Schema({
   },
   priority: {
     type: Number,
-    require: true
+    require: true,
+  },
+  folderId: {
+    type: Schema.ObjectId,
+    ref: 'Folder',
   },
   userId: {
     type: Schema.ObjectId,
