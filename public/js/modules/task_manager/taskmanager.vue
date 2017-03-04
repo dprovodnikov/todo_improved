@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import taskList from './fake-tasks.js';
+	// import taskList from './fake-tasks.js';
 	import taskComponent from './task.vue';
 	import sortbar from './sortbar.vue';
 	import contextMenu from './context.vue';
@@ -45,7 +45,7 @@
 
 		data: function() {
 			return {
-				tasks: taskList,
+				tasks: [],
 				tasksShow: false,
 				key: {}
 			};
@@ -108,6 +108,15 @@
 		created: function() {
 			//to achieve init transition
 			setTimeout(() => this.tasksShow = true, 50);
+			
+			TaskService.getCurrent()
+				.then(res => {
+					this.tasks = res.tasks;
+				})
+				.catch(err => {
+					if(err) throw err;
+				})
+
 
 			this.bindEvents();
 		}

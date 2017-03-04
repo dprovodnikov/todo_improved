@@ -47,7 +47,6 @@ app.use(session({
   secret: config.secret,
 }));
 
-
 app.use(currentUser);
 
 app.use('/user', userRouter);

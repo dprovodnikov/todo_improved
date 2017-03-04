@@ -14,20 +14,25 @@
 </template>
 
 <script>
+  import * as FolderService from '../../../services/folder-service.js';
   
   export default {
 
     data: function() {
       return {
-        folders: [
-         { hint: 'Films', color: 'lightgreen' },
-         { hint: 'Friends', color: 'lightblue' },
-         { hint: 'Family', color: 'orange' },
-         { hint: 'Job', color: 'grey' },
-         { hint: 'Hobbies of harry', color: '#3d3d3d' },
-        ],
+        folders: [],
       };
     },
+
+    created: function() {
+      FolderService.all()
+        .then(res => {
+          this.folders = res.folders;
+        })
+        .catch(err => {
+          if (err) throw err;
+        })
+    }
 
   };
 

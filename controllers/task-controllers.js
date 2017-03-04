@@ -46,7 +46,7 @@ export function getOverdue(req, res, next) {
 }
 
 export function getCurrent(req, res, next) {
-  const { userId } = res.session;
+  const { userId } = req.session;
 
   Task.find({ completed: false, userId })
     .then(tasks => {
@@ -58,8 +58,7 @@ export function getCurrent(req, res, next) {
         });
       }
 
-      return res.json({ tasks });
-
+      res.json({ tasks });
     })
     .catch(next);
 }
