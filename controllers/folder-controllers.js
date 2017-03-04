@@ -63,9 +63,10 @@ export function remove(req, res, next) {
 
 export function update(req, res, next) {
   const { userId } = req.session;
+  const { _id } = req.body;
   const credentials = req.body;
 
-  Folder.update(credentials)
+  Folder.update({ _id, userId }, credentials)
     .then(folder => {
       return res.json({ folder })
     })

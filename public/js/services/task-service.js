@@ -12,18 +12,18 @@ export function getCompleted() {
   return $.get('/tasks/completed');
 }
 
-export function create(credentials) {
-  return $.post('/tasks/create', credentials);
+export function create(task) {
+  return $.post('/tasks/create', task);
 }
 
-export function update(credentials) {
-  return $.post('/tasks/update', credentials);
+export function update(task) {
+  return $.post('/tasks/update', task);
 }
 
-export function remove(_id) {
+export function remove({ _id }) {
   return $.post('/tasks/delete', { _id });
 }
 
-export function complete(_id) {
+export function complete({ _id }) {
   return $.post('/tasks/complete', { _id });
 }

@@ -134,6 +134,25 @@ export function complete(req, res, next) {
     .catch(next)
 }
 
+export function update(req, res, next) {
+  const { userId } = req.session;
+  const { _id } = req.body;
+  const credentials = req.body;
+
+  if (!_id) {
+    return next({
+      status: 400,
+      message: 'Invalid id',
+    })
+  }
+
+  Task.update({ _id, userId }, credentials)
+    .then(task => {
+      res.json({ task });
+    })
+    .catch(next);
+}
+
 
 
 

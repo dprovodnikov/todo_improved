@@ -58,7 +58,7 @@
         yearFirst: currentYear - 3,
         yearLast: currentYear + 3,
         yearPrimary: currentYear,
-        datePrimary: this.initArgs.date || null,
+        datePrimary: new Date(this.initArgs.date) || null,
         onclick: date => {
 
           if(this.initArgs.onpick) {

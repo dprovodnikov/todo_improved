@@ -74,6 +74,7 @@
   import { format, compare } from '../../utils/date-utils.js';
   import rightClickDirective from '../../directives/right-click.js';
   import editableModelDirective from '../../directives/editable-model.js';
+  import * as FolderService from '../../services/folder-service.js';
 
   export default {
 
@@ -115,33 +116,27 @@
           priorities: false
         },
 
-        folders: [
-         { hint: 'Films', color: 'lightgreen' },
-         { hint: 'Friends', color: 'lightblue' },
-         { hint: 'Family', color: 'orange' },
-         { hint: 'Job', color: 'grey' },
-         { hint: 'Hobbies', color: '#3d3d3d' },
-        ],
+        folders: [],
 
       };
     },
 
     methods: {
       check: function() {
-        if(this.updating) return false
+        if (this.updating) return false
         this.eventBus.$emit('task-selected', this.task);
         this.checked = true;
       },
 
       switchToolset: function(toolset) {
-        for(let [k, v] of Object.entries(this.toolsets))
+        for (let [k, v] of Object.entries(this.toolsets))
           this.toolsets[k] = (k == toolset)
       },
 
       saveChanges: function() {
         let task = this.task;
 
-        if(!this.isEdited && task.text == this.newText) {
+        if (!this.isEdited && task.text == this.newText) {
           this.updating = false;
           return;
         }
@@ -165,7 +160,7 @@
       },
 
       undoChanges: function() {
-        for(let [k, v] of Object.entries(this.old))
+        for (let [k, v] of Object.entries(this.old))
           this.task[k] = v;
 
         this.old = {};
@@ -184,11 +179,13 @@
         this.newDate = this.task.date;
         this.updated = false;
         this.task.status = '';
+
+        this.$emit('task-update', this.task);
       },
 
       setPriority: function(priority) {
 
-        if(priority != this.newPriority) {
+        if (priority != this.newPriority) {
           this.isEdited = true;
           this.newPriority = priority;
         }
@@ -198,7 +195,7 @@
 
       setFolder: function(folder) {
 
-        if(folder != this.newFolder) {
+        if (folder != this.newFolder) {
           this.isEdited = true;
           this.newFolder = folder;
         }
@@ -207,9 +204,9 @@
       },
 
       setDeadline: function(ops={}) {
-        if(ops.date) {
+        if (ops.date) {
 
-          if(compare(ops.date, this.newDate)) {
+          if (compare(ops.date, this.newDate)) {
             return false
           }
 
@@ -223,15 +220,14 @@
               date: this.newDate, 
 
               onpick: (date) => {
-
-                if(compare(date.instance, this.newDate)) {
+                if (compare(date.instance, this.newDate)) {
                   return false
                 }
 
                 this.isEdited = true;
                 this.newDate = date.instance
 
-                if(ops.autosave) {
+                if (ops.autosave) {
                   this.saveChanges()
                 }
 
@@ -256,7 +252,7 @@
       },
 
       openContext: function(e) {
-        if(this.updating) return false;
+        if (this.updating) return false;
         this.eventBus.$emit('open-context', {vm: this, event: e});
         this.eventBus.$emit('task-unfocus');
       },
@@ -275,9 +271,9 @@
         this.eventBus.$on('task-unfocus', () => this.checked = false);
 
         this.eventBus.$on('toolbar-action', task => {
-          if(task != this.task) return false;
+          if (task != this.task) return false;
 
-          if(task.status != 'updated')
+          if (task.status != 'updated')
             this.markAsDeleted();
           else {
             this.eventBus.$emit('task-selected');
@@ -286,9 +282,9 @@
         });
 
         this.eventBus.$on('changes-undo', task => {
-          if(task != this.task) return false;
+          if (task != this.task) return false;
 
-          if(task.status != 'updated') {
+          if (task.status != 'updated') {
             this.show = true;
             this.affected = false;
           }
@@ -297,20 +293,20 @@
         });
 
         this.eventBus.$on('changes-undo-all', () => {
-          if(!this.show) {
+          if (!this.show) {
             this.show = true;
             this.affected = false;
           }
 
-          if(this.updated)
+           if(this.updated)
             this.undoChanges();
         });
 
         this.eventBus.$on('changes-confirm', () => {
-          if(this.affected)
+          if (this.affected)
             this.$emit('task-remove', this);
 
-          if(this.updated)
+          if (this.updated)
             this.confirmChanges();
         });
       },
@@ -326,6 +322,13 @@
 
     created: function() {
       setTimeout(() => this.show = true, this.showDelay)
+      
+      FolderService.all()
+        .then(res => this.folders = res.folders)
+        .catch(err => {
+          if (err) throw err;
+        })
+
       this.bindEvents();
     },
 

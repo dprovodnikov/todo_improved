@@ -25,6 +25,8 @@ export function daysInMonth(year, month) {
 };
 
 export function compare(a, b) {
+  a = new Date(a);
+  b = new Date(b);
   return a.getDate() == b.getDate() &&
          a.getMonth() == b.getMonth() &&
          a.getFullYear() == b.getFullYear();
