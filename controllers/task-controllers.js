@@ -48,10 +48,10 @@ export function getOverdue(req, res, next) {
 export function getCurrent(req, res, next) {
   const { userId } = req.session;
 
-  Task.find({ completed: false, userId })
+  Task.find({ completed: false, userId }).populate('folder')
     .then(tasks => {
 
-      if(!tasks) {
+      if (!tasks) {
         return next({
           status: 400,
           message: 'Tasks not found'
@@ -83,9 +83,7 @@ export function create(req, res, next) {
         }
       }
 
-      const { _id:folderId } = folder;
-
-      return Task.create({ text, priority, date, folderId, userId });
+      return Task.create({ text, priority, date, folder, userId });
     })
     .then(task => {
 

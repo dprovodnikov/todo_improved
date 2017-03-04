@@ -87,7 +87,7 @@
 			sortedTasks: function() {
 				let iteratees = {};
 
-				let _default = { key: ['date'], option: ['asc'] };
+				const _default = { key: ['date'], option: ['asc'] };
 
 				switch(this.key.name) {
 					case 'date':

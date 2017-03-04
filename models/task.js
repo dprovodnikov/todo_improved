@@ -21,7 +21,7 @@ const taskSchema = new Schema({
     type: Number,
     require: true,
   },
-  folderId: {
+  folder: {
     type: Schema.ObjectId,
     ref: 'Folder',
   },
