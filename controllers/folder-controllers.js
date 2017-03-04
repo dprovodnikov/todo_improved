@@ -6,7 +6,7 @@ export function getAll(req, res, next) {
   Folder.find({ userId })
     .then(folders => {
 
-      if(!folders) {
+      if(!folders || !folders.length) {
         return next({
           status: 400,
           message: 'Folders not found',
@@ -25,11 +25,17 @@ export function getAll(req, res, next) {
 }
 
 export function create(req, res, next) {
-  const credentials = req.body;
+  const { hint = '', color = '' } = req.body;
+  const { userId } = req.session;
 
-  credentials.userId = req.session.userId;
+  if (!hint.trim() || !color.trim()) {
+    return next({
+      status: 400,
+      message: 'Bad credentials'
+    });
+  }
 
-  Folder.create(credentials)
+  Folder.create({ hint, color, userId })
     .then(folder => {
 
       if(!folder) {

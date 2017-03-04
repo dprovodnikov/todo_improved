@@ -68,14 +68,14 @@ export function create(req, res, next) {
   const { text, priority, date, folder } = req.body;
   const { userId } = req.session;
 
-  if (!folder || !folder.id) {
+  if (!folder || !folder._id) {
     return next({
       status: 400,
       message: 'Invalid folder'
     })
   }
 
-  Folder.findOne({ _id: folder.id, userId })
+  Folder.findOne({ _id: folder._id, userId })
     .then(folder => {
       if (!folder || !folder._id) {
         throw {

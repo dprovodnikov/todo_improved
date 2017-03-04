@@ -1,116 +1,116 @@
 <template>
-  
-  <sortbar @key-changed="changeKey"></sortbar>
+	
+	<sortbar @key-changed="changeKey"></sortbar>
 
-  <div class="tasklist-global" v-if="tasksShow" v-click-outside>
-    <div v-for="task in sortedTasks" transition="sort">
-      <task @task-remove="removeTask(task)"
-            :task="task"
-            :show-delay="(100 * $index) / 2"
-            :event-bus="eventBus">
-      </task>
-    </div>
-  </div> 
-  
-  <context-menu :event-bus="eventBus"></context-menu>
+	<div class="tasklist-global" v-if="tasksShow" v-click-outside>
+		<div v-for="task in sortedTasks" transition="sort">
+			<task @task-remove="removeTask(task)"
+						:task="task"
+						:show-delay="(100 * $index) / 2"
+						:event-bus="eventBus">
+			</task>
+		</div>
+	</div> 
+	
+	<context-menu :event-bus="eventBus"></context-menu>
 
-  <builder @task-composed="saveTask" :event-bus="eventBus"></builder>
+	<builder @task-composed="saveTask" :event-bus="eventBus"></builder>
 
 
 </template>
 
 <script>
-  import taskList from './fake-tasks.js';
-  import taskComponent from './task.vue';
-  import sortbar from './sortbar.vue';
-  import contextMenu from './context.vue';
-  import builder from './builder.vue';
-  import clickOutsideDirective from '../../directives/click-outside.js';
-  import _ from '_';
-  import * as TaskService from '../../services/task-service.js';
+	import taskList from './fake-tasks.js';
+	import taskComponent from './task.vue';
+	import sortbar from './sortbar.vue';
+	import contextMenu from './context.vue';
+	import builder from './builder.vue';
+	import clickOutsideDirective from '../../directives/click-outside.js';
+	import _ from '_';
+	import * as TaskService from '../../services/task-service.js';
 
-  export default {
-    props: ['eventBus'],
+	export default {
+		props: ['eventBus'],
 
-    components: {
-      'task': taskComponent,
-      'sortbar': sortbar,
-      'context-menu': contextMenu,
-      'builder': builder,
-    },
-    
-    directives: {
-      'click-outside': clickOutsideDirective
-    },
+		components: {
+			'task': taskComponent,
+			'sortbar': sortbar,
+			'context-menu': contextMenu,
+			'builder': builder,
+		},
+		
+		directives: {
+			'click-outside': clickOutsideDirective
+		},
 
-    data: function() {
-      return {
-        tasks: taskList,
-        tasksShow: false,
-        key: {}
-      };
-    },
+		data: function() {
+			return {
+				tasks: taskList,
+				tasksShow: false,
+				key: {}
+			};
+		},
 
-    methods: {
-      removeTask: function(task) {
-        TaskService.remove(task.id)
-          .then(() => {
-            this.tasks.$remove(task);
-          })
-          .catch(err => {
-            if (err) throw err;
-          });
-      },
+		methods: {
+			removeTask: function(task) {
+				TaskService.remove(task.id)
+					.then(() => {
+						this.tasks.$remove(task);
+					})
+					.catch(err => {
+						if (err) throw err;
+					});
+			},
 
-      changeKey: function(key) {
-        this.key = key;
-      },
+			changeKey: function(key) {
+				this.key = key;
+			},
 
-      saveTask: function(task) {
-        TaskService.create(task)
-          .then(() => {
-            this.tasks.push(task);
-          })
-          .catch(err => {
-            if (err) throw err;
-          });
-      },
+			saveTask: function(task) {
+				TaskService.create(task)
+					.then(() => {
+						this.tasks.push(task);
+					})
+					.catch(err => {
+						if (err) throw err;
+					});
+			},
 
-      bindEvents: function() {
-        this.$on('collapse-me', () => {
-          this.eventBus.$emit('task-unfocus');
-        });
-      },
-    },
+			bindEvents: function() {
+				this.$on('collapse-me', () => {
+					this.eventBus.$emit('task-unfocus');
+				});
+			},
+		},
 
-    computed: {
-      sortedTasks: function() {
-        let iteratees = {};
+		computed: {
+			sortedTasks: function() {
+				let iteratees = {};
 
-        let _default = { key: ['date'], option: ['asc'] };
+				let _default = { key: ['date'], option: ['asc'] };
 
-        switch(this.key.name) {
-          case 'date':
-            iteratees = _default; break;
-          case 'priority':
-            iteratees = { key: ['priority'], option: ['desc'] }; break;
-          case 'length':
-            iteratees = { key: (task) => task.text.length, option: ['desc'] }; break;
-          case 'alphabet':
-            iteratees = { key: ['text'], option: ['asc'] }; break;
-          default: iteratees = _default;
-        }
+				switch(this.key.name) {
+					case 'date':
+						iteratees = _default; break;
+					case 'priority':
+						iteratees = { key: ['priority'], option: ['desc'] }; break;
+					case 'length':
+						iteratees = { key: (task) => task.text.length, option: ['desc'] }; break;
+					case 'alphabet':
+						iteratees = { key: ['text'], option: ['asc'] }; break;
+					default: iteratees = _default;
+				}
 
-        return _.orderBy(this.tasks, iteratees.key, iteratees.option);
-      }
-    },
+				return _.orderBy(this.tasks, iteratees.key, iteratees.option);
+			}
+		},
 
-    created: function() {
-      //to achieve init transition
-      setTimeout(() => this.tasksShow = true, 50);
+		created: function() {
+			//to achieve init transition
+			setTimeout(() => this.tasksShow = true, 50);
 
-      this.bindEvents();
-    }
-  }
+			this.bindEvents();
+		}
+	}
 
 </script>

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export function getAll() {
+export function all() {
   return $.get('/folders/');
 }
 

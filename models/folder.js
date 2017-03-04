@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 let folderSchema = new Schema({
-  name: {
+  hint: {
     type: String, 
     require: true
   },

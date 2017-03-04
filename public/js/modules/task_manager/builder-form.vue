@@ -71,6 +71,7 @@
   import editableModel from '../../directives/editable-model.js';
   import foldersList from '../../directives/folders-list.js';
   import priorityKey from '../../directives/priority-key.js';
+  import * as FolderService from '../../services/folder-service.js';
 
   export default {
     props: ['deadline'],
@@ -99,13 +100,7 @@
           current: null,
           search: '',
           focused: null,
-          list: [
-           { id: 1, hint: 'Films', color: 'lightgreen' },
-           { id: 2, hint: 'Friends', color: 'lightblue' },
-           { id: 3, hint: 'Family', color: 'orange' },
-           { id: 4, hint: 'Job', color: 'grey' },
-           { id: 5, hint: 'Hobby', color: '#3d3d3d' },
-          ],
+          list: [],
         },
 
         isCollapsed: true,
@@ -164,6 +159,41 @@
       },
     },
 
+    created: function() {
+      FolderService.all()
+        .then(res => {
+          this.folders.list = res.folders;
+        })
+        .catch(err => {
+          if (err) throw err;
+        })
+    },
+
     ready: function() { this.bindEvents() }
   }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
