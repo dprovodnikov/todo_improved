@@ -303,11 +303,19 @@
         });
 
         this.eventBus.$on('changes-confirm', () => {
-          if (this.affected)
-            this.$emit('task-remove', this);
 
-          if (this.updated)
+          if (this.affected) {
+            if (this.task.status == 'completed') {
+              this.$emit('task-complete', this.task);
+            } else {
+              this.$emit('task-remove', this);
+            }
+          }
+
+          if (this.updated) {
             this.confirmChanges();
+          }
+
         });
       },
 

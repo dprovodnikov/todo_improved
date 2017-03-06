@@ -54,10 +54,10 @@
     },
 
     methods: {
-      removeTask: function(task) {
-        TaskService.remove(task)
+      removeTask: function(vm) {
+        TaskService.remove(vm)
           .then(() => {
-            this.tasks.$remove(task);
+            this.tasks.$remove(vm);
           })
           .catch(err => {
             if (err) throw err;
@@ -85,7 +85,10 @@
       saveTask: function(task) {
         TaskService.create(task)
           .then(() => {
-            this.tasks.push(task);
+            return TaskService.getCurrent();
+          })
+          .then(res => {
+            this.tasks = res.tasks;
           })
           .catch(err => {
             if (err) throw err;

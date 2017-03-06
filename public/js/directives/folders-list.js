@@ -73,7 +73,7 @@ export default {
 
     this.handleKeyDown = (event) => {
       if (event.keyCode == 8) return this.removeIfLabel();
-
+      
       if (event.keyCode == 27) {
         folders.focused = null;
         folders.dropdown = false;
@@ -108,9 +108,10 @@ export default {
         return false;
 
       } else if (event.keyCode == 13) {
-        this.vm.setFolder(folders.list[folders.focused].id);
+        this.vm.setFolder(folders.list[folders.focused]._id);
         return false;
       }
+
 
     };
 

@@ -18,7 +18,7 @@
              class="b-form-dropdown">
           <ul>
             <li v-for="folder in folders.list | filterBy folders.search"
-                v-on:click="setFolder(folder.id)"
+                v-on:click="setFolder(folder._id)"
                 v-bind:class="{ 'b-form-folder-focused': folders.focused == $index }">
               <i class="fa fa-fw fa-folder" style="color: {{folder.color}};"></i>
               <span>{{folder.hint}}</span>
@@ -108,8 +108,8 @@
     },
 
     methods: {
-      setFolder: function(id) {
-        let folder = this.folders.list.filter(e => e.id == id)[0];
+      setFolder: function(_id) {
+        let folder = this.folders.list.filter(e => e._id == _id)[0];
         this.folders.current = folder;
         this.folders.focused = null;
         this.hideFoldersDropdown();
