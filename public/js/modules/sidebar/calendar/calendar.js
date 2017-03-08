@@ -2,7 +2,7 @@ import fakeData from '../chart/src/demo.js';
 import {daysInMonth} from '../../../utils/date-utils.js';
 
 export default function(params) {
-  if(!params) return false;
+  if (!params) return false;
 
   /***********************************************
   * INIT
@@ -15,7 +15,7 @@ export default function(params) {
   let curDate = new Date(),
 
   yearFirst = dp
-    ? dp.getFullYear()
+    ? dp.getFullYear() || params.yearFirst
     : params.yearFirst || curDate.getFullYear() - 2,
 
   yearLast = params.yearLast || curDate.getFullYear(),
@@ -43,7 +43,7 @@ export default function(params) {
     June July August September October November December`.split(/\s+/),
     months = [];
 
-    for(let i = 0; i < 12; i++) {
+    for (let i = 0; i < 12; i++) {
       months.push({
         name: monthNames[i],
         days: daysInMonth(year, i),
@@ -70,15 +70,20 @@ export default function(params) {
     * that we was given in function params.
     * for better appearance we need to add first and last "out of range" years
     ***********************************/
-    for(let i = yearFirst; i <= yearLast; i++) {
-      if(i == yearFirst)
+    for (let i = yearFirst; i <= yearLast; i++) {
+      if (i == yearFirst) {
         yearsTape.append(` <div class="year year-denied">${i-1}</div> `);
+      }
 
-      let yearClass = (i == yearPrimary) ? 'year year-primary' : 'year';
+      let yearClass = (i == yearPrimary)
+        ? 'year year-primary'
+        : 'year';
+
       yearsTape.append(` <div class="${yearClass}">${i}</div> `);
 
-      if(i == yearLast)
+      if (i == yearLast) {
         yearsTape.append(` <div class="year year-denied">${i+1}</div> `);
+      }
     }
 
     let tapeWrap = root.find('.year-slider-tape-wrap'),
@@ -113,7 +118,7 @@ export default function(params) {
       primaryWidth = primaryYearEl.outerWidth(true),
       ordinaryWidth = prevEl.outerWidth(true);
 
-      if(!prevEl.hasClass('year-denied')) {
+      if (!prevEl.hasClass('year-denied')) {
         prevEl.addClass(primaryClass);
         primaryYearEl.removeClass(primaryClass);
         primaryYearEl = prevEl;
@@ -133,7 +138,7 @@ export default function(params) {
       let primaryClass = 'year-primary',
           nextEl = primaryYearEl.next();
 
-      if(!nextEl.hasClass('year-denied')) {
+      if (!nextEl.hasClass('year-denied')) {
         nextEl.addClass(primaryClass);
         primaryYearEl.removeClass(primaryClass);
         primaryYearEl = nextEl;
@@ -265,7 +270,7 @@ export default function(params) {
     
     let data = _.groupBy(fakeData[1], 'date');
 
-    for(let [date, tasks] of Object.entries(data)) {
+     for(let [date, tasks] of Object.entries(data)) {
       date = new Date(date);
       root.find(`#cell-${date.getDate()}`).append(`
         <div class="calendar-cell-number">${tasks.length}</div>
@@ -321,14 +326,14 @@ export default function(params) {
 
       let el;
 
-      if(options && options.el)
+      if (options && options.el)
         el = options.el;
       else
         el = root.find(`#cell-${day}`);
 
-      if( el.hasClass('cell-prev') ) {
-        if(currentMonthNumber == 0){
-          if(currentYear == yearFirst) return false;
+      if ( el.hasClass('cell-prev') ) {
+        if (currentMonthNumber == 0){
+          if (currentYear == yearFirst) return false;
           yearSlider.decreaseYear();
           currentMonthNumber = 12;
         }
@@ -338,13 +343,13 @@ export default function(params) {
           activeCellClass: activeCellClass
         });
 
-        if(!doNothing)
+        if (!doNothing)
           return doCallback();
       }
 
-      if( el.hasClass('cell-next') ) {
-        if(currentMonthNumber == 11) {
-          if(currentYear == yearLast) return false;
+      if ( el.hasClass('cell-next') ) {
+        if (currentMonthNumber == 11) {
+          if (currentYear == yearLast) return false;
           yearSlider.increaseYear();
           currentMonthNumber = -1;
         } 
@@ -353,14 +358,14 @@ export default function(params) {
           activeCellClass: activeCellClass,
         });
 
-        if(!doNothing)
+        if (!doNothing)
           return doCallback();
       }
 
       root.find('.cell').removeClass(activeCellClass);
       el.addClass(activeCellClass);
 
-      if(!doNothing) doCallback();
+      if (!doNothing) doCallback();
     } // switchDay
 
     function doCallback() {
@@ -380,10 +385,10 @@ export default function(params) {
     }
 
     increaseDay = function() {
-      if(currentDay == currentCalendar[currentMonthNumber].days) {
+      if (currentDay == currentCalendar[currentMonthNumber].days) {
 
-        if(currentMonthNumber == 11) {
-          if(yearSlider.increaseYear())
+        if (currentMonthNumber == 11) {
+          if (yearSlider.increaseYear())
             currentMonthNumber = -1;
           else return false;
         }
@@ -395,10 +400,10 @@ export default function(params) {
     };
 
     decreaseDay = function() {
-      if(currentDay == 1) {
+      if (currentDay == 1) {
 
-        if(currentMonthNumber == 0) {
-          if(yearSlider.decreaseYear())
+        if (currentMonthNumber == 0) {
+          if (yearSlider.decreaseYear())
             currentMonthNumber = 12;
           else return false;
         }
