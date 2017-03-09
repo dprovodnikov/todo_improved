@@ -1,8 +1,9 @@
 <template>
-  <div  class="tl-task {{getPriority(task.priority)}}"
+  <div class="tl-task {{getPriority(task.priority)}}"
     transition="task"
     v-if="show"
     v-right-click="openContext"
+    data-id="{{task._id}}"
     @click="check()"
     :class="{'tl-task-active': checked, 'tl-task-updating': updating, 'tl-task-highlight': contextOpen}">
     
@@ -15,7 +16,7 @@
     </div>
 
     <div class="tl-task-editor" v-show="updating">
-    <i class="fa fa-close tl-te-cancel" @click="close()"></i>
+      <i class="fa fa-close tl-te-cancel" @click="close()"></i>
 
       <div class="tl-te-text" v-editable-model="newText" contenteditable></div>
 

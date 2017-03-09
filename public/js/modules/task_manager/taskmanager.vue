@@ -2,7 +2,7 @@
   
   <sortbar @key-changed="changeKey"></sortbar>
 
-  <div class="tasklist-global" v-if="tasksShow" v-click-outside>
+  <div class="tasklist-global" v-if="tasksShow" v-click-outside v-drag-selectable>
     <div v-for="task in sortedTasks" transition="sort">
       <task @task-remove="removeTask(task)"
             @task-update="updateTask(task)"
@@ -18,16 +18,15 @@
 
   <builder @task-composed="saveTask" :event-bus="eventBus"></builder>
 
-
 </template>
 
 <script>
-  // import taskList from './fake-tasks.js';
   import taskComponent from './task.vue';
   import sortbar from './sortbar.vue';
   import contextMenu from './context.vue';
   import builder from './builder.vue';
   import clickOutsideDirective from '../../directives/click-outside.js';
+  import dragSelectableDirective from '../../directives/drag-selectable.js';
   import _ from '_';
   import * as TaskService from '../../services/task-service.js';
 
@@ -42,7 +41,8 @@
     },
     
     directives: {
-      'click-outside': clickOutsideDirective
+      'click-outside': clickOutsideDirective,
+      'drag-selectable': dragSelectableDirective,
     },
 
     data: function() {
@@ -138,7 +138,7 @@
 
 
       this.bindEvents();
-    }
+    },
   }
 
 </script>
