@@ -77,7 +77,7 @@ class ChangesManager {
   }
 
   _undoOne(task, duration=false) {
-    this.tasks = this.tasks.filter(item => item.id != task.id);
+    this.tasks = this.tasks.filter(item => item._id != task._id);
 
     this.title.html(`${this.tasks.length} tasks were affected`);
 
@@ -193,8 +193,9 @@ class ChangesManager {
   _replaceIfExists(task) {
     let exists, index;
 
-    for(let [i, t] of this.tasks.entries())
-      t.id == task.id ? (exists = true, index = i) : exists = false;
+    for (let [i, { _id }] of this.tasks.entries()) {
+      _id == task._id ? (exists = true, index = i) : exists = false;
+    }
 
     exists ? (this.tasks[index] = task) : (this.tasks.push(task))
   }

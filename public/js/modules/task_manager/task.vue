@@ -4,7 +4,7 @@
     v-if="show"
     v-right-click="openContext"
     data-id="{{task._id}}"
-    @click="check()"
+    @mousedown="check()"
     :class="{'tl-task-active': checked, 'tl-task-updating': updating, 'tl-task-highlight': contextOpen}">
     
     <div class="tl-task-content" v-show="!updating">
@@ -124,14 +124,18 @@
 
     methods: {
       check: function() {
-        if (this.updating) return false
+        if (this.updating) {
+          return false;
+        }
+
         this.eventBus.$emit('task-selected', this.task);
         this.checked = true;
       },
 
       switchToolset: function(toolset) {
-        for (let [k, v] of Object.entries(this.toolsets))
+        for (let [k, v] of Object.entries(this.toolsets)) {
           this.toolsets[k] = (k == toolset)
+        }
       },
 
       saveChanges: function() {
@@ -253,7 +257,10 @@
       },
 
       openContext: function(e) {
-        if (this.updating) return false;
+        if (this.updating) {
+          return false;
+        }
+
         this.eventBus.$emit('open-context', {vm: this, event: e});
         this.eventBus.$emit('task-unfocus');
       },
@@ -269,28 +276,33 @@
           this.checked = false;
         });
 
-        this.eventBus.$on('task-unfocus', () => this.checked = false);
+        this.eventBus.$on('task-unfocus', () => {
+          this.checked = false
+        });
 
-        this.eventBus.$on('toolbar-action', task => {
-          if (task != this.task) return false;
+        this.eventBus.$on('toolbar-action', (tasks) => {
+          if (tasks.includes(this.task)) {
+            const task = tasks.find(task => task == this.task);
 
-          if (task.status != 'updated')
-            this.markAsDeleted();
-          else {
-            this.eventBus.$emit('task-selected');
-            this.updating = true;
+            if (task.status != 'updated') {
+              this.markAsDeleted();
+            } else {
+              this.eventBus.$emit('task-selected');
+              this.updating = true;
+            }
           }
         });
 
-        this.eventBus.$on('changes-undo', task => {
+        this.eventBus.$on('changes-undo', (task) => {
           if (task != this.task) return false;
 
           if (task.status != 'updated') {
             this.show = true;
             this.affected = false;
-          }
-          else
+          } else {
             this.undoChanges();
+          }
+
         });
 
         this.eventBus.$on('changes-undo-all', () => {
@@ -299,7 +311,7 @@
             this.affected = false;
           }
 
-           if(this.updated)
+           if (this.updated)
             this.undoChanges();
         });
 
@@ -324,7 +336,7 @@
 
     computed: {
       priority: function() {
-        let p = this.task.priority;
+        const p = this.task.priority;
         return p === 0 ? [1, 2] : (p === 1 ? [0, 2] : [0, 1]);
       },
     },

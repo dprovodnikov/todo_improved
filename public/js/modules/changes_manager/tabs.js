@@ -40,8 +40,9 @@ class Tabs {
   }
 
   _bindEvents() {
-    for(let tab of this.tabs)
+    for (let tab of this.tabs) {
       tab.buttonEl.click(e => this._switchTab(tab));
+    }
   }
 
   _render() {
@@ -82,30 +83,30 @@ class Tabs {
     this._switchTab(tab, true);
     
     let template = 
-    `<div class="cm-task-preview cm-preview-${task.id}">
+    `<div class="cm-task-preview cm-preview-${task._id}">
       <div class="cm-preview-title">${task.text}</div>
       <div class="cm-undo-wrap">
-        <div id="${task.id}" class="cm-undo-btn">
+        <div id="${task._id}" class="cm-undo-btn">
           <div class="fa fa-minus"></div>
         </div>
       </div>
     </div>`;
     tab.contentEl.append(template);
 
-    if(tab.contentEl.outerHeight(true) > 300) {
+    if (tab.contentEl.outerHeight(true) > 300) {
       tab.contentEl.css({
         height: `300px`,
         overflowY: 'scroll',
       });
     }
 
-    $(`.cm-undo-btn#${task.id}`).click(e => {
+    $(`.cm-undo-btn#${task._id}`).click(e => {
       this._undoOne(task);
     });
   }
 
   _undoOne(task) {
-    const taskPreview = $(`.cm-preview-${task.id}`);
+    const taskPreview = $(`.cm-preview-${task._id}`);
     const siblings = taskPreview.siblings();
     const removePreview = function() {
       taskPreview.css({
@@ -120,14 +121,14 @@ class Tabs {
       }, 150);
     };
 
-    if(siblings.length == 0) {
+    if (siblings.length == 0) {
       this.tabsAvailable = this.tabsAvailable.filter(tab => tab.id != this.activeTab.id );
 
       this.activeTab.buttonEl.addClass(this.class.disabled);
 
-      if(this.tabsAvailable.length)
+      if (this.tabsAvailable.length) {
         this._switchTab(this.tabsAvailable[0]);
-      else {
+      } else {
         this.onundo(task, true);
         return removePreview();
       }
@@ -143,7 +144,7 @@ class Tabs {
   pushDeleted(task) { this._pushTask(task, this.tabs[1])}
 
   _switchTab(tab, delay=false) {
-    if(tab.buttonEl.hasClass(this.class.disabled)) return false;
+    if (tab.buttonEl.hasClass(this.class.disabled)) return false;
 
     this.tabButtons.removeClass(this.class.active);
     tab.buttonEl.addClass(this.class.active);
@@ -151,12 +152,13 @@ class Tabs {
     this.activeTab = tab;
 
     /* Move underscore below the active tab */
-    let slideDuration = parseFloat(
+    const slideDuration = parseFloat(
       this.contentsTape.css('transition-duration')
     ) * 1000;
+
     setTimeout(() => {
-      let tabOffset = tab.buttonEl.position().left;
-      let tabWidth = tab.buttonEl.outerWidth(true);
+      const tabOffset = tab.buttonEl.position().left;
+      const tabWidth = tab.buttonEl.outerWidth(true);
       this.tabUnderscore.css({
         width: tabWidth + 'px',
         left: tabOffset + 'px',
@@ -165,7 +167,7 @@ class Tabs {
 
     /* Slide tab content panes */
 
-    let contentOffset = tab.contentEl.position().left;
+    const contentOffset = tab.contentEl.position().left;
     this.contentsTape.css('left', `${-contentOffset}px`);
   }
 }

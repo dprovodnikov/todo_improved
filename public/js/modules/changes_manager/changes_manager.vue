@@ -33,19 +33,21 @@
       confirm: function(tasks) {
         this.eventBus.$emit('changes-confirm');
 
-        let categories = {
+        const categories = {
           completed: '',
           deleted: '',
           updated: '',
         };
 
-        for(let task of tasks) {
+        for (let task of tasks) {
           categories[task.status || 'updated'] += `${task.text}, `;
         }
 
         let description = '';
-        for(let [k, v] of Object.entries(categories)) {
-          if(v) description += `<b>${k}:</b> ${v}<br/>`;
+        for (let [key, value] of Object.entries(categories)) {
+          if (value) {
+            description += `<b>${key}:</b> ${value}<br/>`;
+          }
         }
 
         this.eventBus.$emit('notify', {
@@ -53,6 +55,20 @@
           description: description,
           kind: 'updated',
           time: new Date(Date.now())
+        });
+      },
+
+      bindEvents: function() {
+        this.eventBus.$on('toolbar-action', (tasks) => {
+          tasks.forEach(task => {
+            if (task.status != 'updated') {
+              this.cm.update(task);
+            }
+          });
+        });
+
+        this.eventBus.$on('task-updated', (task) => {
+          this.cm.update(task);
         });
       }
     },
@@ -68,14 +84,7 @@
         this.cm = cm;
       }, 1000);
 
-      this.eventBus.$on('toolbar-action', task => {
-        if(task.status != 'updated')
-          this.cm.update(task);
-      });
-
-      this.eventBus.$on('task-updated', task => {
-        this.cm.update(task);
-      });
+      this.bindEvents();
     }
   };
 

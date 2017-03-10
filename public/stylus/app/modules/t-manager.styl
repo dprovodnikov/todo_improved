@@ -111,6 +111,8 @@
   padding 5px 0
   position relative
   user-select none
+  -moz-user-select none
+  -ms-user-select none
   &.tl-task-updating
     border 1px dashed $gray
     &:after
@@ -226,6 +228,11 @@
 
 .tb-tool-hidden 
   display none 
+
+.tb-tool-disabled
+  background #aaa
+  opacity .8
+  pointer-events none
 
 .tb-tool:hover 
   background #DD3331

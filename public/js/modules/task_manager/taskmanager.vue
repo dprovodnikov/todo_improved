@@ -49,7 +49,9 @@
       return {
         tasks: [],
         tasksShow: false,
-        key: {}
+        key: {},
+        multipleSelection: false,
+        selectedTasks: [],
       };
     },
 
@@ -95,9 +97,37 @@
           });
       },
 
+      replaceIfExists(task) {
+        let exists, index;
+
+        const tasks = this.selectedTasks;
+
+        for (let [i, { _id }] of tasks.entries()) {
+          if (exists = (_id == task._id)) {
+            index = i;
+            break;
+          }
+        }
+
+        exists ? (tasks[index] = task) : tasks.push(task);
+      },
+
+      selectAnother: function(task) {
+        this.replaceIfExists(task);
+
+        this.eventBus.$emit('multiple-selection', this.selectedTasks);
+      },
+
+      dropSelection: function() {
+        this.multipleSelection = false;
+        this.selectedTasks = [];
+      },
+
       bindEvents: function() {
         this.$on('collapse-me', () => {
-          this.eventBus.$emit('task-unfocus');
+          if (!this.multipleSelection) {
+            this.eventBus.$emit('task-unfocus');
+          }
         });
       },
     },

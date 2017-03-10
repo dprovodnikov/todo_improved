@@ -2,16 +2,20 @@ export default {
   bind: function() {
     this.root = $(this.el);
 
-    this.detect = ({ target }) => {
-      target = $(target);
+    this.detect = (event) => {
+      const target = $(event.target);
+
       if (target.hasClass('tl-task')) {
         const _id = target.attr('data-id');
 
-        for (let vm of this.vm.$children) {
+        this.vm.multipleSelection = true;
+
+        this.vm.$children.forEach((vm, index) => {
           if (vm.$get('task._id') == _id) {
-            // do something
+            this.vm.selectAnother(vm.$get('task'));
+            vm.$set('checked', true);
           }
-        }
+        })
 
       }
     };
@@ -19,6 +23,11 @@ export default {
     this.bindEvents = (event) => {
       $(document).on('mousemove', this.detect);
       $(document).on('mouseup', (event) => {
+
+        setTimeout(() => {
+          this.vm.dropSelection();
+        }, 50)
+
         $(document).off('mousemove', this.detect);
       })
     };
@@ -27,6 +36,6 @@ export default {
   },
 
   unbind: function() {
-    this.root.off('dragover', this.bindEvents);
+    this.root.off('mousedown', this.bindEvents);
   }
 }
