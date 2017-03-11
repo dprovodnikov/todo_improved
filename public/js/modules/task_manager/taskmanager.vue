@@ -97,30 +97,52 @@
           });
       },
 
-      replaceIfExists(task) {
-        let exists, index;
+      getTaskViewModel(_id) {
+        return this.$children.find(vm => {
+          if (vm.$get('task._id')) {
+            return _id == vm.$get('task._id');
+          }
+        })
+      },
 
+      expandSelection: function(_id) {
+        let index;
+
+        const vm = this.getTaskViewModel(_id);
+        const task = vm.$get('task');
         const tasks = this.selectedTasks;
 
-        for (let [i, { _id }] of tasks.entries()) {
-          if (exists = (_id == task._id)) {
-            index = i;
-            break;
+        this.multipleSelection = true;
+        
+        if (!tasks.includes(task)) {
+          tasks.push(task)
+          vm.$set('checked', true);
+        } else {
+
+          tasks.find(({ _id }, i) => {
+            return _id == task._id
+              ? (true, index = i)
+              : false
+          })
+
+          if (index < tasks.length - 1) {
+            this.getTaskViewModel([...tasks].pop()._id)
+              .$set('checked', false);
+
+            tasks.length--;
           }
         }
 
-        exists ? (tasks[index] = task) : tasks.push(task);
-      },
-
-      selectAnother: function(task) {
-        this.replaceIfExists(task);
-
-        this.eventBus.$emit('multiple-selection', this.selectedTasks);
+        this.eventBus.$emit('multiple-selection', tasks);
       },
 
       dropSelection: function() {
         this.multipleSelection = false;
         this.selectedTasks = [];
+      },
+
+      getSelection: function() {
+        return this.selectedTasks;
       },
 
       bindEvents: function() {

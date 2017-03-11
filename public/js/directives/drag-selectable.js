@@ -39,23 +39,14 @@ export default {
 
     const tooltip = new Tooltip('%d tasks selected');
 
-    this.detect = (event) => {
-      const target = $(event.target);
+    this.detect = ({ target }) => {
+      target = $(target);
 
       if (target.hasClass('tl-task')) {
         const _id = target.attr('data-id');
 
-        this.vm.multipleSelection = true;
-        this.vm.$children.forEach(vm => {
-          if (vm.$get('task._id') == _id) {
-
-            tooltip.show(this.vm.selectedTasks.length);
-    
-            this.vm.selectAnother(vm.$get('task'));
-            vm.$set('checked', true);
-          }
-        })
-
+        this.vm.expandSelection(_id);
+        tooltip.show(this.vm.getSelection().length);
       }
     };
 

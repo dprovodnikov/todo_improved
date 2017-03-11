@@ -49,12 +49,22 @@
       this.eventBus.$on('multiple-selection', (tasks) => {
         this.show = true;
         this.tasks = tasks;
+
+        // ------------------------------------------------------------------------------
+        // i am not sure whats the reason, but vue doesn't refresh
+        // the dom if the tasks.length decreases, it does if the length increases though
+        // That is why we have to remove the class manually
+        // ------------------------------------------------------------------------------
+        if (this.tasks.length <= 1) {
+          $(this.$el).find('.tb-tool-disabled').removeClass('tb-tool-disabled');
+        }
+
       });
 
       this.eventBus.$on('task-unfocus', () => {
         this.show = false;
       });
-    }
+    },
 
   };
 
