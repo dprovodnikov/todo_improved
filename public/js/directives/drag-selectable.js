@@ -1,6 +1,43 @@
+class Tooltip {
+  constructor(pattern) {
+    this.offset = 10; // an offset from cursor on either sides
+    this.pattern = pattern;
+
+    this.root = this._render();
+    this._bindEvents();
+  }
+
+  _render() {
+    return $(document.body)
+      .append('<div class="selection-hint"></div>')
+      .find('.selection-hint');
+  }
+
+  _bindEvents() {
+    $(document).on('mousemove', ({ pageX, pageY }) => {
+      this.root.css({
+        left: pageX + this.offset + 'px',
+        top: pageY + this.offset + 'px'
+      })
+    })
+  }
+
+  show(count) {
+    this.root
+      .text(this.pattern.replace(/%d/, count))
+      .show();
+  }
+
+  hide() {
+    this.root.text('').hide();
+  }
+}
+
 export default {
   bind: function() {
     this.root = $(this.el);
+
+    const tooltip = new Tooltip('%d tasks selected');
 
     this.detect = (event) => {
       const target = $(event.target);
@@ -9,9 +46,11 @@ export default {
         const _id = target.attr('data-id');
 
         this.vm.multipleSelection = true;
-
-        this.vm.$children.forEach((vm, index) => {
+        this.vm.$children.forEach(vm => {
           if (vm.$get('task._id') == _id) {
+
+            tooltip.show(this.vm.selectedTasks.length);
+    
             this.vm.selectAnother(vm.$get('task'));
             vm.$set('checked', true);
           }
@@ -27,6 +66,8 @@ export default {
         setTimeout(() => {
           this.vm.dropSelection();
         }, 50)
+
+        tooltip.hide();
 
         $(document).off('mousemove', this.detect);
       })

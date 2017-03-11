@@ -16,237 +16,212 @@
   padding 0 5px
   user-select none
 
-.tl-sortbar-title
-  display inline-block
-  padding 5px 0 0 0
-  font 500 1em 'Hind'
-  color #6d6d6d
-  position relative
-  padding-left 25px
-
-.tl-sortbar-select
-  flexbox(true, true)
-  color #6d6d6d
-  transition all .1s
-  position relative
-  &:after
-    content '\f0d7'
-    color inherit
-    font normal 12px 'fontawesome'
+.tl-sortbar
+  &-title
+    display inline-block
+    padding 5px 0 0 0
+    font 500 1em 'Hind'
+    color #6d6d6d
     position relative
-    right 110%
-    top 0; bottom 0
-    margin auto
-    transform translateY(10%)
+    padding-left 25px
+  &-select
+    flexbox(true, true)
+    color #6d6d6d
     transition all .1s
-  &.select-open:after
-    content '\f0d8' !important
+    position relative
+    &:after
+      content '\f0d7'
+      color inherit
+      font normal 12px 'fontawesome'
+      position relative
+      right 110%
+      top 0; bottom 0
+      margin auto
+      transform translateY(10%)
+      transition all .1s
+    &.select-open:after
+      content '\f0d8' !important
 
-.select-open
+.select
+  &-open
   .tl-sortbar-list
     opacity 1
     transform translate(20%, 15%)
-
-.select-close
+  &-close
   .tl-sortbar-list
     pointer-events none
 
-.tl-sortbar-name
-  font 500 .8em 'Cabin'
-  color inherit
-  margin-right 5px
-  transform translateY(10%)
-  &:hover
-    cursor pointer
-    color #3d3d3d
-
-.tl-sortbar-icon
-  color inherit
-
-.tl-sortbar-list
-  white-space nowrap
-  top 150%
-  right 0
-  background #fff
-  position absolute
-  z-index 2
-  transition all .1s
-  opacity 0
-  box-sizing content-box
-  transform translate(20%, 0)
-  padding 10px
-  list-style none
-  font normal 0.9em 'Cabin'
-  line-height 20px
-  box-shadow 0 0 3px 0 rgba(0, 0, 0, .2);
-  border-radius 2px
-  &:after
-    content ''
-    border-bottom 9px solid #fff
-    border-top 9px solid transparent
-    border-left @border-top
-    border-right @border-top
-    position absolute
-    top 0
-    transform translateY(-95%)
-  .fa
+.tl-sortbar
+  &-name
+    font 500 .8em 'Cabin'
+    color inherit
     margin-right 5px
-  li
-    cursor pointer
+    transform translateY(10%)
     &:hover
+      cursor pointer
       color #3d3d3d
+  &-icon
+    color inherit
+  &-list
+    white-space nowrap
+    top 150%
+    right 0
+    background #fff
+    position absolute
+    z-index 2
+    transition all .1s
+    opacity 0
+    box-sizing content-box
+    transform translate(20%, 0)
+    padding 10px
+    list-style none
+    font normal 0.9em 'Cabin'
+    line-height 20px
+    box-shadow 0 0 3px 0 rgba(0, 0, 0, .2);
+    border-radius 2px
+    &:after
+      content ''
+      border-bottom 9px solid #fff
+      border-top 9px solid transparent
+      border-left @border-top
+      border-right @border-top
+      position absolute
+      top 0
+      transform translateY(-95%)
+    i
+      margin-right 5px
+    li
+      cursor pointer
+      &:hover
+        color #3d3d3d
 
 /*********************************************
 * TASKS
 *********************************************/
 .tl-task 
+  flexbox(true , true)
+  flex-direction column
   width 100%
   background #fff
   margin 10px 0
   position relative
   cursor pointer
-  flexbox(true , false)
-  flex-direction column
-  align-items center
   padding 5px 0
-  position relative
-  user-select none
+  -webkit-user-select none
   -moz-user-select none
   -ms-user-select none
-  &.tl-task-updating
+  &-updating
     border 1px dashed $gray
     &:after
-      display none
-
-.tl-task-content
-  position relative
-  flexbox(false, true)
-  width 100%
-  height 100%
-
-.tl-task-active
-  background $red
-  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
-  .tl-task-text,
-  .tl-task-date
-    color #fff !important
+      display none !important
+  &-content
+    flexbox(false, true)
+    position relative
+    width 100%
+    height 100%
+  &-active
+    background $red
+    box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
+    .tl-task-text,
+    .tl-task-date
+      color #fff !important
+    &:hover
+      background $red !important
+  &-highlight
+    background #ebebeb
+    box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
   &:hover
-    background $red !important
-
-.tl-task-highlight
-  background #ebebeb
-  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
-
-.tl-task:hover
-  box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
-
-.tl-task-low:after,
-.tl-task-high:after,
-.tl-task-normal:after 
-  content ''
-  display block
-  position absolute
-  height 100%
-  width 1%
-  left 0
-  top 0
-
-.tl-task-low:after
-  background #DAE163
-  
-.tl-task-normal:after
-  background #639DE1
-
-.tl-task-high:after
-  background #FF4A25
-
-.tl-task-text 
-  font normal 14px 'Hind'
-  color #3d3d3d
-  height 100%
-  display flex
-  align-items flex-end
-  padding 5px 20px
-  max-width 80%
-  pointer-events none
-
-.tl-task-date
-  flexbox(true, true)
-  height 100%
-  position absolute
-  right 10%
-  top 0
-  font 300 14px 'Hind'
-  color #aaa
-
-
-.tl-task-folder 
-  flexbox(false, true)
-  justify-content flex-end
-  padding 0 15px
-  width 15%
-  height 100%
-  position absolute
-  right 0
-  top 0
-  pointer-events none
-
-.tl-task-folder .fa 
-  font-size 1.5em
-  color #acacac
+    box-shadow 1px 1px 5px 1px rgba(0, 0, 0, .2)
+  &-low:after,
+  &-high:after,
+  &-normal:after 
+    content ''
+    display block
+    position absolute
+    height 100%
+    width 1%
+    left 0
+    top 0
+  &-low:after
+    background #DAE163
+  &-normal:after
+    background #639DE1
+  &-high:after
+    background #FF4A25
+  &-text 
+    font normal 14px 'Hind'
+    color #3d3d3d
+    height 100%
+    display flex
+    align-items flex-end
+    padding 5px 20px
+    max-width 80%
+    pointer-events none
+  &-date
+    flexbox(true, true)
+    height 100%
+    position absolute
+    right 10%
+    top 0
+    font 300 14px 'Hind'
+    color #aaa
+  &-folder 
+    flexbox(false, true)
+    justify-content flex-end
+    padding 0 15px
+    width 15%
+    height 100%
+    position absolute
+    right 0
+    top 0
+    pointer-events none
+  &-folder .fa 
+    font-size 1.5em
+    color #acacac
 
 .toolbar 
-  height 30%
-  position absolute
-  right 3%
-  top 0
-  bottom 0
-  margin auto
-  display flex
+  flexbox(false, false)
   flex-direction column
   justify-content space-between
-  cursor pointer
+  height 30%
+  position absolute
+  right 3%; top 0; bottom 0
+  margin auto
   overflow hidden
   padding 20px 10px 20px 50px
   box-sizing content-box
 
 .tb-tool 
+  flexbox(true, true)
   height 50px
   width 50px
   background #EB6361 
   border-radius 50%
-  display flex
-  justify-content center
-  align-items center
   transform translateX(0)
   position relative
   left 0
+  cursor pointer
   &:nth-of-type(2)
     transition-delay 25ms
   &:last-of-type
     transition-delay 50ms
-
-.tb-tool-hidden 
-  display none 
-
-.tb-tool-disabled
-  background #aaa
-  opacity .8
-  pointer-events none
-
-.tb-tool:hover 
-  background #DD3331
-  box-shadow 2px 2px 10px 1px rgba(0, 0, 0, .4)
-
-.tb-tool-disappear
-  animation-name disappear
-  animation-duration .3s
-  animation-timing-function ease-in-out
-  animation-fill-mode forwards
-
-.tb-tool .fa 
-  color #fff
-  font-size 1.2em
+  &-hidden 
+    display none 
+  &-disabled
+    opacity .4
+    pointer-events none
+    cursor default
+  &:hover 
+    background #DD3331
+    box-shadow 2px 2px 10px 1px rgba(0, 0, 0, .4)
+  &-disappear
+    animation-name disappear
+    animation-duration .3s
+    animation-timing-function ease-in-out
+    animation-fill-mode forwards
+  .fa 
+    color #fff
+    font-size 1.2em
 
 /*********************************************
 * TASK EDITOR
@@ -694,6 +669,46 @@
 .form-priority-2
   background #FF4A25 !important
   color #fff !important
+
+/*********************************************
+* Multiple selection
+*********************************************/
+.selection-hint
+  padding 5px 10px
+  font 500 13px 'Hind'
+  color #fff
+  background rgba(0, 0, 0, .7);
+  border-radius 4px
+  position absolute
+  left 0
+  pointer-events none
+  display none
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
