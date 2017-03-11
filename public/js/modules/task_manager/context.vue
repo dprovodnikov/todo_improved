@@ -98,14 +98,14 @@
     methods: {
       doAction: function(status) {
         this.vm.task.status = status;
-        this.eventBus.$emit('toolbar-action', this.vm.task);
+        this.eventBus.$emit('toolbar-action', new Array(this.vm.task));
 
         this.close();
       },
 
       setPriority: function(priority) {
 
-        if(priority == this.vm.newPriority) {
+        if (priority == this.vm.newPriority) {
           return this.close();
         }
 
@@ -120,7 +120,7 @@
       setDeadline: function(date) {
         this.vm.task.status = 'updated';
 
-        if(date) {
+        if (date) {
           this.vm.setDeadline({date: date});
         } else {
           this.vm.setDeadline({autosave: true});
@@ -131,8 +131,9 @@
 
       close: function() {
         this.show = false;
-        if(this.vm)
+        if (this.vm) {
           this.vm.contextOpen = false;
+        }
       },
 
       tomorrow: tomorrow,
@@ -142,9 +143,9 @@
         this.$on('collapse-me', this.close);
 
         this.eventBus.$on('open-context', args => {
-          if(this.show) {
+          if (this.show) {
             this.show = false;
-            if(this.vm)
+            if (this.vm)
               this.vm.contextOpen = false;
             return false;
           }
@@ -156,20 +157,21 @@
           rootOffset = rootEl.offset();
           difference = 0; // amount of how far the context menu would be beyond the app borders
 
-          let [x, y] = [
+          const [x, y] = [
             args.event.pageX - rootOffset.left,
             args.event.pageY - rootOffset.top
           ];
 
-          let [rootEnd, contextEnd] = [
+          const [rootEnd, contextEnd] = [
             rootOffset.top + rootEl.outerHeight(true),
             y + contextEl.outerHeight(true) + rootOffset.top
           ];
 
-          if(contextEnd > rootEnd)
+          if (contextEnd > rootEnd) {
             difference = contextEl.outerHeight(true)
+          }
 
-          this.coords = {x: x, y: y - difference}
+          this.coords = { x, y: y - difference }
           this.vm = args.vm;
 
           this.show = true;

@@ -16,84 +16,85 @@
   padding 0 5px
   user-select none
 
-.tl-sortbar
-  &-title
-    display inline-block
-    padding 5px 0 0 0
-    font 500 1em 'Hind'
-    color #6d6d6d
-    position relative
-    padding-left 25px
-  &-select
-    flexbox(true, true)
-    color #6d6d6d
-    transition all .1s
-    position relative
-    &:after
-      content '\f0d7'
-      color inherit
-      font normal 12px 'fontawesome'
-      position relative
-      right 110%
-      top 0; bottom 0
-      margin auto
-      transform translateY(10%)
-      transition all .1s
-    &.select-open:after
-      content '\f0d8' !important
+.tl-sortbar-title
+  display inline-block
+  padding 5px 0 0 0
+  font 500 1em 'Hind'
+  color #6d6d6d
+  position relative
+  padding-left 25px
 
-.select
-  &-open
+.tl-sortbar-select
+  flexbox(true, true)
+  color #6d6d6d
+  transition all .1s
+  position relative
+  &:after
+    content '\f0d7'
+    color inherit
+    font normal 12px 'fontawesome'
+    position relative
+    right 110%
+    top 0; bottom 0
+    margin auto
+    transform translateY(10%)
+    transition all .1s
+  &.select-open:after
+    content '\f0d8' !important
+
+.select-open
   .tl-sortbar-list
     opacity 1
     transform translate(20%, 15%)
-  &-close
+
+.select-close
   .tl-sortbar-list
     pointer-events none
 
-.tl-sortbar
-  &-name
-    font 500 .8em 'Cabin'
-    color inherit
-    margin-right 5px
-    transform translateY(10%)
-    &:hover
-      cursor pointer
-      color #3d3d3d
-  &-icon
-    color inherit
-  &-list
-    white-space nowrap
-    top 150%
-    right 0
-    background #fff
+.tl-sortbar-name
+  font 500 .8em 'Cabin'
+  color inherit
+  margin-right 5px
+  transform translateY(10%)
+  &:hover
+    cursor pointer
+    color #3d3d3d
+
+.tl-sortbar-icon
+  color inherit
+
+.tl-sortbar-list
+  white-space nowrap
+  top 150%
+  right 0
+  background #fff
+  position absolute
+  z-index 2
+  transition all .1s
+  opacity 0
+  box-sizing content-box
+  transform translate(20%, 0)
+  padding 10px
+  list-style none
+  font normal 0.9em 'Cabin'
+  line-height 20px
+  box-shadow 0 0 3px 0 rgba(0, 0, 0, .2);
+  border-radius 2px
+  &:after
+    content ''
+    border-bottom 9px solid #fff
+    border-top 9px solid transparent
+    border-left @border-top
+    border-right @border-top
     position absolute
-    z-index 2
-    transition all .1s
-    opacity 0
-    box-sizing content-box
-    transform translate(20%, 0)
-    padding 10px
-    list-style none
-    font normal 0.9em 'Cabin'
-    line-height 20px
-    box-shadow 0 0 3px 0 rgba(0, 0, 0, .2);
-    border-radius 2px
-    &:after
-      content ''
-      border-bottom 9px solid #fff
-      border-top 9px solid transparent
-      border-left @border-top
-      border-right @border-top
-      position absolute
-      top 0
-      transform translateY(-95%)
-    i
-      margin-right 5px
-    li
-      cursor pointer
-      &:hover
-        color #3d3d3d
+    top 0
+    transform translateY(-95%)
+  .fa
+    margin-right 5px
+  li
+    cursor pointer
+    &:hover
+      color #3d3d3d
 
 /*********************************************
 * TASKS
