@@ -51,8 +51,14 @@ export default {
       }
     };
 
-    this.startSelection = (event) => {
-      $(document).on('mousemove', this.detect);
+    this.startSelection = ({ ctrlKey, target }) => {
+      if (ctrlKey && target.className.includes('tl-task')) {
+        const _id = $(target).closest('.tl-task').attr('data-id');
+
+        this.vm.expandSelection(_id, true);
+      } else {
+        $(document).on('mousemove', this.detect);
+      }
     };
 
     this.endSelection = (event) => {

@@ -1,27 +1,25 @@
 export default {
   
   update: function() {
-
-    let eventName = 'collapse-me';
+    this.eventName = 'collapse-me';
 
     if (this.expression) {
-      eventName = this.expression;
+      this.eventName = this.expression;
     }
 
-    this.emit = (e) => {
-      if (!$(this.el).find(e.target).length && e.button == 0) {
-        let except = e.target.dataset['except'];
+    this.emit = ({ target, button }) => {
+      if (!$(this.el).find(target).length && button == 0) {
+        const except = target.dataset['except'];
 
-        if (eventName == except) {
+        if (except == this.eventName) {
           return false;
         }
 
-        this.vm.$emit(eventName);
+        this.vm.$emit(this.eventName);
       }
     };
 
     $(document).on('click', this.emit);
-
   },
 
   unbind: function() {

@@ -4,7 +4,7 @@
     v-if="show"
     v-right-click="openContext"
     data-id="{{task._id}}"
-    @mousedown="check()"
+    @mousedown="check"
     :class="{'tl-task-active': checked, 'tl-task-updating': updating, 'tl-task-highlight': contextOpen}">
     
     <div class="tl-task-content" v-show="!updating">
@@ -123,8 +123,8 @@
     },
 
     methods: {
-      check: function() {
-        if (this.updating) {
+      check: function({ ctrlKey }) {
+        if (this.updating || ctrlKey) {
           return false;
         }
 

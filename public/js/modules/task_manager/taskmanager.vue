@@ -105,7 +105,7 @@
         })
       },
 
-      expandSelection: function(_id) {
+      expandSelection: function(_id, outOfTurn = false) {
         let index;
 
         const vm = this.getTaskViewModel(_id);
@@ -133,7 +133,11 @@
           }
         }
 
-        this.eventBus.$emit('multiple-selection', tasks);
+        if (outOfTurn) {
+          this.eventBus.$emit('multiple-selection', tasks, outOfTurn);
+        } else {
+          this.eventBus.$emit('multiple-selection', tasks);
+        }
       },
 
       dropSelection: function() {

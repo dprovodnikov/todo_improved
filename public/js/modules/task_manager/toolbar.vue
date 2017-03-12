@@ -46,9 +46,12 @@
         this.tasks = new Array(task);
       });
 
-      this.eventBus.$on('multiple-selection', (tasks) => {
+      this.eventBus.$on('multiple-selection', (tasks, doConcat) => {
         this.show = true;
-        this.tasks = tasks;
+
+        this.tasks = doConcat
+          ? this.tasks.concat(tasks)
+          : tasks;
 
         // ------------------------------------------------------------------------------
         // i am not sure whats the reason, but vue doesn't refresh
