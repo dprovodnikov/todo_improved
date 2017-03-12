@@ -51,24 +51,27 @@ export default {
       }
     };
 
-    this.bindEvents = (event) => {
+    this.startSelection = (event) => {
       $(document).on('mousemove', this.detect);
-      $(document).on('mouseup', (event) => {
-
-        setTimeout(() => {
-          this.vm.dropSelection();
-        }, 50)
-
-        tooltip.hide();
-
-        $(document).off('mousemove', this.detect);
-      })
     };
 
-    this.root.on('mousedown', this.bindEvents);
+    this.endSelection = (event) => {
+      setTimeout(() => {
+        this.vm.dropSelection();
+      }, 50)
+
+      tooltip.hide();
+
+      $(document).off('mousemove', this.detect);
+    };
+
+
+    this.root.on('mousedown', this.startSelection);
+    $(document).on('mouseup', this.endSelection);
   },
 
   unbind: function() {
-    this.root.off('mousedown', this.bindEvents);
+    this.root.off('mousedown', this.startSelection);
+    $(document).off('mouseup', this.endSelection);
   }
 }
