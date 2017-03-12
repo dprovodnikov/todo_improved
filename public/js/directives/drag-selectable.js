@@ -39,8 +39,9 @@ export default {
 
     const tooltip = new Tooltip('%d tasks selected');
 
-    this.detect = ({ target }) => {
-      target = $(target);
+    this.detect = ({ pageY }) => {
+      const pageX = this.root.offset().left + this.root.width() / 2;
+      const target = $(document.elementFromPoint(pageX, pageY));
 
       if (target.hasClass('tl-task')) {
         const _id = target.attr('data-id');
