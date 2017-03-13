@@ -1,7 +1,7 @@
 import User from '../models/user';
 
 export default function(req, res, next) {
-  let { userId } = req.session;
+  const { userId } = req.session;
 
   User.find({ _id: userId }, { password: 0 })
     .then( (user) => {
